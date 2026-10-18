@@ -1,0 +1,2636 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revenue & CM — Management Dashboard</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#14213d;--ink2:#52607a;--mut:#8a96ab;--line:#e3e8ef;--grid:#eef1f5;
+--s1:#2a78d6;--s2:#eb6834;--ok:#1a7f4b;--okbg:#e6f4ec;--bad:#c23b3b;--badbg:#fbeaea;--warn:#b7791f;--warnbg:#fdf3e1;--navy:#1f3864}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){--bg:#12161d;--card:#1b212b;--ink:#eef2f8;--ink2:#b9c3d3;--mut:#8792a5;--line:#2c3542;--grid:#252d39;
+--s1:#3987e5;--s2:#d95926;--ok:#3fb67a;--okbg:#17352a;--bad:#e66767;--badbg:#3a1f22;--warn:#e0a84a;--warnbg:#3a2f1a;--navy:#9db7e8}}
+:root[data-theme="dark"]{--bg:#12161d;--card:#1b212b;--ink:#eef2f8;--ink2:#b9c3d3;--mut:#8792a5;--line:#2c3542;--grid:#252d39;
+--s1:#3987e5;--s2:#d95926;--ok:#3fb67a;--okbg:#17352a;--bad:#e66767;--badbg:#3a1f22;--warn:#e0a84a;--warnbg:#3a2f1a;--navy:#9db7e8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 16px 40px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-size:24px;margin:0;color:var(--navy);letter-spacing:-.3px}.sub{color:var(--ink2);font-size:13px;margin-top:4px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line);margin-bottom:16px}
+.bar label{font-size:12px;color:var(--ink2);display:flex;gap:6px;align-items:center}
+select,button{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);cursor:pointer}
+.chip{border-radius:999px}.chip.on{background:var(--navy);color:var(--card);border-color:var(--navy);font-weight:600}
+.grid{display:grid;gap:14px}.g6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(430px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.tile .l{font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink2);font-weight:600}.tile .v{font-size:26px;font-weight:750;margin:6px 0 4px;letter-spacing:-.5px}.tile .f{font-size:12px;color:var(--ink2)}
+.hero{grid-column:span 2;background:linear-gradient(135deg,#1f3864,#2a5298);color:#fff;border:0}.hero .l,.hero .f{color:#d6e2ff}.hero .v{font-size:34px}
+.pill{display:inline-block;font-size:11.5px;font-weight:650;padding:2px 8px;border-radius:999px}.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}.warn{background:var(--warnbg);color:var(--warn)}
+h2{font-size:16px;margin:0 0 2px}.cap{font-size:12px;color:var(--ink2);margin-bottom:10px}
+section{margin-top:18px}
+svg text{fill:var(--ink2);font-size:11px}svg .val{fill:var(--ink);font-weight:600}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--card);font-size:12px;padding:7px 9px;border-radius:8px;opacity:0;transition:opacity .1s;z-index:20;max-width:260px}
+table{width:100%;border-collapse:collapse;font-size:13px}th{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink2);text-align:left;padding:8px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;background:var(--card);position:sticky;top:0}
+td{padding:8px;border-bottom:1px solid var(--grid)}td.n,th.n{text-align:right}tr.ours td:first-child{border-left:3px solid var(--s2)}tbody tr:hover{background:var(--grid)}
+.tbl{max-height:560px;overflow:auto}.mini{display:inline-block;height:8px;border-radius:4px;background:var(--s1);vertical-align:middle;margin-right:6px}
+.take li{margin:6px 0}.legend{display:flex;gap:14px;font-size:12px;color:var(--ink2);margin-bottom:6px;flex-wrap:wrap}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.foot{font-size:11.5px;color:var(--mut);margin-top:22px;line-height:1.6}
+@media (max-width:640px){.hero{grid-column:span 1}.g2{grid-template-columns:1fr}h1{font-size:20px}}
+@media print{.bar{position:static}.tip{display:none}body{background:#fff}}
+</style></head><body><div class="wrap">
+<header><div><h1>Revenue &amp; CM Earned — Management Dashboard</h1><div class="sub" id="sub"></div></div><div class="sub">Sterling Styles Ltd · prepared by Merchandising (S M Muhashinul Islam)</div></header>
+<div class="bar">
+  <label>From <select id="mFrom"></select></label><label>To <select id="mTo"></select></label>
+  <span style="width:8px"></span>
+  <button class="chip" data-v="all">All buyers</button><button class="chip" data-v="ours">Our accounts (TARGET + KMART)</button>
+  <label>Buyer <select id="bSel"><option value="">— pick one —</option></select></label>
+  <button id="reset">Reset</button>
+</div>
+<div class="grid g6" id="tiles"></div>
+<section class="grid g2">
+  <div class="card"><h2>CM earned per month</h2><div class="cap">US$ earned from sewing (all lines) · hover a bar</div><div id="cMon"></div></div>
+  <div class="card"><h2>Earned per line-day vs benchmark &amp; target</h2><div class="cap">$/line-day · benchmark $2,500 (KPI) · line target $3,500 (Revenue file)</div><div id="cYld"></div></div>
+</section>
+<section class="card"><h2>Key points</h2><div class="cap">updates with the filters above</div><ul class="take" id="take"></ul></section>
+<section class="grid g2">
+  <div class="card"><h2>Who earns the CM — by buyer</h2><div class="cap">earned US$ · top 10 + others</div><div class="legend"><span><i style="background:var(--s1)"></i>Other buyers</span><span><i style="background:var(--s2)"></i>Our accounts (TARGET, KMART)</span></div><div id="cBuy"></div></div>
+  <div class="card"><h2>Monthly gap to the $3,500 line target</h2><div class="cap">earned − $3,500 × line-days · red = short of target</div><div id="cGap"></div></div>
+</section>
+<section class="card"><h2>Buyer scorecard</h2><div class="cap">click a header to sort · click a row to focus that buyer · CM/min, DHU and grade are year-to-date</div><div class="tbl"><table id="tBuy"></table></div></section>
+<section class="grid g2">
+  <div class="card"><h2>Best 6 lines — $/line-day (YTD)</h2><div class="cap">all buyers, full period</div><div id="lTop"></div></div>
+  <div class="card"><h2>Weakest 6 lines — $/line-day (YTD)</h2><div class="cap">all buyers, full period</div><div id="lBot"></div></div>
+</section>
+<section class="card"><h2>By unit (YTD)</h2><div class="tbl"><table id="tUnit"></table></div></section>
+<div class="foot" id="foot"></div>
+</div><div class="tip" id="tip"></div>
+<script>
+const D={
+"source": "Buyer wise average CM &earned report-2026  on 18-Oct-26.xlsx",
+"period": "01 Jan 2026 – 17 Oct 2026",
+"generated": "2026-10-19 02:47",
+"bm": 2500,
+"target": 3500,
+"stdEff": 80,
+"stdCm": 0.0843,
+"factory": {
+"ld": 8854,
+"days": 233,
+"manDays": 651159,
+"op": 519486,
+"hp": 131673,
+"avgMpLine": 73.5,
+"avgMpDay": 2794.7,
+"helperPct": 20.2,
+"pcs": 13465130,
+"prodMin": 271011875,
+"availMin": 390984301,
+"eff": 69.3,
+"pcsMan": 20.7,
+"earned": 22647668.29,
+"earnedMan": 34.78,
+"earnedLine": 2557.9,
+"cmMin": 0.0836,
+"smv": 20.13,
+"dhu": 13.2,
+"whrs": 10,
+"styles": 520,
+"lines": 38
+},
+"buyers": [
+{
+"buyer": "ZARA",
+"ld": 2451,
+"earned": 7120479.95,
+"share": 28.1,
+"yld": 2905.1,
+"eff": 73.5,
+"cmMin": 0.0874,
+"pcs": 3761333,
+"smv": 21.67,
+"dhu": 13.8,
+"mp": 74.7,
+"earnedMan": 38.88,
+"styles": 82,
+"lines": 27,
+"pl": -1458020.05,
+"tgt": 8578500,
+"scope": "other",
+"grade": "A",
+"rank": 1,
+"score": 96.2
+},
+{
+"buyer": "OJG",
+"ld": 2515,
+"earned": 6082386.72,
+"share": 27.8,
+"yld": 2418.4,
+"eff": 69.9,
+"cmMin": 0.0797,
+"pcs": 3983582,
+"smv": 19.16,
+"dhu": 12.4,
+"mp": 71.9,
+"earnedMan": 33.65,
+"styles": 67,
+"lines": 36,
+"pl": -2720113.28,
+"tgt": 8802500,
+"scope": "other",
+"grade": "A",
+"rank": 3,
+"score": 94.2
+},
+{
+"buyer": "GAP",
+"ld": 737,
+"earned": 2300232.4,
+"share": 8.2,
+"yld": 3121.1,
+"eff": 74.5,
+"cmMin": 0.0986,
+"pcs": 1226602,
+"smv": 19.02,
+"dhu": 12.8,
+"mp": 72.8,
+"earnedMan": 42.85,
+"styles": 47,
+"lines": 8,
+"pl": -279267.6,
+"tgt": 2579500,
+"scope": "other",
+"grade": "A",
+"rank": 2,
+"score": 94.3
+},
+{
+"buyer": "TARGET",
+"ld": 596,
+"earned": 1313095.2,
+"share": 6.7,
+"yld": 2203.2,
+"eff": 66.8,
+"cmMin": 0.0758,
+"pcs": 798071,
+"smv": 21.7,
+"dhu": 11.7,
+"mp": 72.8,
+"earnedMan": 30.28,
+"styles": 96,
+"lines": 12,
+"pl": -772904.8,
+"tgt": 2086000,
+"scope": "ours",
+"grade": "B",
+"rank": 4,
+"score": 78.5
+},
+{
+"buyer": "SOLAMODA",
+"ld": 354,
+"earned": 779521.4,
+"share": 4.2,
+"yld": 2202,
+"eff": 69.5,
+"cmMin": 0.0675,
+"pcs": 499190,
+"smv": 23.15,
+"dhu": 13.1,
+"mp": 76.6,
+"earnedMan": 28.75,
+"styles": 18,
+"lines": 10,
+"pl": -459478.6,
+"tgt": 1239000,
+"scope": "other",
+"grade": "B",
+"rank": 8,
+"score": 75.1
+},
+{
+"buyer": "KMART",
+"ld": 292,
+"earned": 646838,
+"share": 3.4,
+"yld": 2215.2,
+"eff": 68.8,
+"cmMin": 0.071,
+"pcs": 610430,
+"smv": 14.93,
+"dhu": 12.7,
+"mp": 74.9,
+"earnedMan": 29.57,
+"styles": 4,
+"lines": 9,
+"pl": -375162,
+"tgt": 1022000,
+"scope": "ours",
+"grade": "C",
+"rank": 10,
+"score": 74.8
+},
+{
+"buyer": "NEXT",
+"ld": 288,
+"earned": 611578.6,
+"share": 3.2,
+"yld": 2123.5,
+"eff": 61,
+"cmMin": 0.0811,
+"pcs": 442016,
+"smv": 17.05,
+"dhu": 14.1,
+"mp": 71.5,
+"earnedMan": 29.7,
+"styles": 55,
+"lines": 8,
+"pl": -396421.4,
+"tgt": 1008000,
+"scope": "other",
+"grade": "C",
+"rank": 12,
+"score": 71
+},
+{
+"buyer": "EXPRESS",
+"ld": 258,
+"earned": 807715.5,
+"share": 3,
+"yld": 3130.7,
+"eff": 64.8,
+"cmMin": 0.1159,
+"pcs": 328275,
+"smv": 21.23,
+"dhu": 14.2,
+"mp": 74.8,
+"earnedMan": 41.88,
+"styles": 57,
+"lines": 4,
+"pl": -95284.5,
+"tgt": 903000,
+"scope": "other",
+"grade": "B",
+"rank": 5,
+"score": 77.4
+},
+{
+"buyer": "MED COUTURE",
+"ld": 244,
+"earned": 431527,
+"share": 2.8,
+"yld": 1768.6,
+"eff": 65.8,
+"cmMin": 0.0574,
+"pcs": 348570,
+"smv": 21.57,
+"dhu": 8.6,
+"mp": 75.6,
+"earnedMan": 23.4,
+"styles": 14,
+"lines": 2,
+"pl": -422473,
+"tgt": 854000,
+"scope": "other",
+"grade": "D",
+"rank": 16,
+"score": 63.2
+},
+{
+"buyer": "NOBLE OUTFITTERS",
+"ld": 245,
+"earned": 656632.14,
+"share": 2.8,
+"yld": 2680.1,
+"eff": 55.1,
+"cmMin": 0.1181,
+"pcs": 235943,
+"smv": 23.57,
+"dhu": 17.5,
+"mp": 73.4,
+"earnedMan": 36.52,
+"styles": 22,
+"lines": 8,
+"pl": -200867.86,
+"tgt": 857500,
+"scope": "other",
+"grade": "C",
+"rank": 9,
+"score": 74.9
+},
+{
+"buyer": "IMPULSE",
+"ld": 180,
+"earned": 412264,
+"share": 2.1,
+"yld": 2290.4,
+"eff": 62.9,
+"cmMin": 0.0813,
+"pcs": 252030,
+"smv": 20.13,
+"dhu": 10.9,
+"mp": 75.3,
+"earnedMan": 30.41,
+"styles": 10,
+"lines": 6,
+"pl": -217736,
+"tgt": 630000,
+"scope": "other",
+"grade": "B",
+"rank": 7,
+"score": 75.7
+},
+{
+"buyer": "WALMART",
+"ld": 152,
+"earned": 311833.6,
+"share": 1.9,
+"yld": 2051.5,
+"eff": 75.5,
+"cmMin": 0.058,
+"pcs": 299840,
+"smv": 17.94,
+"dhu": 16.5,
+"mp": 80.5,
+"earnedMan": 25.47,
+"styles": 1,
+"lines": 4,
+"pl": -220166.4,
+"tgt": 532000,
+"scope": "other",
+"grade": "C",
+"rank": 13,
+"score": 66.3
+},
+{
+"buyer": "AERO",
+"ld": 140,
+"earned": 357181.6,
+"share": 1.5,
+"yld": 2551.3,
+"eff": 63,
+"cmMin": 0.0979,
+"pcs": 219914,
+"smv": 16.58,
+"dhu": 12.2,
+"mp": 68.7,
+"earnedMan": 37.16,
+"styles": 8,
+"lines": 9,
+"pl": -132818.4,
+"tgt": 490000,
+"scope": "other",
+"grade": "B",
+"rank": 6,
+"score": 76.8
+},
+{
+"buyer": "CARREFOUR",
+"ld": 113,
+"earned": 201103.98,
+"share": 1.3,
+"yld": 1779.7,
+"eff": 51.4,
+"cmMin": 0.0772,
+"pcs": 99564,
+"smv": 26.16,
+"dhu": 18.3,
+"mp": 74.1,
+"earnedMan": 24.03,
+"styles": 12,
+"lines": 3,
+"pl": -194396.02,
+"tgt": 395500,
+"scope": "other",
+"grade": "D",
+"rank": 17,
+"score": 60.1
+},
+{
+"buyer": "NEW YORKER",
+"ld": 107,
+"earned": 242478.4,
+"share": 1.2,
+"yld": 2266.2,
+"eff": 68,
+"cmMin": 0.0722,
+"pcs": 162225,
+"smv": 20.69,
+"dhu": 12.3,
+"mp": 74,
+"earnedMan": 30.64,
+"styles": 4,
+"lines": 6,
+"pl": -132021.6,
+"tgt": 374500,
+"scope": "other",
+"grade": "C",
+"rank": 11,
+"score": 72.4
+},
+{
+"buyer": "LAGER",
+"ld": 63,
+"earned": 127684,
+"share": 0.7,
+"yld": 2026.7,
+"eff": 60.3,
+"cmMin": 0.0746,
+"pcs": 73920,
+"smv": 23.14,
+"dhu": 12.5,
+"mp": 76.8,
+"earnedMan": 26.39,
+"styles": 4,
+"lines": 5,
+"pl": -92816,
+"tgt": 220500,
+"scope": "other",
+"grade": "C",
+"rank": 15,
+"score": 66
+},
+{
+"buyer": "TRIBAL",
+"ld": 47,
+"earned": 120825,
+"share": 0.5,
+"yld": 2570.7,
+"eff": 51.2,
+"cmMin": 0.115,
+"pcs": 48330,
+"smv": 21.75,
+"dhu": 23.5,
+"mp": 70,
+"earnedMan": 36.7,
+"styles": 10,
+"lines": 2,
+"pl": -43675,
+"tgt": 164500,
+"scope": "other",
+"grade": "C",
+"rank": 14,
+"score": 66.2
+},
+{
+"buyer": "LUCKY BRAND",
+"ld": 18,
+"earned": 34620,
+"share": 0.2,
+"yld": 1923.3,
+"eff": 49.1,
+"cmMin": 0.0757,
+"pcs": 11740,
+"smv": 38.97,
+"dhu": 21.5,
+"mp": 74.8,
+"earnedMan": 25.72,
+"styles": 1,
+"lines": 1,
+"pl": -28380,
+"tgt": 63000,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+},
+{
+"buyer": "PULL & BEAR",
+"ld": 17,
+"earned": 29536.8,
+"share": 0.2,
+"yld": 1737.5,
+"eff": 52.2,
+"cmMin": 0.0774,
+"pcs": 17070,
+"smv": 22.35,
+"dhu": 16.1,
+"mp": 74.3,
+"earnedMan": 23.39,
+"styles": 1,
+"lines": 2,
+"pl": -29963.2,
+"tgt": 59500,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+},
+{
+"buyer": "BUSS PRO",
+"ld": 11,
+"earned": 9157.5,
+"share": 0.1,
+"yld": 832.5,
+"eff": 57.7,
+"cmMin": 0.0456,
+"pcs": 24420,
+"smv": 8.23,
+"dhu": 11.8,
+"mp": 61.4,
+"earnedMan": 13.57,
+"styles": 1,
+"lines": 1,
+"pl": -29342.5,
+"tgt": 38500,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+},
+{
+"buyer": "FAKE GODS",
+"ld": 9,
+"earned": 27024,
+"share": 0.1,
+"yld": 3002.7,
+"eff": 37.8,
+"cmMin": 0.1883,
+"pcs": 9030,
+"smv": 15.89,
+"dhu": 11.1,
+"mp": 66.7,
+"earnedMan": 45.04,
+"styles": 2,
+"lines": 2,
+"pl": -4476,
+"tgt": 31500,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+},
+{
+"buyer": "JOULES",
+"ld": 6,
+"earned": 17560,
+"share": 0.1,
+"yld": 2926.7,
+"eff": 39.6,
+"cmMin": 0.1504,
+"pcs": 5350,
+"smv": 21.82,
+"dhu": 14.1,
+"mp": 75.7,
+"earnedMan": 38.68,
+"styles": 2,
+"lines": 2,
+"pl": -3440,
+"tgt": 21000,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+},
+{
+"buyer": "SSL",
+"ld": 4,
+"earned": 0,
+"share": 0,
+"yld": 0,
+"eff": 50.2,
+"cmMin": 0,
+"pcs": 4780,
+"smv": 19.01,
+"dhu": 12.2,
+"mp": 74.2,
+"earnedMan": 0,
+"styles": 1,
+"lines": 4,
+"pl": -14000,
+"tgt": 14000,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+},
+{
+"buyer": "CAREFOUR",
+"ld": 4,
+"earned": 3685,
+"share": 0,
+"yld": 921.2,
+"eff": 17.2,
+"cmMin": 0.1086,
+"pcs": 1100,
+"smv": 30.84,
+"dhu": 25.5,
+"mp": 66.5,
+"earnedMan": 13.85,
+"styles": 1,
+"lines": 1,
+"pl": -10315,
+"tgt": 14000,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+},
+{
+"buyer": "CIRCULAR JEAN",
+"ld": 3,
+"earned": 2707.5,
+"share": 0,
+"yld": 902.5,
+"eff": 24.2,
+"cmMin": 0.0782,
+"pcs": 1805,
+"smv": 19.18,
+"dhu": 16.6,
+"mp": 69,
+"earnedMan": 13.08,
+"styles": 1,
+"lines": 1,
+"pl": -7792.5,
+"tgt": 10500,
+"scope": "other",
+"grade": "—",
+"rank": null,
+"score": null
+}
+],
+"monthly": [
+{
+"month": "2026-01",
+"ld": 1102,
+"earned": 3017840.52,
+"yld": 2738.5,
+"eff": 76.6,
+"cmMin": 0.083,
+"pcs": 1728312,
+"dhu": 12.1,
+"mp": 2778.3,
+"pl": -839159.48,
+"tgt": 3857000,
+"prodMin": 36374915,
+"availMin": 47472559
+},
+{
+"month": "2026-02",
+"ld": 760,
+"earned": 1981606.2,
+"yld": 2607.4,
+"eff": 76.3,
+"cmMin": 0.0882,
+"pcs": 1088300,
+"dhu": 11.6,
+"mp": 2800.9,
+"pl": -678393.8,
+"tgt": 2660000,
+"prodMin": 22462545,
+"availMin": 29438815
+},
+{
+"month": "2026-03",
+"ld": 722,
+"earned": 1655087.4,
+"yld": 2292.4,
+"eff": 72.8,
+"cmMin": 0.0856,
+"pcs": 981230,
+"dhu": 12.1,
+"mp": 2788.4,
+"pl": -871912.6000000001,
+"tgt": 2527000,
+"prodMin": 19335914,
+"availMin": 26568544
+},
+{
+"month": "2026-04",
+"ld": 1026,
+"earned": 2818392.1,
+"yld": 2747,
+"eff": 71.6,
+"cmMin": 0.0863,
+"pcs": 1782761,
+"dhu": 11.1,
+"mp": 2800.3,
+"pl": -772607.8999999999,
+"tgt": 3591000,
+"prodMin": 32645901,
+"availMin": 45603654
+},
+{
+"month": "2026-05",
+"ld": 912,
+"earned": 2774086.5,
+"yld": 3041.8,
+"eff": 69.3,
+"cmMin": 0.0849,
+"pcs": 1687268,
+"dhu": 12,
+"mp": 2811.4,
+"pl": -417913.5,
+"tgt": 3192000,
+"prodMin": 32687903,
+"availMin": 47139985
+},
+{
+"month": "2026-06",
+"ld": 836,
+"earned": 2313269.9,
+"yld": 2767.1,
+"eff": 67.1,
+"cmMin": 0.0844,
+"pcs": 1332951,
+"dhu": 13.8,
+"mp": 2804.7,
+"pl": -612730.1000000001,
+"tgt": 2926000,
+"prodMin": 27424200,
+"availMin": 40875065
+},
+{
+"month": "2026-07",
+"ld": 1026,
+"earned": 2465635.2,
+"yld": 2403.2,
+"eff": 64.5,
+"cmMin": 0.08,
+"pcs": 1403415,
+"dhu": 14.1,
+"mp": 2810.9,
+"pl": -1125364.7999999998,
+"tgt": 3591000,
+"prodMin": 30818951,
+"availMin": 47770554
+},
+{
+"month": "2026-08",
+"ld": 950,
+"earned": 2162484.88,
+"yld": 2276.3,
+"eff": 65.7,
+"cmMin": 0.0808,
+"pcs": 1249112,
+"dhu": 14.7,
+"mp": 2851.9,
+"pl": -1162515.12,
+"tgt": 3325000,
+"prodMin": 26751596,
+"availMin": 40688542
+},
+{
+"month": "2026-09",
+"ld": 988,
+"earned": 2190431.45,
+"yld": 2217,
+"eff": 65.4,
+"cmMin": 0.0816,
+"pcs": 1370273,
+"dhu": 15.9,
+"mp": 2749,
+"pl": -1267568.5499999998,
+"tgt": 3458000,
+"prodMin": 26838522,
+"availMin": 41028363
+},
+{
+"month": "2026-10",
+"ld": 532,
+"earned": 1268834.14,
+"yld": 2385,
+"eff": 64.2,
+"cmMin": 0.081,
+"pcs": 841508,
+"dhu": 14.5,
+"mp": 2724.3,
+"pl": -593165.8600000001,
+"tgt": 1862000,
+"prodMin": 15671428,
+"availMin": 24398219
+}
+],
+"lines": [
+{
+"line": 1,
+"ld": 233,
+"earned": 677235.7,
+"yld": 2906.6,
+"eff": 69.4,
+"cmMin": 0.0944,
+"dhu": 14.5,
+"unit": "unit-1"
+},
+{
+"line": 2,
+"ld": 233,
+"earned": 562743.1,
+"yld": 2415.2,
+"eff": 62.9,
+"cmMin": 0.0906,
+"dhu": 13.7,
+"unit": "unit-1"
+},
+{
+"line": 3,
+"ld": 233,
+"earned": 593362.6,
+"yld": 2546.6,
+"eff": 68.2,
+"cmMin": 0.0846,
+"dhu": 13,
+"unit": "unit-1"
+},
+{
+"line": 4,
+"ld": 233,
+"earned": 724785.6,
+"yld": 3110.7,
+"eff": 67.3,
+"cmMin": 0.1104,
+"dhu": 13.3,
+"unit": "unit-1"
+},
+{
+"line": 5,
+"ld": 233,
+"earned": 572212.7,
+"yld": 2455.8,
+"eff": 61.6,
+"cmMin": 0.095,
+"dhu": 14.2,
+"unit": "unit-1"
+},
+{
+"line": 6,
+"ld": 233,
+"earned": 658753,
+"yld": 2827.3,
+"eff": 68.9,
+"cmMin": 0.0998,
+"dhu": 14,
+"unit": "unit-1"
+},
+{
+"line": 7,
+"ld": 233,
+"earned": 697496.7,
+"yld": 2993.5,
+"eff": 68.7,
+"cmMin": 0.1012,
+"dhu": 14.1,
+"unit": "unit-1"
+},
+{
+"line": 8,
+"ld": 233,
+"earned": 631783.5,
+"yld": 2711.5,
+"eff": 72,
+"cmMin": 0.0903,
+"dhu": 15.3,
+"unit": "unit-1"
+},
+{
+"line": 9,
+"ld": 233,
+"earned": 521953.95,
+"yld": 2240.1,
+"eff": 61.6,
+"cmMin": 0.0881,
+"dhu": 12.2,
+"unit": "unit-1"
+},
+{
+"line": 10,
+"ld": 233,
+"earned": 502555.27,
+"yld": 2156.9,
+"eff": 61.9,
+"cmMin": 0.0826,
+"dhu": 14.1,
+"unit": "unit-1"
+},
+{
+"line": 11,
+"ld": 233,
+"earned": 594436.9,
+"yld": 2551.2,
+"eff": 62.8,
+"cmMin": 0.0906,
+"dhu": 16.5,
+"unit": "unit-1"
+},
+{
+"line": 12,
+"ld": 233,
+"earned": 527867.7,
+"yld": 2265.5,
+"eff": 62.3,
+"cmMin": 0.0828,
+"dhu": 12.9,
+"unit": "unit-1"
+},
+{
+"line": 13,
+"ld": 233,
+"earned": 578988.2,
+"yld": 2484.9,
+"eff": 70.5,
+"cmMin": 0.0801,
+"dhu": 14.4,
+"unit": "unit-1"
+},
+{
+"line": 14,
+"ld": 233,
+"earned": 676757.6,
+"yld": 2904.5,
+"eff": 75,
+"cmMin": 0.0848,
+"dhu": 21.6,
+"unit": "unit-1"
+},
+{
+"line": 15,
+"ld": 233,
+"earned": 689424.8,
+"yld": 2958.9,
+"eff": 76.9,
+"cmMin": 0.0836,
+"dhu": 20,
+"unit": "unit-1"
+},
+{
+"line": 16,
+"ld": 233,
+"earned": 641648.9,
+"yld": 2753.9,
+"eff": 80.8,
+"cmMin": 0.0839,
+"dhu": 13.7,
+"unit": "unit-1"
+},
+{
+"line": 17,
+"ld": 233,
+"earned": 670172.5,
+"yld": 2876.3,
+"eff": 67.7,
+"cmMin": 0.0896,
+"dhu": 9.6,
+"unit": "unit-2"
+},
+{
+"line": 18,
+"ld": 233,
+"earned": 663114.6,
+"yld": 2846,
+"eff": 75.2,
+"cmMin": 0.0779,
+"dhu": 11.3,
+"unit": "unit-2"
+},
+{
+"line": 19,
+"ld": 233,
+"earned": 664718.5,
+"yld": 2852.9,
+"eff": 71.8,
+"cmMin": 0.0841,
+"dhu": 10.5,
+"unit": "unit-2"
+},
+{
+"line": 20,
+"ld": 233,
+"earned": 565004,
+"yld": 2424.9,
+"eff": 67.3,
+"cmMin": 0.0786,
+"dhu": 10,
+"unit": "unit-2"
+},
+{
+"line": 21,
+"ld": 233,
+"earned": 629016.34,
+"yld": 2699.6,
+"eff": 68.1,
+"cmMin": 0.0839,
+"dhu": 13.6,
+"unit": "unit-2"
+},
+{
+"line": 22,
+"ld": 233,
+"earned": 689298.5,
+"yld": 2958.4,
+"eff": 74.6,
+"cmMin": 0.0813,
+"dhu": 10.4,
+"unit": "unit-2"
+},
+{
+"line": 23,
+"ld": 233,
+"earned": 401907,
+"yld": 1724.9,
+"eff": 63.8,
+"cmMin": 0.0566,
+"dhu": 9.2,
+"unit": "unit-2"
+},
+{
+"line": 24,
+"ld": 233,
+"earned": 528081,
+"yld": 2266.4,
+"eff": 64.7,
+"cmMin": 0.0737,
+"dhu": 10.6,
+"unit": "unit-2"
+},
+{
+"line": 25,
+"ld": 233,
+"earned": 580392,
+"yld": 2491,
+"eff": 57.8,
+"cmMin": 0.0879,
+"dhu": 13.6,
+"unit": "unit-2"
+},
+{
+"line": 26,
+"ld": 233,
+"earned": 614432,
+"yld": 2637,
+"eff": 70,
+"cmMin": 0.079,
+"dhu": 12.7,
+"unit": "unit-2"
+},
+{
+"line": 27,
+"ld": 233,
+"earned": 511385.2,
+"yld": 2194.8,
+"eff": 69.5,
+"cmMin": 0.0765,
+"dhu": 14.3,
+"unit": "unit-2"
+},
+{
+"line": 28,
+"ld": 233,
+"earned": 496660.7,
+"yld": 2131.6,
+"eff": 62.2,
+"cmMin": 0.075,
+"dhu": 13,
+"unit": "unit-2"
+},
+{
+"line": 29,
+"ld": 233,
+"earned": 575228.5,
+"yld": 2468.8,
+"eff": 77.6,
+"cmMin": 0.0759,
+"dhu": 9.9,
+"unit": "unit-2"
+},
+{
+"line": 30,
+"ld": 233,
+"earned": 605035.9,
+"yld": 2596.7,
+"eff": 79.4,
+"cmMin": 0.0719,
+"dhu": 13.8,
+"unit": "unit-2"
+},
+{
+"line": 31,
+"ld": 233,
+"earned": 523410.1,
+"yld": 2246.4,
+"eff": 70.9,
+"cmMin": 0.0708,
+"dhu": 13.5,
+"unit": "unit-2"
+},
+{
+"line": 32,
+"ld": 233,
+"earned": 555256.1,
+"yld": 2383.1,
+"eff": 65.3,
+"cmMin": 0.0826,
+"dhu": 11.7,
+"unit": "unit-2"
+},
+{
+"line": 33,
+"ld": 233,
+"earned": 586126.93,
+"yld": 2515.6,
+"eff": 67.7,
+"cmMin": 0.088,
+"dhu": 13.9,
+"unit": "unit-3"
+},
+{
+"line": 34,
+"ld": 233,
+"earned": 589509.37,
+"yld": 2530.1,
+"eff": 77.6,
+"cmMin": 0.0797,
+"dhu": 10.5,
+"unit": "unit-3"
+},
+{
+"line": 35,
+"ld": 233,
+"earned": 555690.89,
+"yld": 2384.9,
+"eff": 72.5,
+"cmMin": 0.0788,
+"dhu": 13.3,
+"unit": "unit-3"
+},
+{
+"line": 36,
+"ld": 233,
+"earned": 583332.17,
+"yld": 2503.6,
+"eff": 74.5,
+"cmMin": 0.0853,
+"dhu": 12.7,
+"unit": "unit-3"
+},
+{
+"line": 37,
+"ld": 233,
+"earned": 622785.08,
+"yld": 2672.9,
+"eff": 77.2,
+"cmMin": 0.086,
+"dhu": 12.7,
+"unit": "unit-3"
+},
+{
+"line": 38,
+"ld": 233,
+"earned": 585104.68,
+"yld": 2511.2,
+"eff": 70.3,
+"cmMin": 0.0815,
+"dhu": 11.7,
+"unit": "unit-3"
+}
+],
+"ranking": [
+{
+"buyer": "ZARA",
+"rank": 1,
+"score": 96.2,
+"grade": "A"
+},
+{
+"buyer": "GAP",
+"rank": 2,
+"score": 94.3,
+"grade": "A"
+},
+{
+"buyer": "OJG",
+"rank": 3,
+"score": 94.2,
+"grade": "A"
+},
+{
+"buyer": "TARGET",
+"rank": 4,
+"score": 78.5,
+"grade": "B"
+},
+{
+"buyer": "EXPRESS",
+"rank": 5,
+"score": 77.4,
+"grade": "B"
+},
+{
+"buyer": "AERO",
+"rank": 6,
+"score": 76.8,
+"grade": "B"
+},
+{
+"buyer": "IMPULSE",
+"rank": 7,
+"score": 75.7,
+"grade": "B"
+},
+{
+"buyer": "SOLAMODA",
+"rank": 8,
+"score": 75.1,
+"grade": "B"
+},
+{
+"buyer": "NOBLE OUTFITTERS",
+"rank": 9,
+"score": 74.9,
+"grade": "C"
+},
+{
+"buyer": "KMART",
+"rank": 10,
+"score": 74.8,
+"grade": "C"
+},
+{
+"buyer": "NEW YORKER",
+"rank": 11,
+"score": 72.4,
+"grade": "C"
+},
+{
+"buyer": "NEXT",
+"rank": 12,
+"score": 71,
+"grade": "C"
+},
+{
+"buyer": "WALMART",
+"rank": 13,
+"score": 66.3,
+"grade": "C"
+},
+{
+"buyer": "TRIBAL",
+"rank": 14,
+"score": 66.2,
+"grade": "C"
+},
+{
+"buyer": "LAGER",
+"rank": 15,
+"score": 66,
+"grade": "C"
+},
+{
+"buyer": "MED COUTURE",
+"rank": 16,
+"score": 63.2,
+"grade": "D"
+},
+{
+"buyer": "CARREFOUR",
+"rank": 17,
+"score": 60.1,
+"grade": "D"
+}
+],
+"note": "Profit/loss = Earned − $3,500 × line-days (the file's 'TARGET -$3500US')",
+"rows": [
+{
+"m": "2026-01",
+"b": "ZARA",
+"ld": 433,
+"e": 1311271.9,
+"md": 31330,
+"eff": 78.3,
+"pcs": 710630
+},
+{
+"m": "2026-02",
+"b": "ZARA",
+"ld": 314,
+"e": 859224.05,
+"md": 23526,
+"eff": 78.7,
+"pcs": 429505
+},
+{
+"m": "2026-03",
+"b": "ZARA",
+"ld": 212,
+"e": 549683.1,
+"md": 15833,
+"eff": 84.8,
+"pcs": 317870
+},
+{
+"m": "2026-04",
+"b": "ZARA",
+"ld": 217,
+"e": 662896.7,
+"md": 16347,
+"eff": 78.3,
+"pcs": 376185
+},
+{
+"m": "2026-05",
+"b": "ZARA",
+"ld": 263,
+"e": 816449.3,
+"md": 19396,
+"eff": 67.5,
+"pcs": 455040
+},
+{
+"m": "2026-06",
+"b": "ZARA",
+"ld": 252,
+"e": 839043.4,
+"md": 18764,
+"eff": 69.2,
+"pcs": 429160
+},
+{
+"m": "2026-07",
+"b": "ZARA",
+"ld": 290,
+"e": 803210,
+"md": 22506,
+"eff": 64.6,
+"pcs": 370750
+},
+{
+"m": "2026-08",
+"b": "ZARA",
+"ld": 246,
+"e": 649233.6,
+"md": 18857,
+"eff": 71.2,
+"pcs": 335890
+},
+{
+"m": "2026-09",
+"b": "ZARA",
+"ld": 148,
+"e": 418228,
+"md": 10942,
+"eff": 76,
+"pcs": 217153
+},
+{
+"m": "2026-10",
+"b": "ZARA",
+"ld": 76,
+"e": 211239.9,
+"md": 5634,
+"eff": 71.1,
+"pcs": 119150
+},
+{
+"m": "2026-01",
+"b": "OJG",
+"ld": 375,
+"e": 919314.32,
+"md": 27455,
+"eff": 78.6,
+"pcs": 604512
+},
+{
+"m": "2026-02",
+"b": "OJG",
+"ld": 167,
+"e": 411311.05,
+"md": 11645,
+"eff": 80.3,
+"pcs": 289555
+},
+{
+"m": "2026-03",
+"b": "OJG",
+"ld": 214,
+"e": 440706.6,
+"md": 15250,
+"eff": 70,
+"pcs": 307224
+},
+{
+"m": "2026-04",
+"b": "OJG",
+"ld": 368,
+"e": 997462.9,
+"md": 26795,
+"eff": 71.1,
+"pcs": 656156
+},
+{
+"m": "2026-05",
+"b": "OJG",
+"ld": 284,
+"e": 790456,
+"md": 20931,
+"eff": 66.4,
+"pcs": 497498
+},
+{
+"m": "2026-06",
+"b": "OJG",
+"ld": 329,
+"e": 848458,
+"md": 24197,
+"eff": 69.5,
+"pcs": 540521
+},
+{
+"m": "2026-07",
+"b": "OJG",
+"ld": 266,
+"e": 628164.3,
+"md": 18926,
+"eff": 70.1,
+"pcs": 410630
+},
+{
+"m": "2026-08",
+"b": "OJG",
+"ld": 129,
+"e": 262607.38,
+"md": 8921,
+"eff": 63.6,
+"pcs": 178762
+},
+{
+"m": "2026-09",
+"b": "OJG",
+"ld": 225,
+"e": 441651.1,
+"md": 15496,
+"eff": 59.2,
+"pcs": 269957
+},
+{
+"m": "2026-10",
+"b": "OJG",
+"ld": 158,
+"e": 342255.07,
+"md": 11145,
+"eff": 63.3,
+"pcs": 228767
+},
+{
+"m": "2026-01",
+"b": "GAP",
+"ld": 91,
+"e": 297792,
+"md": 6693,
+"eff": 75.6,
+"pcs": 135360
+},
+{
+"m": "2026-02",
+"b": "GAP",
+"ld": 104,
+"e": 316382,
+"md": 7804,
+"eff": 76.2,
+"pcs": 143810
+},
+{
+"m": "2026-03",
+"b": "GAP",
+"ld": 81,
+"e": 219599,
+"md": 5736,
+"eff": 77.4,
+"pcs": 110960
+},
+{
+"m": "2026-04",
+"b": "GAP",
+"ld": 190,
+"e": 569537,
+"md": 13642,
+"eff": 76.9,
+"pcs": 360410
+},
+{
+"m": "2026-05",
+"b": "GAP",
+"ld": 147,
+"e": 545766,
+"md": 10787,
+"eff": 77,
+"pcs": 314150
+},
+{
+"m": "2026-06",
+"b": "GAP",
+"ld": 26,
+"e": 81554,
+"md": 1985,
+"eff": 74.3,
+"pcs": 38570
+},
+{
+"m": "2026-07",
+"b": "GAP",
+"ld": 32,
+"e": 92620,
+"md": 2417,
+"eff": 66.2,
+"pcs": 42100
+},
+{
+"m": "2026-08",
+"b": "GAP",
+"ld": 19,
+"e": 50314,
+"md": 1358,
+"eff": 63.9,
+"pcs": 22870
+},
+{
+"m": "2026-09",
+"b": "GAP",
+"ld": 11,
+"e": 23306,
+"md": 824,
+"eff": 51.8,
+"pcs": 10880
+},
+{
+"m": "2026-10",
+"b": "GAP",
+"ld": 36,
+"e": 103362.4,
+"md": 2435,
+"eff": 56.4,
+"pcs": 47492
+},
+{
+"m": "2026-01",
+"b": "TARGET",
+"ld": 77,
+"e": 182354.1,
+"md": 5678,
+"eff": 65.5,
+"pcs": 94390
+},
+{
+"m": "2026-02",
+"b": "TARGET",
+"ld": 60,
+"e": 139728.1,
+"md": 4424,
+"eff": 74,
+"pcs": 79220
+},
+{
+"m": "2026-03",
+"b": "TARGET",
+"ld": 29,
+"e": 48811.5,
+"md": 2189,
+"eff": 64,
+"pcs": 27650
+},
+{
+"m": "2026-04",
+"b": "TARGET",
+"ld": 24,
+"e": 58504,
+"md": 1747,
+"eff": 74.8,
+"pcs": 38050
+},
+{
+"m": "2026-05",
+"b": "TARGET",
+"ld": 70,
+"e": 190369.5,
+"md": 5062,
+"eff": 71.2,
+"pcs": 110700
+},
+{
+"m": "2026-06",
+"b": "TARGET",
+"ld": 77,
+"e": 167623,
+"md": 5573,
+"eff": 64,
+"pcs": 104680
+},
+{
+"m": "2026-07",
+"b": "TARGET",
+"ld": 106,
+"e": 224847,
+"md": 7486,
+"eff": 65,
+"pcs": 148330
+},
+{
+"m": "2026-08",
+"b": "TARGET",
+"ld": 84,
+"e": 168057.5,
+"md": 6296,
+"eff": 65,
+"pcs": 105590
+},
+{
+"m": "2026-09",
+"b": "TARGET",
+"ld": 56,
+"e": 105885.1,
+"md": 3941,
+"eff": 63.7,
+"pcs": 70750
+},
+{
+"m": "2026-10",
+"b": "TARGET",
+"ld": 13,
+"e": 26915.4,
+"md": 965,
+"eff": 66.1,
+"pcs": 18711
+},
+{
+"m": "2026-04",
+"b": "SOLAMODA",
+"ld": 4,
+"e": 4466,
+"md": 312,
+"eff": 41.7,
+"pcs": 3080
+},
+{
+"m": "2026-05",
+"b": "SOLAMODA",
+"ld": 16,
+"e": 32668,
+"md": 1251,
+"eff": 66.5,
+"pcs": 22700
+},
+{
+"m": "2026-06",
+"b": "SOLAMODA",
+"ld": 1,
+"e": 1162.5,
+"md": 68,
+"eff": 36.7,
+"pcs": 750
+},
+{
+"m": "2026-07",
+"b": "SOLAMODA",
+"ld": 133,
+"e": 270836,
+"md": 10256,
+"eff": 61.9,
+"pcs": 166170
+},
+{
+"m": "2026-08",
+"b": "SOLAMODA",
+"ld": 143,
+"e": 338307.9,
+"md": 11063,
+"eff": 75.3,
+"pcs": 190920
+},
+{
+"m": "2026-09",
+"b": "SOLAMODA",
+"ld": 29,
+"e": 58711,
+"md": 2095,
+"eff": 70.9,
+"pcs": 48870
+},
+{
+"m": "2026-10",
+"b": "SOLAMODA",
+"ld": 28,
+"e": 73370,
+"md": 2068,
+"eff": 85.3,
+"pcs": 66700
+},
+{
+"m": "2026-04",
+"b": "KMART",
+"ld": 24,
+"e": 53776,
+"md": 1871,
+"eff": 60.8,
+"pcs": 54800
+},
+{
+"m": "2026-05",
+"b": "KMART",
+"ld": 48,
+"e": 140550,
+"md": 3679,
+"eff": 73.1,
+"pcs": 144500
+},
+{
+"m": "2026-06",
+"b": "KMART",
+"ld": 24,
+"e": 54042.5,
+"md": 1903,
+"eff": 70.9,
+"pcs": 43210
+},
+{
+"m": "2026-07",
+"b": "KMART",
+"ld": 19,
+"e": 45119,
+"md": 1472,
+"eff": 68.5,
+"pcs": 32000
+},
+{
+"m": "2026-08",
+"b": "KMART",
+"ld": 55,
+"e": 101800.5,
+"md": 4135,
+"eff": 64.7,
+"pcs": 95960
+},
+{
+"m": "2026-09",
+"b": "KMART",
+"ld": 90,
+"e": 178457.5,
+"md": 6456,
+"eff": 67.8,
+"pcs": 170020
+},
+{
+"m": "2026-10",
+"b": "KMART",
+"ld": 32,
+"e": 73092.5,
+"md": 2359,
+"eff": 75.3,
+"pcs": 69940
+},
+{
+"m": "2026-01",
+"b": "NEXT",
+"ld": 37,
+"e": 77196.2,
+"md": 2688,
+"eff": 77.5,
+"pcs": 54880
+},
+{
+"m": "2026-02",
+"b": "NEXT",
+"ld": 30,
+"e": 61912,
+"md": 2204,
+"eff": 71.5,
+"pcs": 41300
+},
+{
+"m": "2026-03",
+"b": "NEXT",
+"ld": 23,
+"e": 34132.2,
+"md": 1682,
+"eff": 51.1,
+"pcs": 21026
+},
+{
+"m": "2026-04",
+"b": "NEXT",
+"ld": 37,
+"e": 80545.5,
+"md": 2423,
+"eff": 66.7,
+"pcs": 74990
+},
+{
+"m": "2026-05",
+"b": "NEXT",
+"ld": 11,
+"e": 21842.2,
+"md": 818,
+"eff": 47.9,
+"pcs": 14260
+},
+{
+"m": "2026-06",
+"b": "NEXT",
+"ld": 37,
+"e": 83286.5,
+"md": 2675,
+"eff": 54.3,
+"pcs": 68230
+},
+{
+"m": "2026-07",
+"b": "NEXT",
+"ld": 55,
+"e": 121952.5,
+"md": 3853,
+"eff": 58,
+"pcs": 88250
+},
+{
+"m": "2026-08",
+"b": "NEXT",
+"ld": 14,
+"e": 28074,
+"md": 1001,
+"eff": 47.9,
+"pcs": 12830
+},
+{
+"m": "2026-09",
+"b": "NEXT",
+"ld": 20,
+"e": 39229.5,
+"md": 1410,
+"eff": 55.4,
+"pcs": 26500
+},
+{
+"m": "2026-10",
+"b": "NEXT",
+"ld": 24,
+"e": 63408,
+"md": 1839,
+"eff": 61.8,
+"pcs": 39750
+},
+{
+"m": "2026-01",
+"b": "EXPRESS",
+"ld": 34,
+"e": 102142,
+"md": 2590,
+"eff": 60.2,
+"pcs": 38760
+},
+{
+"m": "2026-02",
+"b": "EXPRESS",
+"ld": 22,
+"e": 63094,
+"md": 1657,
+"eff": 68.9,
+"pcs": 25770
+},
+{
+"m": "2026-03",
+"b": "EXPRESS",
+"ld": 18,
+"e": 59230,
+"md": 1331,
+"eff": 73.1,
+"pcs": 22650
+},
+{
+"m": "2026-04",
+"b": "EXPRESS",
+"ld": 10,
+"e": 35702,
+"md": 742,
+"eff": 74.9,
+"pcs": 14010
+},
+{
+"m": "2026-05",
+"b": "EXPRESS",
+"ld": 19,
+"e": 86607.5,
+"md": 1421,
+"eff": 72.4,
+"pcs": 32420
+},
+{
+"m": "2026-06",
+"b": "EXPRESS",
+"ld": 28,
+"e": 103648,
+"md": 2081,
+"eff": 70.4,
+"pcs": 41360
+},
+{
+"m": "2026-07",
+"b": "EXPRESS",
+"ld": 34,
+"e": 112942.5,
+"md": 2516,
+"eff": 62.6,
+"pcs": 45310
+},
+{
+"m": "2026-08",
+"b": "EXPRESS",
+"ld": 49,
+"e": 113895,
+"md": 3704,
+"eff": 54.5,
+"pcs": 49010
+},
+{
+"m": "2026-09",
+"b": "EXPRESS",
+"ld": 30,
+"e": 83209.5,
+"md": 2223,
+"eff": 64.3,
+"pcs": 37510
+},
+{
+"m": "2026-10",
+"b": "EXPRESS",
+"ld": 14,
+"e": 47245,
+"md": 1023,
+"eff": 70.8,
+"pcs": 21475
+},
+{
+"m": "2026-01",
+"b": "MED COUTURE",
+"ld": 29,
+"e": 60259,
+"md": 2262,
+"eff": 75.4,
+"pcs": 49550
+},
+{
+"m": "2026-02",
+"b": "MED COUTURE",
+"ld": 38,
+"e": 69254,
+"md": 2894,
+"eff": 66.3,
+"pcs": 55770
+},
+{
+"m": "2026-03",
+"b": "MED COUTURE",
+"ld": 37,
+"e": 68554.5,
+"md": 2887,
+"eff": 74.1,
+"pcs": 56950
+},
+{
+"m": "2026-04",
+"b": "MED COUTURE",
+"ld": 44,
+"e": 86456.5,
+"md": 3434,
+"eff": 70.9,
+"pcs": 73400
+},
+{
+"m": "2026-05",
+"b": "MED COUTURE",
+"ld": 24,
+"e": 55665,
+"md": 1860,
+"eff": 75.7,
+"pcs": 46000
+},
+{
+"m": "2026-06",
+"b": "MED COUTURE",
+"ld": 22,
+"e": 23170,
+"md": 1560,
+"eff": 44.2,
+"pcs": 18850
+},
+{
+"m": "2026-07",
+"b": "MED COUTURE",
+"ld": 27,
+"e": 35024.5,
+"md": 1840,
+"eff": 51.3,
+"pcs": 27550
+},
+{
+"m": "2026-08",
+"b": "MED COUTURE",
+"ld": 23,
+"e": 33143.5,
+"md": 1704,
+"eff": 52.6,
+"pcs": 20500
+},
+{
+"m": "2026-02",
+"b": "NOBLE OUTFITTERS",
+"ld": 10,
+"e": 22467.5,
+"md": 701,
+"eff": 49,
+"pcs": 8170
+},
+{
+"m": "2026-03",
+"b": "NOBLE OUTFITTERS",
+"ld": 72,
+"e": 194105,
+"md": 5441,
+"eff": 59.6,
+"pcs": 69220
+},
+{
+"m": "2026-04",
+"b": "NOBLE OUTFITTERS",
+"ld": 30,
+"e": 84212.5,
+"md": 2254,
+"eff": 56.2,
+"pcs": 30050
+},
+{
+"m": "2026-05",
+"b": "NOBLE OUTFITTERS",
+"ld": 11,
+"e": 38225,
+"md": 802,
+"eff": 60.7,
+"pcs": 13900
+},
+{
+"m": "2026-06",
+"b": "NOBLE OUTFITTERS",
+"ld": 16,
+"e": 63250,
+"md": 1204,
+"eff": 62.4,
+"pcs": 23000
+},
+{
+"m": "2026-07",
+"b": "NOBLE OUTFITTERS",
+"ld": 6,
+"e": 18342.5,
+"md": 445,
+"eff": 55.8,
+"pcs": 6670
+},
+{
+"m": "2026-08",
+"b": "NOBLE OUTFITTERS",
+"ld": 25,
+"e": 80975,
+"md": 1896,
+"eff": 61.6,
+"pcs": 28640
+},
+{
+"m": "2026-09",
+"b": "NOBLE OUTFITTERS",
+"ld": 47,
+"e": 90925.5,
+"md": 3258,
+"eff": 46.7,
+"pcs": 34520
+},
+{
+"m": "2026-10",
+"b": "NOBLE OUTFITTERS",
+"ld": 28,
+"e": 64129.14,
+"md": 1979,
+"eff": 45.7,
+"pcs": 21773
+},
+{
+"m": "2026-03",
+"b": "IMPULSE",
+"ld": 21,
+"e": 31108,
+"md": 1659,
+"eff": 54.1,
+"pcs": 18480
+},
+{
+"m": "2026-04",
+"b": "IMPULSE",
+"ld": 24,
+"e": 56511,
+"md": 1847,
+"eff": 62.7,
+"pcs": 35880
+},
+{
+"m": "2026-05",
+"b": "IMPULSE",
+"ld": 4,
+"e": 12675,
+"md": 308,
+"eff": 71.6,
+"pcs": 8450
+},
+{
+"m": "2026-06",
+"b": "IMPULSE",
+"ld": 12,
+"e": 22323,
+"md": 832,
+"eff": 50.6,
+"pcs": 14700
+},
+{
+"m": "2026-07",
+"b": "IMPULSE",
+"ld": 5,
+"e": 5565,
+"md": 366,
+"eff": 35.7,
+"pcs": 3450
+},
+{
+"m": "2026-08",
+"b": "IMPULSE",
+"ld": 51,
+"e": 121592,
+"md": 3894,
+"eff": 65.6,
+"pcs": 75920
+},
+{
+"m": "2026-09",
+"b": "IMPULSE",
+"ld": 54,
+"e": 137920,
+"md": 3956,
+"eff": 68,
+"pcs": 81500
+},
+{
+"m": "2026-10",
+"b": "IMPULSE",
+"ld": 9,
+"e": 24570,
+"md": 693,
+"eff": 65,
+"pcs": 13650
+},
+{
+"m": "2026-08",
+"b": "WALMART",
+"ld": 32,
+"e": 50731.2,
+"md": 2567,
+"eff": 60,
+"pcs": 48780
+},
+{
+"m": "2026-09",
+"b": "WALMART",
+"ld": 104,
+"e": 227853.6,
+"md": 8381,
+"eff": 80.4,
+"pcs": 219090
+},
+{
+"m": "2026-10",
+"b": "WALMART",
+"ld": 16,
+"e": 33248.8,
+"md": 1294,
+"eff": 73.3,
+"pcs": 31970
+},
+{
+"m": "2026-08",
+"b": "AERO",
+"ld": 19,
+"e": 58923,
+"md": 1348,
+"eff": 58,
+"pcs": 22590
+},
+{
+"m": "2026-09",
+"b": "AERO",
+"ld": 80,
+"e": 210485,
+"md": 5694,
+"eff": 64.1,
+"pcs": 98930
+},
+{
+"m": "2026-10",
+"b": "AERO",
+"ld": 41,
+"e": 87773.6,
+"md": 2570,
+"eff": 63.2,
+"pcs": 98394
+},
+{
+"m": "2026-08",
+"b": "CARREFOUR",
+"ld": 18,
+"e": 27823.5,
+"md": 1405,
+"eff": 42.9,
+"pcs": 12960
+},
+{
+"m": "2026-09",
+"b": "CARREFOUR",
+"ld": 69,
+"e": 121562.15,
+"md": 5089,
+"eff": 52.7,
+"pcs": 58753
+},
+{
+"m": "2026-10",
+"b": "CARREFOUR",
+"ld": 26,
+"e": 51718.33,
+"md": 1875,
+"eff": 54,
+"pcs": 27851
+},
+{
+"m": "2026-01",
+"b": "NEW YORKER",
+"ld": 14,
+"e": 42126,
+"md": 1005,
+"eff": 92.3,
+"pcs": 24780
+},
+{
+"m": "2026-04",
+"b": "NEW YORKER",
+"ld": 9,
+"e": 18688,
+"md": 699,
+"eff": 59.4,
+"pcs": 12800
+},
+{
+"m": "2026-05",
+"b": "NEW YORKER",
+"ld": 12,
+"e": 36938,
+"md": 945,
+"eff": 76.2,
+"pcs": 25300
+},
+{
+"m": "2026-07",
+"b": "NEW YORKER",
+"ld": 33,
+"e": 66232.9,
+"md": 2339,
+"eff": 63,
+"pcs": 45365
+},
+{
+"m": "2026-08",
+"b": "NEW YORKER",
+"ld": 17,
+"e": 33640,
+"md": 1286,
+"eff": 63.5,
+"pcs": 23200
+},
+{
+"m": "2026-09",
+"b": "NEW YORKER",
+"ld": 8,
+"e": 14412.5,
+"md": 587,
+"eff": 61.7,
+"pcs": 9930
+},
+{
+"m": "2026-10",
+"b": "NEW YORKER",
+"ld": 14,
+"e": 30441,
+"md": 1054,
+"eff": 64.2,
+"pcs": 20850
+},
+{
+"m": "2026-01",
+"b": "LAGER",
+"ld": 12,
+"e": 25385,
+"md": 869,
+"eff": 67.1,
+"pcs": 15450
+},
+{
+"m": "2026-02",
+"b": "LAGER",
+"ld": 12,
+"e": 28129.5,
+"md": 964,
+"eff": 61.1,
+"pcs": 11970
+},
+{
+"m": "2026-04",
+"b": "LAGER",
+"ld": 22,
+"e": 45038,
+"md": 1799,
+"eff": 61.1,
+"pcs": 29600
+},
+{
+"m": "2026-07",
+"b": "LAGER",
+"ld": 5,
+"e": 9309,
+"md": 350,
+"eff": 66.4,
+"pcs": 6150
+},
+{
+"m": "2026-08",
+"b": "LAGER",
+"ld": 6,
+"e": 7830,
+"md": 400,
+"eff": 48.9,
+"pcs": 5220
+},
+{
+"m": "2026-09",
+"b": "LAGER",
+"ld": 2,
+"e": 1770,
+"md": 131,
+"eff": 38.8,
+"pcs": 1180
+},
+{
+"m": "2026-10",
+"b": "LAGER",
+"ld": 4,
+"e": 10222.5,
+"md": 325,
+"eff": 52,
+"pcs": 4350
+},
+{
+"m": "2026-04",
+"b": "TRIBAL",
+"ld": 13,
+"e": 34500,
+"md": 986,
+"eff": 51.5,
+"pcs": 13800
+},
+{
+"m": "2026-05",
+"b": "TRIBAL",
+"ld": 3,
+"e": 5875,
+"md": 213,
+"eff": 39.6,
+"pcs": 2350
+},
+{
+"m": "2026-06",
+"b": "TRIBAL",
+"ld": 7,
+"e": 18175,
+"md": 494,
+"eff": 57.2,
+"pcs": 7270
+},
+{
+"m": "2026-08",
+"b": "TRIBAL",
+"ld": 3,
+"e": 6000,
+"md": 200,
+"eff": 40.9,
+"pcs": 2400
+},
+{
+"m": "2026-09",
+"b": "TRIBAL",
+"ld": 15,
+"e": 36825,
+"md": 990,
+"eff": 53.2,
+"pcs": 14730
+},
+{
+"m": "2026-10",
+"b": "TRIBAL",
+"ld": 6,
+"e": 19450,
+"md": 409,
+"eff": 49.7,
+"pcs": 7780
+},
+{
+"m": "2026-06",
+"b": "LUCKY BRAND",
+"ld": 3,
+"e": 3150,
+"md": 223,
+"eff": 27.9,
+"pcs": 1050
+},
+{
+"m": "2026-07",
+"b": "LUCKY BRAND",
+"ld": 15,
+"e": 31470,
+"md": 1123,
+"eff": 53,
+"pcs": 10690
+},
+{
+"m": "2026-08",
+"b": "PULL & BEAR",
+"ld": 17,
+"e": 29536.8,
+"md": 1263,
+"eff": 52.2,
+"pcs": 17070
+},
+{
+"m": "2026-03",
+"b": "BUSS PRO",
+"ld": 11,
+"e": 9157.5,
+"md": 675,
+"eff": 57.7,
+"pcs": 24420
+},
+{
+"m": "2026-02",
+"b": "FAKE GODS",
+"ld": 3,
+"e": 10104,
+"md": 199,
+"eff": 44.6,
+"pcs": 3230
+},
+{
+"m": "2026-04",
+"b": "FAKE GODS",
+"ld": 6,
+"e": 16920,
+"md": 401,
+"eff": 34.2,
+"pcs": 5800
+},
+{
+"m": "2026-04",
+"b": "JOULES",
+"ld": 4,
+"e": 13176,
+"md": 309,
+"eff": 39.2,
+"pcs": 3750
+},
+{
+"m": "2026-06",
+"b": "JOULES",
+"ld": 2,
+"e": 4384,
+"md": 145,
+"eff": 40.7,
+"pcs": 1600
+},
+{
+"m": "2026-03",
+"b": "SSL",
+"ld": 4,
+"e": 0,
+"md": 297,
+"eff": 50.2,
+"pcs": 4780
+},
+{
+"m": "2026-10",
+"b": "CAREFOUR",
+"ld": 4,
+"e": 3685,
+"md": 266,
+"eff": 17.2,
+"pcs": 1100
+},
+{
+"m": "2026-10",
+"b": "CIRCULAR JEAN",
+"ld": 3,
+"e": 2707.5,
+"md": 207,
+"eff": 24.2,
+"pcs": 1805
+}
+]
+};
+const $=s=>document.querySelector(s),fm=n=>(n<0?'−$':'$')+Math.abs(Math.round(n)).toLocaleString('en-US'),fM=n=>(n<0?'−$':'$')+(Math.abs(n)/1e6).toFixed(2)+'M',
+ n0=n=>Math.round(n).toLocaleString('en-US'),mn=m=>new Date(m+'-01T00:00:00').toLocaleString('en-GB',{month:'short'})+' '+m.slice(2,4),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BM=D.bm,TG=D.target,MONTHS=D.monthly.map(m=>m.month),OURS=['TARGET','KMART'];
+let S={from:MONTHS[0],to:MONTHS[MONTHS.length-1],view:'all',buyer:'',sort:'e',dir:-1};
+try{Object.assign(S,JSON.parse(localStorage.getItem('cmdash')||'{}'))}catch(e){}
+const tip=$('#tip');function tt(e,h){tip.innerHTML=h;tip.style.opacity=1;const x=Math.min(e.clientX+14,innerWidth-270);tip.style.left=x+'px';tip.style.top=(e.clientY+14)+'px'}function th(){tip.style.opacity=0}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function inRange(m){return m>=S.from&&m<=S.to}
+function pickB(b){return S.buyer?b===S.buyer:S.view==='ours'?OURS.includes(b):true}
+function agg(rows){const o={ld:0,e:0,md:0,effw:0,pcs:0};rows.forEach(r=>{o.ld+=r.ld;o.e+=r.e;o.md+=r.md;o.effw+=r.eff*r.md;o.pcs+=r.pcs});o.yld=o.ld?o.e/o.ld:0;o.eff=o.md?o.effw/o.md:0;o.gap=o.e-TG*o.ld;return o}
+function exactEff(a,mm){if(!S.buyer&&S.view==='all'){const p=mm.reduce((x,m)=>x+m.prodMin,0),v=mm.reduce((x,m)=>x+m.availMin,0);if(v)a.eff=p/v*100}return a}
+function svgEl(w,h){return `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" style="display:block">`}
+function colChart(el,data,opt){ // data [{l,v,c,h}]
+  const W=560,H=250,L=56,R=10,T=14,B=28,max=Math.max(0,...data.map(d=>d.v))*1.12,min=Math.min(0,...data.map(d=>d.v))*1.15,sp=(max-min)||1;
+  const y=v=>T+(max-v)/sp*(H-T-B),bw=(W-L-R)/data.length;let s=svgEl(W,H);
+  for(let i=0;i<=4;i++){const v=min+sp*i/4;s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${css('--grid')}"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${opt.ax(v)}</text>`}
+  (opt.refs||[]).forEach(r=>{s+=`<line x1="${L}" x2="${W-R}" y1="${y(r.v)}" y2="${y(r.v)}" stroke="${r.c}" stroke-dasharray="5 4" stroke-width="1.5"/><text x="${W-R}" y="${y(r.v)-5}" text-anchor="end" style="fill:${r.c};font-weight:600">${r.l}</text>`});
+  data.forEach((d,i)=>{const x=L+i*bw+bw*.18,w=bw*.64,y0=y(0),y1=y(d.v),top=Math.min(y0,y1),hh=Math.max(1,Math.abs(y1-y0));
+    s+=`<rect x="${x}" y="${top}" width="${w}" height="${hh}" rx="4" fill="${d.c}" data-i="${i}"/><rect x="${L+i*bw}" y="${T}" width="${bw}" height="${H-T-B}" fill="transparent" data-i="${i}"/>`;
+    if(opt.lab)s+=`<text class="val" x="${x+w/2}" y="${d.v>=0?top-4:top+hh+12}" text-anchor="middle">${opt.lab(d.v)}</text>`;
+    s+=`<text x="${x+w/2}" y="${H-10}" text-anchor="middle">${d.l}</text>`});
+  el.innerHTML=s+'</svg>';el.querySelectorAll('[data-i]').forEach(r=>{r.onmousemove=e=>tt(e,data[+r.dataset.i].h);r.onmouseleave=th})}
+function lineChart(el,data,opt){
+  const W=560,H=250,L=56,R=10,T=14,B=28,vals=data.map(d=>d.v),max=Math.max(...vals,...opt.refs.map(r=>r.v))*1.08,min=Math.min(...vals,...opt.refs.map(r=>r.v))*0.85,sp=max-min;
+  const y=v=>T+(max-v)/sp*(H-T-B),step=(W-L-R)/data.length,x=i=>L+step*(i+.5);let s=svgEl(W,H);
+  for(let i=0;i<=4;i++){const v=min+sp*i/4;s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${css('--grid')}"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${opt.ax(v)}</text>`}
+  opt.refs.forEach(r=>{s+=`<line x1="${L}" x2="${W-R}" y1="${y(r.v)}" y2="${y(r.v)}" stroke="${r.c}" stroke-dasharray="5 4" stroke-width="1.5"/><text x="${W-R}" y="${y(r.v)-5}" text-anchor="end" style="fill:${r.c};font-weight:600">${r.l}</text>`});
+  s+=`<polyline fill="none" stroke="${css('--s1')}" stroke-width="2.2" points="${data.map((d,i)=>x(i)+','+y(d.v)).join(' ')}"/>`;
+  data.forEach((d,i)=>{s+=`<circle cx="${x(i)}" cy="${y(d.v)}" r="4.5" fill="${css('--s1')}" stroke="${css('--card')}" stroke-width="2"/><text x="${x(i)}" y="${H-10}" text-anchor="middle">${d.l}</text>`;
+    if(i===0||i===data.length-1||d.v===Math.max(...vals)||d.v===Math.min(...vals))s+=`<text class="val" x="${x(i)}" y="${y(d.v)-9}" text-anchor="middle">${opt.lab(d.v)}</text>`;
+    s+=`<rect x="${L+i*step}" y="${T}" width="${step}" height="${H-T-B}" fill="transparent" data-i="${i}"/>`});
+  el.innerHTML=s+'</svg>';el.querySelectorAll('[data-i]').forEach(r=>{r.onmousemove=e=>tt(e,data[+r.dataset.i].h);r.onmouseleave=th})}
+function hbar(el,data,opt){const W=560,rowH=26,L=150,R=70,H=data.length*rowH+8,max=Math.max(...data.map(d=>d.v),1);let s=svgEl(W,H);
+  data.forEach((d,i)=>{const y=4+i*rowH,w=(W-L-R)*d.v/max;s+=`<text x="${L-8}" y="${y+16}" text-anchor="end" ${d.bold?'class="val"':''}>${esc(d.l)}</text><rect x="${L}" y="${y+5}" width="${Math.max(2,w)}" height="${rowH-10}" rx="4" fill="${d.c}" data-i="${i}"/><text class="val" x="${L+w+6}" y="${y+16}">${opt.lab(d.v)}</text>
+  ${opt.ref?'':''}<rect x="0" y="${y}" width="${W}" height="${rowH}" fill="transparent" data-i="${i}"/>`});
+  if(opt.ref){const xr=L+(W-L-R)*opt.ref.v/max;s+=`<line x1="${xr}" x2="${xr}" y1="0" y2="${H}" stroke="${opt.ref.c}" stroke-dasharray="4 4"/>`}
+  el.innerHTML=s+'</svg>';el.querySelectorAll('[data-i]').forEach(r=>{r.onmousemove=e=>tt(e,data[+r.dataset.i].h);r.onmouseleave=th})}
+function render(){
+  try{localStorage.setItem('cmdash',JSON.stringify(S))}catch(e){}
+  document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',!S.buyer&&c.dataset.v===S.view));$('#bSel').value=S.buyer;$('#mFrom').value=S.from;$('#mTo').value=S.to;
+  const R=D.rows.filter(r=>inRange(r.m)&&pickB(r.b)),A=exactEff(agg(R),D.monthly.filter(m=>inRange(m.month)));if(S.buyer&&S.from===MONTHS[0]&&S.to===MONTHS[MONTHS.length-1]){const bb=D.buyers.find(b=>b.buyer===S.buyer);if(bb)A.eff=bb.eff}const F=agg(D.rows.filter(r=>inRange(r.m))),ms=MONTHS.filter(inRange);
+  const scope=S.buyer||(S.view==='ours'?'TARGET + KMART':'All buyers');
+  $('#sub').textContent=`${scope} · ${mn(S.from)} – ${mn(S.to)}${S.to===MONTHS[MONTHS.length-1]?' (to '+D.period.split('–')[1].trim()+')':''} · source: Revenue / ${D.source}`;
+  if(!A.ld){$('#tiles').innerHTML=`<div class="card" style="grid-column:1/-1"><b>${esc(scope)}</b> has no sewing line-days in ${mn(S.from)} – ${mn(S.to)} — (no data). Widen the month range or pick another buyer.</div>`;$('#take').innerHTML='<li>— (no data) for this filter.</li>'}
+  const yOk=A.yld>=BM,tOk=A.yld>=TG,eOk=A.eff>=D.stdEff;
+  const tile=(l,v,f,cls)=>`<div class="card tile ${cls||''}"><div class="l">${l}</div><div class="v">${v}</div><div class="f">${f}</div></div>`;
+  if(A.ld)$('#tiles').innerHTML=tile('CM earned',fM(A.e),`${n0(A.ld)} line-days · ${ms.length} month(s)${scope!=='All buyers'?` · ${(A.e/F.e*100).toFixed(1)}% of factory`:''}`,'hero')+
+    tile('Earned / line-day',fm(A.yld),`<span class="pill ${yOk?'ok':'bad'}">${yOk?'▲ above':'▼ below'} $2,500 benchmark</span>`)+
+    tile('Gap to $3,500 target',fM(A.gap),`<span class="pill ${tOk?'ok':'bad'}">${tOk?'on target':'short '+fm(TG-A.yld)+' per line-day'}</span>`)+
+    tile('Efficiency',A.eff.toFixed(1)+'%',`<span class="pill ${eOk?'ok':A.eff>=70?'warn':'bad'}">standard ${D.stdEff}%</span>`)+
+    tile('Pieces sewn',(A.pcs/1e6).toFixed(2)+'M',`${n0(A.md)} man-days · ${(A.pcs/A.md).toFixed(1)} pcs/man-day`);
+  const M=ms.map(m=>({m,...exactEff(agg(D.rows.filter(r=>r.m===m&&pickB(r.b))),D.monthly.filter(x=>x.month===m))}));
+  const s1=css('--s1'),ok=css('--ok'),bad=css('--bad'),warn=css('--warn');
+  colChart($('#cMon'),M.map(x=>({l:mn(x.m).split(' ')[0],v:x.e,c:s1,h:`<b>${mn(x.m)}</b><br>Earned ${fm(x.e)}<br>${n0(x.ld)} line-days · ${fm(x.yld)}/line-day<br>Efficiency ${x.eff.toFixed(1)}%`})),{ax:v=>'$'+(v/1e6).toFixed(1)+'M',lab:v=>'$'+(v/1e6).toFixed(2)+'M'});
+  lineChart($('#cYld'),M.map(x=>({l:mn(x.m).split(' ')[0],v:x.yld,h:`<b>${mn(x.m)}</b><br>${fm(x.yld)} per line-day<br>vs benchmark ${x.yld>=BM?'+':'−'}${fm(Math.abs(x.yld-BM)).replace('−','')}<br>vs target −${fm(TG-x.yld).replace('−','')}`})),{ax:v=>'$'+n0(v),lab:v=>'$'+n0(v),refs:[{v:BM,l:'Benchmark $2,500',c:warn},{v:TG,l:'Target $3,500',c:bad}]});
+  colChart($('#cGap'),M.map(x=>({l:mn(x.m).split(' ')[0],v:x.gap,c:x.gap>=0?ok:bad,h:`<b>${mn(x.m)}</b><br>Earned ${fm(x.e)}<br>Target ${fm(TG*x.ld)} (${n0(x.ld)} × $3,500)<br>Gap <b>${fm(x.gap)}</b>`})),{ax:v=>(v<0?'−':'')+'$'+(Math.abs(v)/1e6).toFixed(1)+'M',lab:v=>(v<0?'−':'')+(Math.abs(v)>=1e6?'$'+(Math.abs(v)/1e6).toFixed(2)+'M':'$'+(Math.abs(v)/1e3).toFixed(0)+'k')});
+  // buyers
+  const BB=D.buyers.map(b=>{const a=agg(D.rows.filter(r=>r.b===b.buyer&&inRange(r.m)));if(S.from===MONTHS[0]&&S.to===MONTHS[MONTHS.length-1])a.eff=b.eff;return {...b,...a,share:F.e?a.e/F.e:0}}).filter(b=>b.ld>0);
+  const vis=BB.filter(b=>pickB(b.buyer));
+  const top=[...BB].sort((a,b)=>b.e-a.e),t10=top.slice(0,10),oth=top.slice(10).reduce((a,b)=>a+b.e,0);
+  const hb=t10.map(b=>({l:b.buyer,v:b.e,c:OURS.includes(b.buyer)?css('--s2'):s1,bold:OURS.includes(b.buyer)||b.buyer===S.buyer,h:`<b>${b.buyer}</b><br>Earned ${fm(b.e)} (${(b.share*100).toFixed(1)}%)<br>${fm(b.yld)}/line-day · ${n0(b.ld)} line-days`}));
+  OURS.forEach(o=>{if(!t10.find(b=>b.buyer===o)){const b=BB.find(x=>x.buyer===o);if(b)hb.push({l:b.buyer+' (rank '+(top.indexOf(b)+1)+')',v:b.e,c:css('--s2'),bold:true,h:`<b>${b.buyer}</b><br>Earned ${fm(b.e)}`})}});
+  if(oth)hb.push({l:'All others',v:oth-hb.filter(h=>/rank/.test(h.l)).reduce((a,h)=>a+h.v,0),c:css('--mut'),h:'Remaining buyers combined'});
+  hbar($('#cBuy'),hb,{lab:v=>'$'+(v/1e6).toFixed(2)+'M'});
+  const cols=[['buyer','Buyer'],['grade','Grade'],['ld','Line-days',1],['e','Earned $',1],['share','Share',1],['yld','$/line-day',1],['gap','Gap to $3,500 $',1],['eff','Eff %',1],['cmMin','CM/min (YTD)',1],['dhu','DHU % (YTD)',1]];
+  vis.sort((a,b)=>{const x=a[S.sort],y=b[S.sort];return (x>y?1:x<y?-1:0)*S.dir});const mx=Math.max(...vis.map(b=>b.e),1);
+  $('#tBuy').innerHTML=`<thead><tr>${cols.map(c=>`<th class="${c[2]?'n':''}" data-k="${c[0]}">${c[1]}${S.sort===c[0]?(S.dir<0?' ▾':' ▴'):''}</th>`).join('')}</tr></thead><tbody>${vis.map(b=>`<tr class="${OURS.includes(b.buyer)?'ours':''}" data-b="${esc(b.buyer)}" style="cursor:pointer">
+   <td><b>${esc(b.buyer)}</b></td><td>${b.grade==='—'?'<span class="pill" style="color:var(--mut)">trial</span>':`<span class="pill ${b.grade==='A'?'ok':b.grade==='B'?'ok':b.grade==='C'?'warn':'bad'}">${b.grade}</span>`}</td><td class="n">${n0(b.ld)}</td>
+   <td class="n"><span class="mini" style="width:${Math.round(60*b.e/mx)}px;background:${OURS.includes(b.buyer)?'var(--s2)':'var(--s1)'}"></span>${n0(b.e)}</td><td class="n">${(b.share*100).toFixed(1)}%</td>
+   <td class="n"><b style="color:${b.yld>=BM?'var(--ok)':'var(--bad)'}">${n0(b.yld)}</b></td><td class="n" style="color:var(--bad)">${fm(b.gap)}</td><td class="n">${b.eff.toFixed(1)}</td><td class="n">${b.cmMin?b.cmMin.toFixed(4):'—'}</td><td class="n">${b.dhu!=null?b.dhu.toFixed(1):'—'}</td></tr>`).join('')}</tbody>
+   <tfoot><tr><th>Total (${vis.length})</th><th></th><th class="n">${n0(A.ld)}</th><th class="n">${n0(A.e)}</th><th class="n">${(A.e/F.e*100).toFixed(1)}%</th><th class="n">${n0(A.yld)}</th><th class="n">${fm(A.gap)}</th><th class="n">${A.eff.toFixed(1)}</th><th></th><th></th></tr></tfoot>`;
+  $('#tBuy').querySelectorAll('th[data-k]').forEach(h=>h.onclick=()=>{const k=h.dataset.k;S.dir=S.sort===k?-S.dir:(k==='buyer'||k==='grade'?1:-1);S.sort=k;render()});
+  $('#tBuy').querySelectorAll('tr[data-b]').forEach(t=>t.onclick=()=>{S.buyer=S.buyer===t.dataset.b?'':t.dataset.b;render()});
+  // lines YTD
+  const Ls=[...D.lines].filter(l=>l.ld>=30).sort((a,b)=>b.yld-a.yld),ln=l=>`Line ${l.line} · ${l.unit.replace('unit-','U')}`,lh=l=>`<b>${ln(l)}</b><br>${fm(l.yld)}/line-day · earned ${fm(l.earned)}<br>Eff ${l.eff}% · CM/min ${l.cmMin} · DHU ${l.dhu}%`;
+  hbar($('#lTop'),Ls.slice(0,6).map(l=>({l:ln(l),v:l.yld,c:ok,h:lh(l)})),{lab:v=>'$'+n0(v),ref:{v:BM,c:warn}});
+  hbar($('#lBot'),Ls.slice(-6).reverse().map(l=>({l:ln(l),v:l.yld,c:bad,h:lh(l)})),{lab:v=>'$'+n0(v),ref:{v:BM,c:warn}});
+  const U={};D.lines.forEach(l=>{const u=U[l.unit]||(U[l.unit]={n:0,e:0,ld:0,ab:0});u.n++;u.e+=l.earned;u.ld+=l.ld;if(l.yld>=BM)u.ab++});
+  $('#tUnit').innerHTML=`<thead><tr><th>Unit</th><th class="n">Lines</th><th class="n">Line-days</th><th class="n">Earned $</th><th class="n">$/line-day</th><th class="n">Lines ≥ $2,500</th><th class="n">Gap to $3,500 $</th></tr></thead><tbody>${Object.entries(U).map(([k,u])=>`<tr><td><b>${k.replace('unit-','Unit ')}</b></td><td class="n">${u.n}</td><td class="n">${n0(u.ld)}</td><td class="n">${n0(u.e)}</td><td class="n"><b style="color:${u.e/u.ld>=BM?'var(--ok)':'var(--bad)'}">${n0(u.e/u.ld)}</b></td><td class="n">${u.ab} of ${u.n}</td><td class="n" style="color:var(--bad)">${fm(u.e-TG*u.ld)}</td></tr>`).join('')}</tbody>`;
+  // takeaways
+  const best=M.reduce((a,b)=>b.yld>a.yld?b:a,M[0]),worst=M.reduce((a,b)=>b.yld<a.yld?b:a,M[0]),abv=vis.filter(b=>b.yld>=BM),lead=[...vis].sort((a,b)=>b.e-a.e);
+  const T=[`<b>${scope}</b> earned <b>${fM(A.e)}</b> in ${ms.length} month(s) — ${fm(A.yld)} per line-day, ${A.yld>=BM?'<b>above</b> the $2,500 benchmark but':'<b>below</b> the $2,500 benchmark and'} ${fm(TG-A.yld)} short of the $3,500 line target (gap <b>${fM(A.gap)}</b>).`];
+  if(M.length>1)T.push(`Best month ${mn(best.m)} at ${fm(best.yld)}/line-day; weakest ${mn(worst.m)} at ${fm(worst.yld)}. ${M.length>=4?(()=>{const h=M.slice(0,Math.floor(M.length/2)),t=M.slice(Math.floor(M.length/2));const a1=agg(D.rows.filter(r=>h.some(x=>x.m===r.m)&&pickB(r.b))).yld,a2=agg(D.rows.filter(r=>t.some(x=>x.m===r.m)&&pickB(r.b))).yld;return `Second half of the period averages ${fm(a2)} vs ${fm(a1)} in the first half (${a2>=a1?'+':'−'}${fm(Math.abs(a2-a1)).replace('−','')}).`})():''}`);
+  if(!S.buyer&&vis.length>1)T.push(`${lead.slice(0,3).map(b=>`${b.buyer} ${(b.share*100).toFixed(0)}%`).join(', ')} of factory CM. ${abv.length} of ${vis.length} buyers are at or above $2,500/line-day.`);
+  T.push(`Efficiency ${A.eff.toFixed(1)}% vs ${D.stdEff}% standard${A.eff<D.stdEff?' — every 1 point of efficiency is worth about '+fm(A.e/A.eff)+' of CM at today’s mix':''}.`);
+  const o2=BB.filter(b=>OURS.includes(b.buyer));if(o2.length&&!S.buyer)T.push(`Our accounts: ${o2.map(b=>`${b.buyer} ${fM(b.e)} · ${fm(b.yld)}/line-day · eff ${b.eff.toFixed(1)}%`).join(' | ')}.`);
+  if(A.ld)$('#take').innerHTML=T.map(t=>`<li>${t}</li>`).join('');
+}
+// controls
+MONTHS.forEach(m=>{$('#mFrom').insertAdjacentHTML('beforeend',`<option value="${m}">${mn(m)}</option>`);$('#mTo').insertAdjacentHTML('beforeend',`<option value="${m}">${mn(m)}</option>`)});
+[...D.buyers].sort((a,b)=>a.buyer.localeCompare(b.buyer)).forEach(b=>$('#bSel').insertAdjacentHTML('beforeend',`<option>${esc(b.buyer)}</option>`));
+$('#mFrom').onchange=e=>{S.from=e.target.value;if(S.to<S.from)S.to=S.from;render()};$('#mTo').onchange=e=>{S.to=e.target.value;if(S.from>S.to)S.from=S.to;render()};
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{S.view=c.dataset.v;S.buyer='';render()});$('#bSel').onchange=e=>{S.buyer=e.target.value;render()};
+$('#reset').onclick=()=>{S={from:MONTHS[0],to:MONTHS[MONTHS.length-1],view:'all',buyer:'',sort:'e',dir:-1};render()};
+$('#foot').innerHTML=`<b>How the numbers are built.</b> Source: Revenue / ${esc(D.source)} — sheet 2026, one row per sewing line-day (${esc(D.period)}). Earned = CM earned from sewing output. $/line-day = earned ÷ line-days. Benchmark $2,500/line-day is the Buyer KPI standard; $3,500/line-day is the line target used in the Revenue file ("TARGET −$3500US"); gap = earned − $3,500 × line-days. Efficiency for filtered views is weighted by man-days. CM/min (standard ${D.stdCm}), DHU and grade (Buyer KPI ranking) are year-to-date only. Lines with fewer than 30 line-days are left out of the line lists. Built ${esc(D.generated)}.`;
+render();
+</script></body></html>
