@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Sterling Styles — Management Reports</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<meta name="theme-color" content="#1B1D24">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sterling Reports">
+<link rel="stylesheet" href="app.css">
 <style>
 :root{--ink:#1B1D24;--mut:#6B6F78;--line:#D9D6D0;--bg:#F7F5F1;--blue:#2D7BD8;--orange:#E8692F;--green:#1E9E6A}
 *{box-sizing:border-box}
@@ -21,6 +28,18 @@ h1{font-size:34px;margin:6px 0 4px}.sub{color:var(--mut);font-size:14px;margin-b
 .dl a{font-size:12.5px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;background:#fff}
 .dl a:hover{border-color:var(--c);color:var(--c)}
 .foot{margin-top:26px;font-size:12px;color:var(--mut);line-height:1.6}
+@media (max-width:760px){
+  .wrap{padding:0 0 10px}
+  .wrap>.kick,.wrap>h1,.wrap>.sub{margin-left:0;margin-right:0}
+  .wrap>.kick{display:block;padding:calc(24px + env(safe-area-inset-top)) 20px 0;background:#1B1D24;color:#8FB6EE;margin:0}
+  .wrap>h1{background:#1B1D24;color:#fff;margin:0;padding:8px 20px 4px;font-size:30px}
+  .wrap>.sub{background:linear-gradient(160deg,#1B1D24,#2D5FA8);color:#C9CCD3;margin:0 0 18px;padding:2px 20px 28px;border-radius:0 0 28px 28px;box-shadow:0 10px 30px rgba(27,29,36,.22)}
+  .grid{padding:0 14px;gap:14px}
+  .card{border-radius:20px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  .open{align-self:stretch;text-align:center;padding:14px;border-radius:14px;font-size:15px}
+  .dl{display:grid;grid-template-columns:repeat(3,1fr)}.dl a{text-align:center;padding:10px 6px;border-radius:12px}
+  .foot{padding:0 20px}
+}
 </style>
 </head>
 <body>
@@ -46,5 +65,6 @@ h1{font-size:34px;margin:6px 0 4px}.sub{color:var(--mut);font-size:14px;margin-b
   </div>
   <div class="foot">Revenue data: Buyer wise average CM &amp; earned report (sheet 2026, sewing line-days), 01 Jan – 17 Oct 2026. Merchandising data: TARGET Order Status 12-Oct, KMART Order Status 06-Oct, TARGET-36 post costing and cut-to-ship file. The buyer ranking is Sterling's internal method. Nothing is entered or stored on this site.</div>
 </div>
+<script src="app.js"></script>
 </body>
 </html>

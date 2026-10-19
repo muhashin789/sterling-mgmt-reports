@@ -134,6 +134,55 @@ h2{font-size:27px;font-weight:700;letter-spacing:-.01em}
 .mpg{color:var(--c);font-size:14px}.mleaf span b{display:block;font-size:13px}.mleaf small{display:block;font-size:10.5px;color:#6B6F78}
 .mnote{text-align:center;font-size:11px;color:#6B6F78;font-style:italic;margin-top:12px}
 html{scroll-behavior:smooth}
+/* ===== Mobile app view (phones / small tablets) — desktop & PDF unchanged ===== */
+.mbar,.mfab{display:none}
+@media screen and (max-width:1300px) and (min-width:761px){body{zoom:calc(100vw / 1330px)}}
+@media screen and (max-width:760px){
+  body{zoom:1!important;background:#ECE9E3;-webkit-text-size-adjust:100%;padding-bottom:84px}
+  .mbar{display:flex;position:sticky;top:0;z-index:20;align-items:center;gap:10px;padding:10px 14px calc(10px);padding-top:max(10px,env(safe-area-inset-top));background:rgba(27,29,36,.94);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.18)}
+  .mbar .mback{color:#fff;text-decoration:none;font:400 30px/1 Arial;width:30px;height:34px;display:grid;place-items:center;margin-left:-6px;flex:none}
+  .mbar .mlogo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#2D7BD8,#E8692F);display:grid;place-items:center;font:800 11px Arial;flex:none}
+  .mbar .mt{flex:1;min-width:0}.mbar .mt b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mbar .mt small{display:block;font-size:11px;color:#AEB3BD;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mbar .mpgc{font:700 12px Arial;background:rgba(255,255,255,.12);border-radius:999px;padding:5px 10px;flex:none}
+  .mprog{position:absolute;left:0;bottom:0;height:2px;background:linear-gradient(90deg,#2D7BD8,#E8692F);width:0;transition:width .2s}
+  .mfab{display:flex;position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:30;align-items:center;gap:7px;padding:13px 18px;border-radius:999px;background:#1B1D24;color:#fff!important;text-decoration:none;font:700 13px Arial;letter-spacing:.04em;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+  .mfab:active{transform:scale(.96)}
+  .slide .mapbtn{display:none}
+  .slide{width:auto!important;height:auto!important;min-height:0;margin:12px 10px!important;padding:18px 16px 14px!important;border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 6px 18px rgba(0,0,0,.06);scroll-margin-top:64px}
+  .foot{position:static!important;margin-top:16px;font-size:9px;gap:10px}
+  .head{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:14px}
+  .head h2{font-size:21px!important;line-height:1.2}.head .right{text-align:left!important;font-size:11px}
+  .kick{font-size:10px}
+  .cover{padding:30px 22px 22px!important}.cover h1{font-size:40px!important;margin:16px 0}
+  .toc,.cdate{position:static!important;margin-top:18px;text-align:left!important}
+  .toc{grid-template-columns:1fr!important;font-size:13px}
+  .kpis,.kgrid,.tiles,.row4,.gs{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .kpis>*{padding:10px 8px!important;border-left:0!important}
+  .two,.two.r64,.two.r55,.mk,.cards,.strip,.rcards,.g9,.mtree,.rlist .rr,.tier,
+  [style*="grid-template-columns:1fr 1fr"],[style*="grid-template-columns:1fr 380px"],[style*="grid-template-columns:1fr 320px"]{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+  .tile,.rcard,.c9,.kc,.card,.sq,.sc{height:auto!important;min-height:0!important}
+  .kc{padding:12px!important}.tile{min-height:120px!important}
+  .tier>.ob{width:auto!important}
+  .hb{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) 62px!important;font-size:11.5px!important}
+  .tiles2{flex-wrap:wrap;margin-top:22px}.tiles2>*{flex:1 1 40%;height:auto!important;min-height:96px!important;padding:14px!important}.tiles2>* *{font-size:revert}
+  .lead2{font-size:23px!important}.va .lead{font-size:16px!important;margin:10px 0 18px}
+  .c2s .bar{width:80px!important}
+  .swot{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important}
+  .swot>div:first-child{display:none}.swot .sq{grid-column:1/-1;flex-direction:row;gap:10px;height:auto!important;padding:8px}
+  .swot .sc{font-size:11.5px;padding:8px 10px}
+  .mroot{width:auto!important}.mtree:before{display:none}
+  .mleaf{margin:7px 10px 7px 20px!important;padding:10px 10px!important;min-height:44px}
+  .mleaf:active{transform:scale(.98)}
+  .tsc{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px;scroll-snap-type:x proximity}
+  .tsc table{min-width:620px}
+  .tsc:after{content:"swipe ⟷";display:block;font-size:10px;color:#9A9EA6;text-align:right;padding:4px 2px 0}
+  .mfix .orgwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
+  .mfix .orgwrap>.orginner{width:1280px;height:536px;position:relative;zoom:.5;overflow:hidden}
+  .mfix .orgabs{inset:auto!important;left:0!important;top:-108px!important;width:1280px;height:720px}
+  .mfix .orgwrap:after{content:"swipe ⟷ to see the full team";display:block;font-size:10px;color:#9A9EA6;text-align:right;padding:4px 0 0}
+  img,svg{max-width:100%;height:auto}
+}
 /* My Brain: row + column hover */
 .t td,.t th{transition:background-color .12s,color .12s}
 .t tr.hv-row>td{background:#E3EEFB!important;color:#123A6B!important}
@@ -243,7 +292,32 @@ html{scroll-behavior:smooth}
 <section class="slide" id="p18"><a class="mapbtn" href="#p2" title="Back to the deck map">◂ MAP</a>
 <div class="head"><div><div class="kick">POINTER 05 — RESPONSIBILITIES</div><h2>Job responsibilities &amp; growth plan</h2></div><div class="right">General responsibilities by role<br>Source: Team Responsibility doc</div></div>
 <div class="rcards"><div class="rcard lead"><h3>Team Leader</h3><ul><li>Product development and costing</li><li>Order finalization and CM improvement</li><li>TNA preparation and monitoring</li><li>Fabric ordering and shipment follow-up</li><li>LC preparation</li><li>Production follow-up and delivery management</li><li>Attending PP meetings</li><li>Inspection and vessel booking</li><li>Post-costing and cost improvement</li><li>Verifying fabric &amp; trims stock for upcoming orders</li></ul><div class="gp"><div class="pl">GROWTH PLAN</div><p>Maximize CM, develop new business, and improve delivery and file-closing performance.</p></div></div><div class="rcard mem"><h3>Team Member</h3><ul><li>Development samples and production samples</li><li>Material ordering and supplier follow-up</li><li>Payment follow-up and inventory checking</li><li>Trim card preparation and approval</li><li>PP meetings and production follow-up</li><li>Testing follow-up</li></ul><div class="gp"><div class="pl">GROWTH PLAN</div><p>Improve material readiness, production follow-up and timely shipment.</p></div></div></div>
-<div class="foot"><span>STERLING STYLES LTD · WEEKLY ACCOUNT REVIEW · JOY'S TEAM</span><span>05</span></div></section><script>/* map links: scroll only this page (not a parent page when shown inside My Brain / GitHub) */document.addEventListener("click",function(ev){var a=ev.target.closest('a[href^="#p"]');if(!a)return;var el=document.getElementById(a.getAttribute("href").slice(1));if(!el)return;ev.preventDefault();window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-8,behavior:"smooth"});try{history.replaceState(null,"",a.getAttribute("href"))}catch(e){}});</script><script>
+<div class="foot"><span>STERLING STYLES LTD · WEEKLY ACCOUNT REVIEW · JOY'S TEAM</span><span>05</span></div></section><script>/* map links: scroll only this page (not a parent page when shown inside My Brain / GitHub) */document.addEventListener("click",function(ev){var a=ev.target.closest('a[href^="#p"]');if(!a)return;var el=document.getElementById(a.getAttribute("href").slice(1));if(!el)return;ev.preventDefault();var mb=document.querySelector(".mbar");window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-8-(mb?mb.offsetHeight:0),behavior:"smooth"});try{history.replaceState(null,"",a.getAttribute("href"))}catch(e){}});</script><script>/* mobile app view: app bar, page counter, floating MAP button, swipeable wide tables */
+(function(){
+ if(!window.matchMedia('(max-width:760px)').matches) return;
+ var S=[].slice.call(document.querySelectorAll('section.slide')); if(!S.length) return;
+ var bar=document.createElement('div'); bar.className='mbar';
+ bar.innerHTML='<div class="mlogo">SS</div><div class="mt"><b>Weekly Account Review</b><small id="mkick"></small></div><span class="mpgc" id="mpgc">1 / '+S.length+'</span><i class="mprog" id="mprog"></i>';
+ var hm=(location.search.match(/[?&]home=([^&]+)/)||[])[1];
+ if(hm){ var a=document.createElement('a'); a.href=decodeURIComponent(hm); a.className='mback'; a.innerHTML='&#8249;'; a.title='Back'; bar.insertBefore(a,bar.firstChild); }
+ document.body.insertBefore(bar,document.body.firstChild);
+ var fab=document.createElement('a'); fab.className='mfab'; fab.href='#p2'; fab.innerHTML='&#9638;&nbsp; MAP'; document.body.appendChild(fab);
+ document.querySelectorAll('section.slide table').forEach(function(t){
+   var cols=t.rows.length?t.rows[0].cells.length:0; if(cols<5||t.parentNode.classList.contains('tsc')) return;
+   var w=document.createElement('div'); w.className='tsc'; t.parentNode.insertBefore(w,t); w.appendChild(t);});
+ S.forEach(function(s){ var o=s.querySelector('.orgabs'); if(!o) return; s.classList.add('mfix');
+   var h=s.querySelector('.head'), f=s.querySelector('.foot'), w=document.createElement('div'), inn=document.createElement('div');
+   w.className='orgwrap'; inn.className='orginner';
+   [].slice.call(s.children).forEach(function(c){ if(c!==h&&c!==f&&!c.classList.contains('mapbtn')) inn.appendChild(c); });
+   w.appendChild(inn); s.insertBefore(w,f||null); setTimeout(function(){w.scrollLeft=(w.scrollWidth-w.clientWidth)/2;},50); });
+ var pg=document.getElementById('mpgc'), kk=document.getElementById('mkick'), pr=document.getElementById('mprog');
+ function upd(){ var best=0; for(var i=0;i<S.length;i++){ if(S[i].getBoundingClientRect().top<140) best=i; }
+   pg.textContent=(best+1)+' / '+S.length; var k=S[best].querySelector('.kick'); kk.textContent=k?k.textContent:'Cover';
+   pr.style.width=((best+1)/S.length*100)+'%'; fab.style.display=best===1?'none':''; }
+ window.addEventListener('scroll',upd,{passive:true}); upd();
+})();
+</script>
+<script>
 /* My Brain: highlight the row and column under the mouse in every table */
 (function(){
  function grid(t){var g=[];[].forEach.call(t.rows,function(r,ri){g[ri]=g[ri]||[];var c=0;[].forEach.call(r.cells,function(td){while(g[ri][c])c++;var cs=td.colSpan||1,rs=td.rowSpan||1;td._c0=c;td._c1=c+cs-1;for(var i=0;i<rs;i++){g[ri+i]=g[ri+i]||[];for(var j=0;j<cs;j++)g[ri+i][c+j]=td;}c+=cs;});});t._g=1;}
