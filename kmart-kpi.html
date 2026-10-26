@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1B1D24">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sterling Reports">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="app.css">
+<title>Sterling Styles — Kmart Australia KPI</title>
+<style>
+:root{--ink:#1B1D24;--mut:#6B6F78;--line:#D9D6D0;--bg:#F7F5F1;--blue:#2D7BD8;--orange:#E8692F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--ink)}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
+.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#1B1D24,#2D7BD8);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+h1{font-size:17px;margin:0}.sub{font-size:12px;color:var(--mut)}.grow{flex:1}
+a.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap}
+a.btn:hover{background:var(--blue);border-color:var(--blue);color:#fff}a.btn.pri{background:var(--blue);border-color:var(--blue);color:#fff}
+.bar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px}
+.desk iframe{display:block;width:calc(100% - 32px);margin:0 16px 12px;height:calc(100vh - 150px);min-height:560px;border:1px solid var(--line);border-radius:12px;background:#E9E6E0}
+.note{font-size:12px;color:var(--mut);padding:0 16px 18px;line-height:1.6}
+.mob{display:none}
+@media (max-width:760px){
+  .desk,header{display:none}.mob{display:block}
+  .hero{margin:0;padding:calc(22px + env(safe-area-inset-top)) 20px 26px;background:linear-gradient(150deg,#1B1D24 0%,#26324A 60%,#2D5FA8 100%);color:#fff;border-radius:0 0 28px 28px;box-shadow:0 10px 30px rgba(27,29,36,.25)}
+  .hero .k{font-size:10.5px;letter-spacing:.16em;color:#8FB6EE;font-weight:700}
+  .hero h2{font-size:30px;line-height:1.08;margin:10px 0 6px;letter-spacing:-.02em}
+  .hero p{margin:0;color:#C9CCD3;font-size:13px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+  .stats div{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px}
+  .stats b{display:block;font-size:17px}.stats small{font-size:10px;color:#AEB3BD}
+  .open{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:18px;padding:15px;border-radius:16px;background:#fff;color:#1B1D24;text-decoration:none;font-weight:800;font-size:15px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+  .open:active{transform:scale(.98)}
+  .sec{padding:20px 14px 0}.sec>h4{margin:4px 6px 10px;font-size:12px;letter-spacing:.12em;color:var(--mut)}
+  .dls{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .dls a{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center;text-decoration:none;color:var(--ink);font-weight:700;font-size:13px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .dls a span{display:block;font-size:22px;margin-bottom:4px}.dls a small{display:block;font-weight:500;color:var(--mut);font-size:10.5px}
+  .grp{background:#fff;border-radius:18px;margin:0 0 12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .grp h3{margin:0;padding:12px 14px;font-size:13px;letter-spacing:.04em;display:flex;gap:10px;align-items:center;border-bottom:1px solid #EEEAE4}
+  .grp h3 span{background:var(--c);color:#fff;border-radius:8px;padding:3px 8px;font-size:11px}
+  .row{display:flex;align-items:center;gap:12px;padding:12px 14px;text-decoration:none;color:var(--ink);border-bottom:1px solid #F1EEE9;-webkit-tap-highlight-color:transparent}
+  .row:last-child{border-bottom:0}.row:active{background:#F4F2EE}
+  .row .pg{width:32px;height:32px;border-radius:10px;background:color-mix(in srgb,var(--c) 14%,#fff);color:var(--c);display:grid;place-items:center;font-size:12.5px;flex:none}
+  .row .tx{flex:1;min-width:0}.row .tx b{display:block;font-size:14px}.row .tx small{display:block;font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row i{font-style:normal;color:#B8BCC4;font-size:22px}
+  .foot{font-size:11px;color:var(--mut);padding:8px 20px 20px;line-height:1.6}
+}
+</style>
+</head>
+<body>
+<div class="mob">
+  <div class="hero">
+    <div class="k">STERLING STYLES · KMART AUSTRALIA</div>
+    <h2>Kmart Australia KPI</h2>
+    <p>File 001–002 · KMART-001 (13-Oct) + KMART-002 (26-Oct-26) · 18 views with synced filters</p>
+    <div class="stats"><div><b>1.63M</b><small>pcs ordered</small></div><div><b>$4.11M</b><small>order value</small></div><div><b>79K</b><small>pcs to ship</small></div></div>
+    <a class="open" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html">Open the report&nbsp;›</a>
+  </div>
+  <div class="sec"><h4>DOWNLOAD</h4><div class="dls"><a href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html" download><span>🌐</span>HTML<small>offline copy</small></a></div></div>
+  <div class="sec"><h4>JUMP TO A VIEW</h4><section class="grp" style="--c:#E8692F"><h3><span>18</span>Views — filters stay synced</h3><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#ov"><b class="pg">01</b><span class="tx"><b>Overview</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#month"><b class="pg">02</b><span class="tx"><b>Month-wise</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#year"><b class="pg">03</b><span class="tx"><b>Year-wise</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#file"><b class="pg">04</b><span class="tx"><b>File-wise</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#dept"><b class="pg">05</b><span class="tx"><b>Department</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#season"><b class="pg">06</b><span class="tx"><b>Season</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#merch"><b class="pg">07</b><span class="tx"><b>Country</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#ptype"><b class="pg">08</b><span class="tx"><b>Products</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#pgroup"><b class="pg">09</b><span class="tx"><b>Product category</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#smv"><b class="pg">10</b><span class="tx"><b>SMV &amp; CM</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#eff"><b class="pg">11</b><span class="tx"><b>CM · SMV · Efficiency</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#mxy"><b class="pg">12</b><span class="tx"><b>Month × Year</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#fof"><b class="pg">13</b><span class="tx"><b>File on file</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#fofd"><b class="pg">14</b><span class="tx"><b>File on file by category</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#rank"><b class="pg">15</b><span class="tx"><b>Product Nbr ranking</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#score"><b class="pg">16</b><span class="tx"><b>Scorecard</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#swot"><b class="pg">17</b><span class="tx"><b>SWOT</b></span><i>›</i></a><a class="row" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html#dq"><b class="pg">18</b><span class="tx"><b>Data quality</b></span><i>›</i></a></section></div>
+  <div class="foot">Data: Kmart-001.xlsx (13-Oct) and KMART Updated Order Status on 26-Oct-26 (KMART-002). Read-only — nothing is entered or stored.</div>
+</div>
+<div class="desk">
+<header>
+  <div class="logo">SS</div>
+  <div><h1>Kmart Australia KPI</h1><div class="sub">File 001–002 · KMART-001 (13-Oct) + KMART-002 (26-Oct-26) · 18 views with synced filters</div></div>
+  <div class="grow"></div>
+  <a class="btn" href="index.html">⌂ Home</a>
+  <a class="btn" href="merchandising-kpi.html">🎯 Merch KPI</a>
+  <a class="btn" href="target-kpi.html">🇦🇺 Target KPI</a>
+  <a class="btn" href="kmart-kpi.html">🛒 Kmart KPI</a>
+  <a class="btn" href="revenue.html">$ Revenue &amp; CM</a>
+</header>
+<div class="bar">
+  <a class="btn pri" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html" target="_blank" rel="noopener">↗ Full screen</a>
+  <a class="btn" href="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html" download>⤓ HTML</a>
+</div>
+<iframe src="reports/kmart-kpi/KMART_001-002_KPI_REPORT.html" title="Kmart Australia KPI" loading="lazy"></iframe>
+<div class="note">18 views: overview, month / year / file, department, season, country, products and category, SMV &amp; CM, efficiency, month × year, file on file, product-nbr ranking, scorecard, SWOT and data quality. Filters (File, Year, Month, Department, Product Category, Product, Country, PO State, Product Nbr, Ship Status) stay synced across all views — click a bar or row to filter.</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
