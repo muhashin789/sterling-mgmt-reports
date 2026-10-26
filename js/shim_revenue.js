@@ -4,14 +4,14 @@ window.State = { module: 'revenue', scope: 'all', charts: [] };
 window.esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 window.fmtShort = n => { const a = Math.abs(n); return (n < 0 ? '-' : '') + (a >= 1e6 ? (a / 1e6).toFixed(2) + 'M' : a >= 1e3 ? (a / 1e3).toFixed(1) + 'K' : String(Math.round(a))); };
 window.rowsOf = () => [];
-window.MYBRAIN_KPI = { rankXlsx: 'reports/kpi/Buyer_Ranking_Formula_Breakdown_to-17Oct.xlsx', rankHtml: 'reports/kpi/Buyer_Ranking_Formula_Breakdown_to-17Oct.html' };
+window.MYBRAIN_KPI = { rankXlsx: 'reports/kpi/Buyer_Ranking_Formula_Breakdown_to-24Oct.xlsx', rankHtml: 'reports/kpi/Buyer_Ranking_Formula_Breakdown_to-24Oct.html' };
 window.toast = (msg) => { const t = document.getElementById('toasts'); if (!t) return; const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; t.appendChild(d); setTimeout(() => d.remove(), 3000); };
 const RV = { view: 'mgmt' };
 try { RV.view = localStorage.getItem('ss.rv.view') || 'mgmt'; } catch (e) {}
 const REPORTS = {
   mgmt: { label: 'Management dashboard', src: 'reports/revenue/Revenue_CM_Management_Dashboard.html', dl: [['reports/revenue/Revenue_CM_Management_Dashboard.html', 'HTML'], ['reports/revenue/Revenue_CM_Management_Review.pdf', 'Deck PDF'], ['reports/revenue/Revenue_CM_Management_Review.pptx', 'Deck PPTX']] },
-  kpi: { label: 'Buyer KPI report', src: 'reports/kpi/Buyer_KPI_Dashboard_to-17Oct.html', dl: [['reports/kpi/Buyer_KPI_Dashboard_to-17Oct.html', 'HTML'], ['reports/kpi/Buyer_KPI_Deck_to-17Oct.pdf', 'KPI deck PDF'], ['reports/kpi/Buyer_KPI_Deck_to-17Oct.pptx', 'KPI deck PPTX'], ['reports/kpi/Buyer_KPI_2026_to-17Oct.xlsx', 'KPI pack Excel']] },
-  rank: { label: 'Buyer ranking formula', src: 'reports/kpi/Buyer_Ranking_Formula_Breakdown_to-17Oct.html', dl: [['reports/kpi/Buyer_Ranking_Formula_Breakdown_to-17Oct.xlsx', 'Ranking formula Excel'], ['reports/kpi/Buyer_Ranking_Formula_Breakdown_to-17Oct.html', 'HTML']] }
+  kpi: { label: 'Buyer KPI report', src: 'reports/kpi/Buyer_KPI_Dashboard_to-24Oct.html', dl: [['reports/kpi/Buyer_KPI_Dashboard_to-24Oct.html', 'HTML'], ['reports/kpi/Buyer_KPI_Deck_to-24Oct.pdf', 'KPI deck PDF'], ['reports/kpi/Buyer_KPI_Deck_to-24Oct.pptx', 'KPI deck PPTX'], ['reports/kpi/Buyer_KPI_2026_to-24Oct.xlsx', 'KPI pack Excel']] },
+  rank: { label: 'Buyer ranking formula', src: 'reports/kpi/Buyer_Ranking_Formula_Breakdown_to-24Oct.html', dl: [['reports/kpi/Buyer_Ranking_Formula_Breakdown_to-24Oct.xlsx', 'Ranking formula Excel'], ['reports/kpi/Buyer_Ranking_Formula_Breakdown_to-24Oct.html', 'HTML']] }
 };
 window.renderNav = function () {
   const nav = document.getElementById('nav'); nav.innerHTML = '';
@@ -26,6 +26,17 @@ window.render = function () {
   State.charts.forEach(c => { try { c.destroy(); } catch (e) {} }); State.charts = [];
   const main = document.getElementById('main'); const D = window.MYBRAIN_MANPOWER || {};
   const R = REPORTS[RV.view] || REPORTS.mgmt;
+  if (window.matchMedia('(max-width:760px)').matches) {   // phone: app cards, each report opens full screen
+    const ICON = { mgmt: '📊', kpi: '🏆', rank: '🧮' }, DESC = { mgmt: 'CM earned, $/line-day, gap to $3,500, efficiency, buyers, lines', kpi: 'Overview, Ranking, Buyer KPI, Benchmark & Gap, Trends, Improvement plan', rank: 'How the score is calculated — 7 steps, standards, weights, worked examples' };
+    main.innerHTML = `<div class="mrv-hero"><div class="k">ALL BUYERS · ${esc(D.period || '')}</div><h1>Revenue &amp; CM Earned</h1><p>Source: ${esc(D.source || '—')}</p></div>
+      ${Object.entries(REPORTS).map(([k, r]) => `<div class="mrv-card"><a class="mrv-open" href="${encodeURI(r.src)}?home=${encodeURIComponent('../../revenue.html')}"><span class="ic">${ICON[k] || '📄'}</span><span class="tx"><b>${r.label}</b><small>${DESC[k] || ''}</small></span><i>›</i></a>
+        <div class="mrv-dl">${r.dl.filter(([f]) => !/\.html$/.test(f)).map(([f, l]) => `<a href="${encodeURI(f)}" download>⤓ ${l}</a>`).join('')}</div></div>`).join('')}
+      <div class="mrv-sec">MORE VIEWS</div>
+      <div class="mrv-more">${[['mp', '👥', 'Manpower'], ['fin', '🧺', 'Finishing'], ['linestyle', '🧵', 'Line × Style'], ['rankf', '🏆', 'Buyer Ranking']].map(([id, ic, t]) => `<button data-go="${id}"><span>${ic}</span>${t}</button>`).join('')}</div>
+      <div class="mg-note">Read-only management copy. Numbers come from the Revenue file named above; nothing is entered or stored here.</div>`;
+    main.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go, 'all'));
+    return;
+  }
   main.innerHTML = `<div class="page-head" style="--accent:var(--p6);--accent-ink:var(--p6-ink);--accent-soft:var(--p6-soft)">
       <h1 class="page-title">$ Revenue / CM Earned <span class="page-chip">All buyers</span></h1>
       <div class="page-sub">Source: <b>Revenue/${esc(D.source || '—')}</b> · ${esc(D.period || '')} · sub-pages: Manpower, Finishing, Line × Style, Buyer Ranking (left menu)</div></div>

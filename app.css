@@ -8,6 +8,18 @@
   .atabs a .ti{font-size:19px;line-height:1}
   .atabs a.on{background:rgba(255,255,255,.12);color:#fff}
   .atabs a:active{transform:scale(.94)}
+  .mrv-hero{margin:-6px -16px 16px;padding:18px 20px 22px;background:linear-gradient(150deg,#0d2947,#2b6ca3);color:#fff;border-radius:0 0 26px 26px;box-shadow:0 10px 26px rgba(13,41,71,.22)}
+  .mrv-hero .k{font-size:10.5px;letter-spacing:.14em;color:#A9C3E4;font-weight:700}.mrv-hero h1{font-size:27px;margin:8px 0 6px}.mrv-hero p{margin:0;font-size:12px;color:#C9D6E6}
+  .mrv-card{background:var(--surface,#fff);border:1px solid var(--border,#e3e6ee);border-radius:18px;margin-bottom:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .mrv-open{display:flex;align-items:center;gap:12px;padding:16px;text-decoration:none;color:inherit}.mrv-open:active{background:rgba(0,0,0,.03)}
+  .mrv-open .ic{width:42px;height:42px;border-radius:13px;background:#EAF1FB;display:grid;place-items:center;font-size:21px;flex:none}
+  .mrv-open .tx{flex:1;min-width:0}.mrv-open b{display:block;font-size:15px}.mrv-open small{display:block;font-size:11.5px;color:var(--text-2,#6b7280);line-height:1.4;margin-top:2px}
+  .mrv-open i{font-style:normal;font-size:24px;color:#B8BCC4}
+  .mrv-dl{display:flex;gap:6px;overflow-x:auto;padding:0 16px 14px}.mrv-dl a{flex:none;font-size:12px;font-weight:600;padding:7px 11px;border-radius:999px;border:1px solid var(--border,#e3e6ee);text-decoration:none;color:inherit}
+  .mrv-sec{font-size:11.5px;letter-spacing:.12em;color:var(--text-2,#6b7280);font-weight:700;margin:20px 4px 10px}
+  .mrv-more{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .mrv-more button{display:flex;align-items:center;gap:10px;padding:14px;border-radius:16px;border:1px solid var(--border,#e3e6ee);background:var(--surface,#fff);font:600 13.5px system-ui;color:inherit;text-align:left}
+  .mrv-more button span{font-size:20px}
   .rv-frame{height:calc(100dvh - 210px)!important;min-height:520px!important;border-radius:16px!important}
   .rv-tabs{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
   .rv-tabs button{flex:none}

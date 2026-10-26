@@ -1,0 +1,861 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Buyer KPI Dashboard — 01 Jan 2026 - 24 Oct 2026</title><style>
+:root{--ink:#0f1419;--mut:#5b6874;--line:#e2e7ec;--bg:#f5f7f9;--card:#fff;--navy:#12355b;--navy2:#2b6ca3;--lt:#7fb3d5;--acc:#c8102e;--good:#0f7b53;--warn:#b26a00;--amb:#fdf1e3;--gold:#a67c00}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.55}
+.wrap{max-width:1280px;margin:0 auto;padding:0 22px}
+header{background:linear-gradient(135deg,#0d2947,#2b6ca3);color:#fff;padding:34px 0 26px}
+h1{margin:0 0 6px;font-size:29px;letter-spacing:-.4px}
+.sub{opacity:.88;font-size:14px}
+.tags{margin-top:12px}.tag{display:inline-block;background:rgba(255,255,255,.16);padding:3px 11px;border-radius:20px;font-size:12px;margin:0 7px 6px 0}
+nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+nav .wrap{display:flex;gap:2px;overflow-x:auto}
+nav button{background:none;border:none;border-bottom:3px solid transparent;padding:14px 16px;font-size:13.5px;font-weight:600;color:var(--mut);cursor:pointer;white-space:nowrap;font-family:inherit}
+nav button:hover{color:var(--navy)}nav button.on{color:var(--navy);border-bottom-color:var(--acc)}
+section{display:none;padding:26px 0 70px}section.on{display:block}
+h2{font-size:21px;margin:30px 0 4px;color:var(--navy);letter-spacing:-.2px}h2:first-child{margin-top:6px}
+h3{font-size:16px;margin:0 0 10px;color:var(--navy)}
+.lead{color:var(--mut);margin:0 0 16px;max-width:960px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);font-weight:700}
+.kpi .v{font-size:23px;font-weight:700;letter-spacing:-.5px;margin-top:3px;color:var(--navy)}
+.kpi .d{font-size:11.5px;color:var(--mut);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{background:var(--navy);color:#fff;padding:9px 8px;text-align:right;font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+th:first-child,th.l{text-align:left}th.s{cursor:pointer;user-select:none}th.s:hover{background:#1b4a7a}
+td{padding:8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+td:first-child,td.l{text-align:left}tbody tr:hover{background:#f2f6fb}
+tfoot td{background:#eef2f7;font-weight:700}
+.up{color:var(--good);font-weight:600}.dn{color:var(--acc);font-weight:600}.mut{color:var(--mut)}.b{font-weight:700}
+.g{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:5px;font-weight:800;font-size:12px;color:#fff}
+.gA{background:#0f7b53}.gB{background:#2b6ca3}.gC{background:#b26a00}.gD{background:#c8102e}
+.bar{height:7px;background:#e8ecf1;border-radius:4px;overflow:hidden;min-width:55px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#12355b,#4a90c4)}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.p1{background:#e7f3ec;color:var(--good)}.p2{background:#fdeaec;color:var(--acc)}.p3{background:#eef1f5;color:var(--mut)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.grid1{display:grid;grid-template-columns:1fr;gap:16px}.grid1 #pie{max-width:760px;margin:0 auto}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:960px){.grid2,.grid3{grid-template-columns:1fr}}
+.scroll{overflow-x:auto}.note{font-size:12.5px;color:var(--mut);margin-top:10px}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--mut);margin-top:8px;flex-wrap:wrap}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.matrix td{font-size:12px;padding:6px}
+.step{display:flex;gap:14px;margin-bottom:14px}
+.stepn{flex:0 0 30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
+.step div h4{margin:2px 0 3px;font-size:15px;color:var(--navy)}
+.step div p{margin:0;color:var(--mut);font-size:13.5px}
+.imp{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:#fff}
+.imp .hd{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.imp .hd b{font-size:17px}
+.lev{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+@media(max-width:760px){.lev{grid-template-columns:1fr}}
+.lev div{background:#f5f7f9;border-radius:8px;padding:10px 12px}
+.lev .t{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mut)}
+.lev .n{font-size:17px;font-weight:700;color:var(--navy);margin:2px 0}
+.lev .s2{font-size:12px;color:var(--mut)}
+.why{background:#fff7ed;border-left:4px solid var(--warn);padding:9px 13px;border-radius:0 6px 6px 0;font-size:13.5px;margin-top:6px}
+.ok{background:#eef7f2;border-left:4px solid var(--good)}
+footer{color:var(--mut);font-size:12.5px;border-top:1px solid var(--line);margin-top:36px;padding:16px 0 60px}
+svg text{font-family:inherit}
+
+/* v4.44 donut hover */
+#pie svg{overflow:visible}
+#pie .dg{transition:transform .25s ease;transform-origin:180px 180px}
+#pie svg:hover .dg{transform:scale(1.12)}
+#pie .sl{transition:transform .22s ease,opacity .2s,filter .2s;transform-origin:180px 180px}#pie .hit{cursor:pointer}
+#pie .sl.on{transform:translate(var(--dx),var(--dy)) scale(1.1);filter:drop-shadow(0 6px 10px rgba(0,0,0,.28))}
+#pie svg.act .sl:not(.on){opacity:.35}
+#pie .lg{cursor:pointer}
+#pie .lg rect.bg{fill:transparent}
+#pie .lg.on rect.bg{fill:#12355b}
+#pie .lg.on text{fill:#fff !important}
+
+/* v4.42 nav hover */
+nav button{transition:background-color .15s,color .15s,border-color .15s,transform .15s;border-radius:8px 8px 0 0;margin:4px 2px 0}
+nav button:hover{background:#12355b !important;color:#fff !important;border-bottom-color:#f2b705 !important;transform:translateY(-1px)}
+nav button.on{background:#e7eef6;color:#12355b}
+nav button.on:hover{background:#0b2440 !important}
+nav button:focus-visible{outline:2px solid #f2b705;outline-offset:-2px}
+
+/* v4.41 overview KPI cards */
+#k1.kx{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:1000px){#k1.kx{grid-template-columns:repeat(2,1fr)}}
+#k1 .kc{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px 12px;overflow:hidden;transition:transform .18s,box-shadow .18s,border-color .18s;cursor:default}
+#k1 .kc:before{content:'';position:absolute;left:0;top:0;right:0;height:4px;background:var(--ac)}
+#k1 .kc:hover{transform:translateY(-5px) scale(1.045);box-shadow:0 14px 32px rgba(18,53,91,.18);border-color:var(--ac);z-index:3}
+#k1 .kh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#k1 .kl{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);font-weight:700}
+#k1 .ki{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:15px;background:var(--acl);color:var(--ac);font-weight:800}
+#k1 .kv{font-size:28px;font-weight:800;letter-spacing:-.6px;color:var(--navy);margin:6px 0 2px;line-height:1.1}
+#k1 .kd{font-size:12px;color:var(--mut);min-height:16px}
+#k1 .kchip{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--acl);color:var(--ac)}
+#k1 .km{position:relative;height:7px;background:#eef1f4;border-radius:4px;margin:10px 0 2px}
+#k1 .km i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--ac)}
+#k1 .km b{position:absolute;top:-4px;width:2px;height:15px;background:#0f1419}
+#k1 .kml{display:flex;justify-content:space-between;font-size:10.5px;color:#8a96a3}
+#k1 .ksp{margin-top:6px;display:block}
+#k1 .kc:hover .kv{color:var(--ac)}
+
+/* v4.40 presentation hover */
+table td,table th{transition:background-color .12s,color .12s,transform .12s,box-shadow .12s}
+table tr.hr>td{background:#fff3c4 !important}
+table td.hc,table th.hc{background:#e3eefb !important}
+table th.hc{background:#f2b705 !important;color:#0f1419 !important}
+table tr.hr>td.hc{background:#ffe08a !important}
+table tr>td.hx.hx,table tr.hr>td.hx.hc{background:#12355b !important;color:#fff !important;transform:scale(1.22);box-shadow:0 6px 18px rgba(18,53,91,.35);position:relative;z-index:5;font-weight:700;border-radius:4px}
+table td.hx *{color:#fff !important}
+table td.hx .g{color:#fff !important;outline:2px solid #fff}
+table tr.hr>td:first-child{box-shadow:inset 4px 0 0 #f2b705}
+svg .hv{transition:filter .12s,transform .12s;cursor:pointer;transform-box:fill-box;transform-origin:center}
+svg rect.hv:hover{filter:brightness(1.18) saturate(1.2);stroke:#0f1419;stroke-width:2}
+svg circle.hv:hover{transform:scale(1.6);stroke-width:3.2}
+#mbTip{position:fixed;z-index:9999;pointer-events:none;background:#0f1419;color:#fff;font:600 15px/1.35 Inter,system-ui,sans-serif;padding:9px 13px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.3);border-left:4px solid #f2b705;display:none;max-width:360px}
+#mbDot{position:fixed;z-index:9998;pointer-events:none;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:rgba(242,183,5,.12);border:2.5px solid rgba(200,16,46,.9);box-shadow:0 0 0 6px rgba(242,183,5,.12);transition:transform .08s;display:none}
+body.mbPtr #mbDot{display:block}
+#mbPtrBtn{position:fixed;right:16px;bottom:16px;z-index:9999;background:#12355b;color:#fff;border:0;border-radius:20px;padding:8px 14px;font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+body.mbPtr #mbPtrBtn{background:#c8102e}
+
+/* v4.45 donut full view */
+#pie .dg,#pie .sl{transform-box:view-box}
+#pie .dg{transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+#pie .sl{transition:transform .38s cubic-bezier(.34,1.56,.64,1),opacity .25s,filter .25s}
+#pie .dg.press{transform:scale(.95) !important;transition:transform .14s ease-out}
+#pie .hit{cursor:zoom-in}
+#fsD{position:fixed;inset:0;z-index:10000;background:rgba(9,20,36,0);backdrop-filter:blur(0);display:flex;align-items:center;justify-content:center;transition:background .35s,backdrop-filter .35s;pointer-events:none}
+#fsD.in{background:rgba(9,20,36,.72);backdrop-filter:blur(5px);pointer-events:auto}
+#fsD .pn{width:min(1500px,96vw);height:min(940px,93vh);background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.45);display:grid;grid-template-columns:1fr 360px;grid-template-rows:auto 1fr;overflow:hidden;transform:scale(.55) translateY(40px);opacity:0;transition:transform .55s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+#fsD.in .pn{transform:none;opacity:1}
+#fsD .hd{grid-column:1/3;display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid #e2e7ec}
+#fsD .hd h2{margin:0;font-size:20px;color:#12355b}
+#fsD .hd small{color:#5b6874;font-size:13px;margin-left:10px}
+#fsD .x{border:0;background:#12355b;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .2s}
+#fsD .x:hover{transform:rotate(90deg) scale(1.1);background:#c8102e}
+#fsD .ch{position:relative;min-height:0;padding:6px}
+#fsD .ch svg{width:100%;height:100%;display:block;overflow:visible}
+#fsD .fsl{transform-box:view-box;transform-origin:450px 450px;transform:scale(.2) rotate(-40deg);opacity:0;transition:transform .7s cubic-bezier(.34,1.56,.64,1),opacity .35s,filter .25s}
+#fsD.in .fsl{transform:translate(var(--dx),var(--dy));opacity:1}
+#fsD.in .fsl.on{transform:translate(var(--hx),var(--hy)) scale(1.13);filter:drop-shadow(0 10px 16px rgba(0,0,0,.3))}
+#fsD.act .fsl:not(.on){opacity:.3}
+#fsD .flb{opacity:0;transition:opacity .4s .35s}
+#fsD.in .flb{opacity:1}
+#fsD.act .flb:not(.on){opacity:.3}
+#fsD .flb.on text{font-size:15px}
+#fsD .flb,#fsD .fh{cursor:pointer}
+#fsD .sd{border-left:1px solid #e2e7ec;padding:22px;overflow:auto;background:#f8fafc}
+#fsD .sd .nm{font-size:24px;font-weight:800;color:#12355b;display:flex;align-items:center;gap:10px}
+#fsD .sd .sw{width:16px;height:16px;border-radius:4px}
+#fsD .sd .big{font-size:34px;font-weight:800;color:#0f1419;margin:10px 0 2px}
+#fsD .sd .sub{color:#5b6874;font-size:13px}
+#fsD .sd .gr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+#fsD .sd .it{background:#fff;border:1px solid #e2e7ec;border-radius:10px;padding:10px 12px;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+#fsD .sd .it:hover{transform:scale(1.05)}
+#fsD .sd .it .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:#5b6874;font-weight:700}
+#fsD .sd .it .v{font-size:17px;font-weight:800;color:#12355b;margin-top:2px}
+#fsD .sd .hint{margin-top:18px;font-size:12.5px;color:#8a96a3}
+#fsD .sd .fade{animation:fsF .35s ease}
+@keyframes fsF{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:900px){#fsD .pn{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}#fsD .sd{border-left:0;border-top:1px solid #e2e7ec;max-height:40vh}}
+</style></head><body>
+<header><div class="wrap">
+<h1>Buyer Performance &amp; Ranking Dashboard — 01 Jan 2026 - 24 Oct 2026</h1>
+<div class="sub">Sterling Styles Limited &middot; 01 Jan 2026 - 24 Oct 2026 &middot; benchmark: <b>$2,500 earned per line per day</b></div>
+<div class="tags"><span class="tag">9,066 line-days</span><span class="tag">38 lines &middot; 3 units</span><span class="tag">25 buyers &middot; 533 styles</span><span class="tag">13.9m pieces</span><span class="tag">Source: Buyer wise average CM &amp;earned report-2026 on 25-Oct-25.xlsx</span></div>
+</div></header>
+<nav><div class="wrap">
+<button data-t="ov" class="on">Overview</button><button data-t="rk">Ranking</button><button data-t="kp">Buyer KPI</button>
+<button data-t="bm">Benchmark &amp; Gap</button><button data-t="tr">Trends</button><button data-t="ln">Lines &amp; Units</button>
+<button data-t="im">Improvement Plan</button><button data-t="rf">Ranking Formula</button><button data-t="me">How It Was Built</button>
+</div></nav>
+
+<section id="ov" class="on"><div class="wrap">
+<div class="kpis" id="k1"></div>
+<div class="grid1">
+<div class="card"><h3>Where the earned value comes from</h3><div id="pie"></div></div>
+<div class="card"><h3>Earned $ per line-day vs the $2,500 benchmark</h3><div id="ovbar"></div></div>
+</div>
+<div class="card"><h3>Benchmark hit rate — share of line-days that earned $2,500 or more</h3><div id="hitbar"></div>
+<div class="note">A buyer can average close to the benchmark and still fail it most days. Hit rate shows consistency; the average alone hides it.</div></div>
+<h2>The one-paragraph read</h2>
+<div class="card"><p style="margin:0">The factory averages <b id="p1"></b> per line-day against a $2,500 benchmark, so on the whole it clears the bar — but only <b id="p2"></b> of individual line-days actually do, and <b id="p3"></b> line-days finished below it. <b id="p5"></b> of the seventeen ranked buyers sit under the benchmark on their period average, together carrying a <b id="p4"></b> shortfall. The bigger story is time, not buyer mix: efficiency ran <b id="p6"></b> in the first month and <b id="p7"></b> at its worst, and the benchmark hit rate moved from <b id="p8"></b> to <b id="p9"></b> while price per SMV minute stayed inside a narrow band.</p></div>
+</div></section>
+
+<section id="rk"><div class="wrap">
+<h2>Buyer ranking</h2>
+<p class="lead">Every buyer is scored out of 100 against six fixed factory standards — not against each other. Meeting a standard scores 100 on that line; beating it does not earn extra credit. Buyers with fewer than 40 line-days are scored but shown separately as TRIAL, because a handful of days cannot be compared to 2,000. Click any column to re-sort.</p>
+<div class="card"><div class="scroll"><table id="rktab"></table></div>
+<div class="note">MOVE compares this ranking to a plain ranking by earned $ alone. A buyer that moves up was being under-read by revenue-only reporting.</div></div>
+<div class="card"><h3>Total score by buyer</h3><div id="scorebar"></div></div>
+<div class="card"><h3>Where each buyer's points come from</h3><div id="stack"></div>
+<div class="legend"><span><i class="sw" style="background:#12355b"></i>Benchmark 30</span><span><i class="sw" style="background:#2b6ca3"></i>Value 20</span><span><i class="sw" style="background:#4a90c4"></i>Price 20</span><span><i class="sw" style="background:#7fb3d5"></i>Efficiency 15</span><span><i class="sw" style="background:#a9cce3"></i>Quality 10</span><span><i class="sw" style="background:#d4e6f1"></i>Run stability 5</span></div></div>
+<div class="card"><h3>Grade bands</h3><div class="scroll"><table id="grades"></table></div></div>
+</div></section>
+
+<section id="kp"><div class="wrap">
+<h2>Full buyer KPI table</h2>
+<p class="lead">Every metric for every buyer, ranked and trial. All figures are calculated from the daily line-day rows — one row per sewing line per day.</p>
+<div class="card"><div class="scroll"><table id="kptab"></table></div></div>
+<div class="grid2">
+<div class="card"><h3>Price vs efficiency</h3><div id="scatter"></div>
+<div class="note">Bubble size = pieces. Top-right is the ideal corner: good price and a floor that runs it well.</div></div>
+<div class="card"><h3>CM $ per piece vs SMV</h3><div id="scatter2"></div>
+<div class="note">The diagonal is the factory blended rate. A buyer below the line pays less per minute of work than the factory average, whatever the garment.</div></div>
+</div>
+</div></section>
+
+<section id="bm"><div class="wrap">
+<h2>The $2,500 benchmark</h2>
+<p class="lead">One sewing line running one day must earn $2,500 of CM value. Everything below is measured against that single number.</p>
+<div class="kpis" id="k2"></div>
+<div class="card"><h3>Yearly surplus or shortfall against the benchmark</h3><div id="gapbar"></div>
+<div class="note">Shortfall = (2,500 − earned per line-day) &times; that buyer's line-days. It is what the account cost in capacity terms over the period, not a cash loss.</div></div>
+<div class="card"><h3>Benchmark table</h3><div class="scroll"><table id="bmtab"></table></div></div>
+<div class="card"><h3>What $2,500 a day actually requires</h3>
+<p style="margin:0 0 10px">The earning identity behind every number in this report:</p>
+<div style="background:#f5f7f9;border-radius:8px;padding:14px;font-size:15px;text-align:center;margin-bottom:12px">
+<b>Earned $ per line-day = CM $ per SMV minute &times; efficiency &times; operators &times; working hours &times; 60</b></div>
+<p style="margin:0 0 8px">With a typical line of <b>75 operators</b> working <b>10 hours</b>, one line-day holds 45,000 available minutes. So:</p>
+<div class="scroll"><table id="reqtab"></table></div>
+<div class="note">Read it as a menu, not a rule. At 65% efficiency the price has to be $0.0855 per minute to clear $2,500. At 75% efficiency the same line clears it at $0.0741. Every route to the benchmark is a trade between those two columns.</div></div>
+<div class="card" id="bmex"></div>
+</div></section>
+
+<section id="tr"><div class="wrap">
+<h2>Monthly trend</h2>
+<p class="lead">2026-10 may be a partial month — 20 days in the data. Do not read it as a full month.</p>
+<div class="card"><h3>Efficiency, DHU and benchmark hit rate by month</h3><div id="trend"></div></div>
+<div class="grid1">
+<div class="card"><h3>Earned $ per line-day by month</h3><div id="mbar"></div></div>
+<div class="card"><h3>Price — CM $ per SMV minute by month</h3><div id="rline"></div></div>
+</div>
+<div class="card"><div class="scroll"><table id="mtab"></table></div></div>
+<div class="card"><h3>Earned $ per line-day — buyer &times; month</h3>
+<div class="note" style="margin:0 0 10px">Darker = stronger. Red border = below the $2,500 benchmark that month. Blank = the buyer did not run.</div>
+<div class="scroll"><table id="matrix" class="matrix"></table></div></div>
+</div></section>
+
+<section id="ln"><div class="wrap">
+<h2>Lines and units</h2>
+<p class="lead">The same benchmark applied to the factory's own capacity. This is where a buyer problem and a floor problem separate.</p>
+<div class="card"><h3>Unit summary</h3><div class="scroll"><table id="utab"></table></div></div>
+<div class="card"><h3>All 38 sewing lines — earned $ per line-day</h3><div id="linebar"></div></div>
+<div class="card"><div class="scroll"><table id="ltab"></table></div></div>
+</div></section>
+
+<section id="im"><div class="wrap">
+<h2>Improvement plan — buyer by buyer</h2>
+<p class="lead">For every buyer below the benchmark, three routes to $2,500 a day, each calculated from that buyer's own numbers. The three are alternatives, not a sequence — hitting any one of them clears the bar.</p>
+<div class="card" style="background:#f8fafc"><h3>How to read the three routes</h3>
+<div class="lev" style="margin:0">
+<div><div class="t">Route A — price</div><div class="n">Raise CM per piece</div><div class="s2">Keep the same SMV and the same efficiency, and ask the buyer for a higher CM. This is the merchandising conversation.</div></div>
+<div><div class="t">Route B — method</div><div class="n">Cut the SMV</div><div class="s2">Keep the same CM per piece and take work out of the garment. The rate per minute rises without touching the price. This is the IE job.</div></div>
+<div><div class="t">Route C — floor</div><div class="n">Lift efficiency</div><div class="s2">Keep price and SMV, run the line better. Only realistic where the required number is under about 78%.</div></div>
+</div></div>
+<div id="impcards"></div>
+</div></section>
+
+<style>#rf th,#rf td{text-align:left!important;white-space:normal!important;vertical-align:top}#rf td:nth-child(4){min-width:260px}#rf table{width:100%}</style><section id="rf"><div class="wrap">
+<h2>Ranking formula &amp; sources</h2>
+<p class="lead">How one buyer's rank is calculated, the exact Excel formulas, and where every number and rule comes from.</p>
+<div class="card"><h3>The formula in one line</h3>
+<div style="font-family:ui-monospace,Menlo,Consolas,monospace;background:#f0f4fa;border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.7">
+Score(measure) = MIN(100, Actual ÷ Standard × 100) &nbsp;·&nbsp; Quality = MIN(100, 10% ÷ DHU × 100)<br>
+TOTAL = 30%·Benchmark + 20%·Value + 20%·Price + 15%·Efficiency + 10%·Quality + 5%·Run<br>
+Grade: A ≥ 85 · B ≥ 75 · C ≥ 65 · D &lt; 65 &nbsp;·&nbsp; Rank = order of TOTAL among buyers with ≥ 40 line-days</div></div>
+<div class="card"><h3>Step by step — Excel formulas (RANKING tab of the KPI workbook)</h3><div class="scroll"><table><tr><th>Step</th><th>Formula (plain)</th><th>Excel formula</th><th>Cell</th></tr><tr><td><b>Yield $/line-day</b></td><td>Earned $ ÷ Line-days</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=Earned/LineDays</code></td><td style="color:var(--mut)">&#x27;BUYER KPI&#x27;!J (orig) · SCORE BREAKDOWN!C</td></tr><tr><td><b>Value share</b></td><td>Buyer earned ÷ Factory earned</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=Earned/FactoryEarned</code></td><td style="color:var(--mut)">&#x27;BUYER KPI&#x27;!I · SCORE BREAKDOWN!D</td></tr><tr><td><b>Price</b></td><td>Earned $ ÷ (Pieces × SMV)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=Earned/SMVminutes</code></td><td style="color:var(--mut)">&#x27;BUYER KPI&#x27;!N · SCORE BREAKDOWN!E</td></tr><tr><td><b>Benchmark score</b></td><td>MIN(100, Yield ÷ 2,500 × 100)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=MIN(100,G11/$A$6*100)</code></td><td style="color:var(--mut)">RANKING!O11</td></tr><tr><td><b>Value score</b></td><td>MIN(100, Share ÷ 10% × 100)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=MIN(100,&#x27;BUYER KPI&#x27;!I5/$C$6*100)</code></td><td style="color:var(--mut)">RANKING!P11</td></tr><tr><td><b>Price score</b></td><td>MIN(100, Rate ÷ 0.0843 × 100)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=MIN(100,I11/$E$6*100)</code></td><td style="color:var(--mut)">RANKING!Q11</td></tr><tr><td><b>Efficiency score</b></td><td>MIN(100, Eff ÷ 80% × 100)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=MIN(100,L11/$G$6*100)</code></td><td style="color:var(--mut)">RANKING!R11</td></tr><tr><td><b>Quality score</b></td><td>MIN(100, 10% ÷ DHU × 100)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=IFERROR(MIN(100,$I$6/M11*100),100)</code></td><td style="color:var(--mut)">RANKING!S11</td></tr><tr><td><b>Run score</b></td><td>MIN(100, Run ÷ 10 × 100)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=MIN(100,N11/$K$6*100)</code></td><td style="color:var(--mut)">RANKING!T11</td></tr><tr><td><b>Total score</b></td><td>Σ score × weight</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=O11*$A$8+P11*$C$8+Q11*$E$8+R11*$G$8+S11*$I$8+T11*$K$8</code></td><td style="color:var(--mut)">RANKING!D11</td></tr><tr><td><b>Grade</b></td><td>A/B/C/D from bands</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=IF(D11&gt;=85,&quot;A&quot;,IF(D11&gt;=75,&quot;B&quot;,IF(D11&gt;=65,&quot;C&quot;,&quot;D&quot;)))</code></td><td style="color:var(--mut)">RANKING!C11</td></tr><tr><td><b>Rank</b></td><td>position by total score (ranked buyers only)</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=RANK(D11,$D$11:$D$23)</code></td><td style="color:var(--mut)">RANKING!A11</td></tr><tr><td><b>Revenue rank · Move</b></td><td>rank by earned $; Move = revenue rank − score rank</td><td><code style="font-size:12px;background:#f0f4fa;padding:3px 6px;border-radius:5px">=RANK(F11,$F$11:$F$23) · =U11-A11</code></td><td style="color:var(--mut)">RANKING!U11, V11</td></tr></table></div></div>
+<div class="card"><h3>Sources</h3><div class="note" style="margin:0 0 10px">Honest note: this is Sterling&#x27;s own internal scorecard from your Buyer KPI pack. It is not an external, audited or industry-published standard. The $2,500 benchmark and the $0.0843 price come from factory numbers; the efficiency, DHU, run, 10% share, weights and grade bands are management choices written in the pack&#x27;s METHOD tab. Please have them signed off by management (the yellow cells can be changed and everything recalculates).</div>
+<div class="scroll"><table><tr><th>Item</th><th>Value used</th><th>Type</th><th>Source (file · tab / cell)</th><th>Why</th><th>Factory now</th></tr><tr><td><b>Raw data</b></td><td>9,066 line-days</td><td><span style="background:#e6f3ec;padding:2px 7px;border-radius:6px;font-size:12px">Factory data</span></td><td style="font-size:12.5px">Revenue/Buyer wise average CM &amp;earned report-2026 on 25-Oct-25.xlsx · sheet 2026 (daily line-day rows, data to 24 Oct 2026)</td><td style="font-size:12.5px">Every number in the ranking is summed or averaged from this file. Nothing typed by hand.</td><td style="color:var(--mut);font-size:12.5px">9,066 line-days · 25 buyers · $23,247,582 earned</td></tr><tr><td><b>Scoring method (6 standards, cap 100, weights, grades, trial)</b></td><td>—</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Your KPI pack method</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · tabs METHOD and RANKING (formulas in RANKING!A11:V23)</td><td style="font-size:12.5px">Rebuilt exactly as in your pack; the 01 Jan–15 Aug result was reproduced before the 28-Sep and 10-Oct refreshes (ZARA #1 A 96.6 … TARGET #4 B 80.0).</td><td style="color:var(--mut);font-size:12.5px">same method, new data</td></tr><tr><td><b>Benchmark $/line-day</b></td><td>$2,500</td><td><span style="background:#e6f3ec;padding:2px 7px;border-radius:6px;font-size:12px">Factory benchmark (management target)</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · RANKING!A6 · report header &quot;benchmark: $2,500 earned per line per day&quot;</td><td style="font-size:12.5px">Answers &quot;was that line-day worth giving away?&quot; Heaviest weight because it already contains price, efficiency and manning.</td><td style="color:var(--mut);font-size:12.5px">factory now $2,564/line-day · 53.3% of line-days reach it</td></tr><tr><td><b>Value share standard</b></td><td>10% of factory earned</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice (policy)</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · RANKING!C6 · METHOD standard 2</td><td style="font-size:12.5px">Scale has to count — an account earning $6m should not rank below one earning $100k on rate alone.</td><td style="color:var(--mut);font-size:12.5px">25 buyers → even split would be 4.0% each</td></tr><tr><td><b>Price standard</b></td><td>$0.0843 per SMV minute</td><td><span style="background:#e6f3ec;padding:2px 7px;border-radius:6px;font-size:12px">Factory data (blended rate)</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · RANKING!E6 · = factory CM$ ÷ SMV minutes, 01 Jan–15 Aug 2026 (0.08431)</td><td style="font-size:12.5px">CM per minute is the only fair price comparison across garments with different SMV.</td><td style="color:var(--mut);font-size:12.5px">factory now $0.0836 per SMV minute</td></tr><tr><td><b>Efficiency standard</b></td><td>80%</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice (target)</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · RANKING!G6 · METHOD standard 4</td><td style="font-size:12.5px">Separates a pricing problem from a floor problem.</td><td style="color:var(--mut);font-size:12.5px">factory now 69.5%</td></tr><tr><td><b>Quality standard</b></td><td>10% DHU (score = standard ÷ actual)</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice (target)</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · RANKING!I6 · METHOD standard 5</td><td style="font-size:12.5px">Rework is capacity paid for twice; weighted below efficiency because it is partly inside efficiency.</td><td style="color:var(--mut);font-size:12.5px">factory now 13.2% DHU</td></tr><tr><td><b>Run stability standard</b></td><td>10 consecutive line-days per style</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice (target)</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · RANKING!K6 · METHOD standard 6</td><td style="font-size:12.5px">Every changeover costs learning-curve output; smallest weight because it is often the order book, not the buyer.</td><td style="color:var(--mut);font-size:12.5px">per buyer, see breakdown</td></tr><tr><td><b>Weights</b></td><td>30 / 20 / 20 / 15 / 10 / 5 %</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice (policy)</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · RANKING!A8:K8 · METHOD &quot;The six standards&quot;</td><td style="font-size:12.5px">Benchmark heaviest (contains price + efficiency); value and price next; efficiency, quality, run smaller.</td><td style="color:var(--mut);font-size:12.5px">sum = 100%</td></tr><tr><td><b>Cap at 100</b></td><td>MIN(100, …)</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · METHOD &quot;Why scores are capped at 100&quot;</td><td style="font-size:12.5px">A scorecard against a standard, not a competition — one strong number cannot hide four weak ones.</td><td style="color:var(--mut);font-size:12.5px">—</td></tr><tr><td><b>Grade bands</b></td><td>A ≥85 · B 75–84 · C 65–74 · D &lt;65</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · METHOD &quot;Grade bands&quot; · RANKING!C11 formula</td><td style="font-size:12.5px">—</td><td style="color:var(--mut);font-size:12.5px">—</td></tr><tr><td><b>Trial rule</b></td><td>under 40 line-days = TRIAL (not ranked)</td><td><span style="background:#fff3d6;padding:2px 7px;border-radius:6px;font-size:12px">Method choice</span></td><td style="font-size:12.5px">Sterling_Buyer_KPI_2026.xlsx (your original Buyer KPI pack, 01 Jan–15 Aug 2026) · METHOD step 7</td><td style="font-size:12.5px">A handful of days is not evidence; small samples throw extreme numbers both ways.</td><td style="color:var(--mut);font-size:12.5px">8 trial buyers this period</td></tr></table></div></div>
+<div class="card" id="rfx"><h3>Check one buyer — live formula</h3>
+<p style="margin:0 0 10px;color:#5b6874">Click a buyer. Every number below is recalculated in the page from that buyer's actuals and the standards/weights, then checked against the score in the ranking.</p>
+<div id="rfxTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px"></div><div id="rfxBody"></div></div>
+<div class="card"><h3>Full breakdown per buyer</h3><p style="margin:0">Every buyer's actual → score → points → total → grade → rank, with live formulas: open
+<a href="Buyer_Ranking_Formula_Breakdown_to-24Oct.xlsx" download>Buyer_Ranking_Formula_Breakdown_to-24Oct.xlsx</a> or
+<a href="Buyer_Ranking_Formula_Breakdown_to-24Oct.html" target="_blank">the HTML version</a> (same folder).</p></div>
+</div></section>
+<section id="me"><div class="wrap">
+<h2>How this report and the ranking were built</h2>
+<p class="lead">Written in plain English so anyone can check the work, repeat it next month, or argue with it.</p>
+<div class="card"><h3>Step by step</h3><div id="steps"></div></div>
+<div class="card"><h3>The six scoring standards</h3>
+<p style="margin:0 0 10px">Each buyer is measured against a fixed factory standard. Score on that line = actual ÷ standard × 100, capped at 100. The six scores are then multiplied by their weights and added up to give a total out of 100.</p>
+<div class="scroll"><table id="stdtab"></table></div>
+<div class="note">Why cap at 100: this is a scorecard against a standard, not a competition. A buyer who pays double the benchmark rate is excellent, but it does not cancel out a floor running at 55% efficiency. Capping keeps one very strong number from hiding four weak ones.</div></div>
+<div class="card"><h3>Why these six, and why these weights</h3><div id="whytab"></div></div>
+<div class="card"><h3>Definitions</h3><div class="scroll"><table id="deftab"></table></div></div>
+<div class="card"><h3>Data quality and caveats</h3><div class="scroll"><table id="dqtab"></table></div></div>
+</div></section>
+<footer><div class="wrap">Earned $ is CM value booked — pieces &times; CM rate. It is not FOB and it is not margin, so this report can say which buyer earns most per unit of sewing capacity, but not which one is most profitable. Efficiency and DHU are simple means of the daily values, which reproduces the factory's own yearly summary exactly. SMV is weighted by pieces produced. CM rates were updated from the actual costing sheets supplied wherever a style matched; every earned figure is rebuilt as pieces &times; CM. October 2026 is 24 days only.</div></footer>
+
+<script>const D={"meta": {"source_file": "Buyer wise average CM &earned report-2026 on 25-Oct-25.xlsx", "sheet": "2026", "header_row": 4, "costing_files": [], "costing_sheets": [], "costing_styles": 0, "costing_bench_rate": null, "bench_rate_by_buyer": {}, "restated_buyers": [], "cm_sources": {"As reported": 9066}, "date_from": "2026-01-01", "date_to": "2026-10-24", "period": "01 Jan 2026 - 24 Oct 2026", "last_month": "2026-10", "last_month_days": 20, "arith_rows": 232, "arith_value": 55903.78000000119, "standards": {"benchmark_per_line_day": 2500, "value_share_of_earned": 0.1, "price_cm_per_smv_min": 0.0843, "efficiency": 0.8, "dhu": 0.1, "run_days": 10}, "weights": {"benchmark": 0.3, "value": 0.2, "price": 0.2, "efficiency": 0.15, "quality": 0.1, "run": 0.05}, "grade_bands": {"A": 85, "B": 75, "C": 65}, "trial_threshold": 40, "target_eff": 0.75}, "bm": 2500, "factory": {"ld": 9066, "pcs": 13850314.494540831, "earned": 23247582.236954987, "earned_old": 23303486.01695499, "rate": 0.08361389162825385, "yld": 2564.2601187905348, "eff": 0.6951358921937205, "dhu": 0.13178874318509787, "smv": 20.07426812533445, "cmpc": 1.678487679548225, "hit": 0.5327597617471873, "below": 4236, "buyers": 25, "lines": 38, "units": 3, "styles": 533, "eff_first_month": 0.770258129188521, "ops": 75.0, "whrs": 10.0, "eff_upside": 2512329.462444095}, "rank": [{"ld": 2476, "pcs": 3807063, "earned": 7208435.25, "yld": 2911.3227988691438, "rate": 0.08734638325022809, "cmpc": 1.893437342644448, "smv": 21.67734108944349, "eff": 0.7447561298314255, "dhu": 0.13858872931752975, "hit": 0.7378836833602584, "buyer": "ZARA", "share": 0.31007247018321227, "gapd": -411.32279886914375, "gapt": -1018435.2499999999, "run": 10.765217391304347, "ops": 74.70759289176091, "whrs": 10.238287560581583, "capmin": 45892.66913908253, "styles": 82, "lines": 27, "pcsday": 1537.586025848142, "s": {"bench": 100, "value": 100, "price": 100, "eff": 93.09451622892819, "qual": 72.15593973077236, "run": 100}, "score": 96.17977140741647, "grade": "A", "tier": "RANKED", "need": {"cmpc": 1.6259252867630507, "dcm": -0.26751205588139726, "rate": 0.07500575278371431, "smv": 25.243894933023885, "dsmv": -3.566553843580394, "eff": 0.6395341407355395, "y75": 3006.4190002486635, "cm75": 1.893437342644448, "dcm75": 0.0}, "rank": 1, "rankrev": 1, "move": 0}, {"ld": 768, "pcs": 1273072, "earned": 2402256.4, "yld": 3127.938020833333, "rate": 0.09900470828829312, "cmpc": 1.8869760704814809, "smv": 19.059457909686177, "eff": 0.7395203899021437, "dhu": 0.1297686144478685, "hit": 0.7942708333333334, "buyer": "GAP", "share": 0.10333360155540425, "gapd": -627.9380208333332, "gapt": -482256.3999999999, "run": 5.224489795918367, "ops": 72.69921875, "whrs": 9.89453125, "capmin": 43159.481506347656, "styles": 50, "lines": 8, "pcsday": 1657.6458333333333, "s": {"bench": 100, "value": 100, "price": 100, "eff": 92.44004873776797, "qual": 77.06023557812792, "run": 52.24489795918367}, "score": 94.18427576643717, "grade": "A", "tier": "RANKED", "need": {"cmpc": 1.5081629318687395, "dcm": -0.37881313861274135, "rate": 0.07912937183288296, "smv": 23.846721220872, "dsmv": -4.787263311185821, "eff": 0.5910606164321661, "y75": 3204.743907307449, "cm75": 1.8869760704814809, "dcm75": 0.0}, "rank": 2, "rankrev": 3, "move": 1}, {"ld": 2591, "pcs": 4110719.4945408306, "earned": 6274253.6169549795, "yld": 2421.5567799903433, "rate": 0.07968294742223488, "cmpc": 1.5263151925806158, "smv": 19.1548536036546, "eff": 0.7001579511938008, "dhu": 0.12375072584221201, "hit": 0.4947896565032806, "buyer": "OJG", "share": 0.2698884362684931, "gapd": 78.44322000965667, "gapt": 203246.38304502043, "run": 9.889312977099237, "ops": 73.63720571208027, "whrs": 10.215438054805094, "capmin": 45134.17880884175, "styles": 71, "lines": 36, "pcsday": 1586.5378211272987, "s": {"bench": 96.86227119961373, "value": 100, "price": 94.52306930276973, "eff": 87.51974389922509, "qual": 80.80760683982145, "run": 98.89312977099237}, "score": 94.1166739778536, "grade": "A", "tier": "RANKED", "need": {"cmpc": 1.5757582118172575, "dcm": 0.04944301923664174, "rate": 0.08226417410554444, "smv": 18.553826245460904, "dsmv": 0.6010273581936971, "eff": 0.7228386682683864, "y75": 2697.318297728014, "cm75": 1.5263151925806158, "dcm75": 0.0}, "rank": 3, "rankrev": 2, "move": -1}, {"ld": 602, "pcs": 805583, "earned": 1323568.2, "yld": 2198.618272425249, "rate": 0.07578823244442888, "cmpc": 1.642994204197457, "smv": 21.678750792904022, "eff": 0.6675993322949484, "dhu": 0.11689821496111116, "hit": 0.3089700996677741, "buyer": "TARGET", "share": 0.05693358502872699, "gapd": 301.38172757475104, "gapt": 181431.80000000013, "run": 2.7488584474885847, "ops": 72.74750830564784, "whrs": 10.285714285714286, "capmin": 44895.60512577124, "styles": 96, "lines": 12, "pcsday": 1338.1777408637874, "s": {"bench": 87.94473089700996, "value": 56.93358502872699, "price": 89.903004085918, "eff": 83.44991653686854, "qual": 85.54450556261041, "run": 27.488584474885847}, "score": 78.19710435256759, "grade": "B", "tier": "RANKED", "need": {"cmpc": 1.8682122140114676, "dcm": 0.22521800981401063, "rate": 0.08617711564002933, "smv": 19.065319046652856, "dsmv": 2.613431746251166, "eff": 0.7591123714697114, "y75": 2551.9189177539324, "cm75": 1.642994204197457, "dcm75": 0.0}, "rank": 4, "rankrev": 4, "move": 0}, {"ld": 264, "pcs": 336685, "earned": 826217.5, "yld": 3129.6117424242425, "rate": 0.11573629191352446, "cmpc": 2.4539777536866803, "smv": 21.2031827969764, "eff": 0.6464296808086968, "dhu": 0.14157896227467204, "hit": 0.7765151515151515, "buyer": "EXPRESS", "share": 0.035539932349894963, "gapd": -629.6117424242425, "gapt": -166217.50000000003, "run": 2.2956521739130435, "ops": 74.66287878787878, "whrs": 9.352272727272727, "capmin": 41896.05630165289, "styles": 58, "lines": 4, "pcsday": 1275.3219696969697, "s": {"bench": 100, "value": 35.53993234989496, "price": 100, "eff": 80.80371010108709, "qual": 70.63196282368122, "run": 22.956521739130437}, "score": 77.43956535446671, "grade": "B", "tier": "RANKED", "need": {"cmpc": 1.9602892911772127, "dcm": -0.4936884625094675, "rate": 0.09245259591200397, "smv": 26.543091943274014, "dsmv": -5.3399091462976145, "eff": 0.5163816904552855, "y75": 3636.6706516151658, "cm75": 2.4539777536866803, "dcm75": 0.0}, "rank": 5, "rankrev": 5, "move": 0}, {"ld": 156, "pcs": 278999, "earned": 402484.6, "yld": 2580.029487179487, "rate": 0.09528159310461184, "cmpc": 1.4426023032340616, "smv": 15.140409141251402, "eff": 0.6374057456207431, "dhu": 0.12416350327483444, "hit": 0.6474358974358975, "buyer": "AERO", "share": 0.017312965963411007, "gapd": -80.0294871794872, "gapt": -12484.600000000004, "run": 7.8, "ops": 71.64102564102564, "whrs": 10.438782051282052, "capmin": 44870.70315581854, "styles": 8, "lines": 9, "pcsday": 1788.4551282051282, "s": {"bench": 100, "value": 17.312965963411006, "price": 100, "eff": 79.67571820259289, "qual": 80.53896464136582, "run": 78.0}, "score": 77.36784738720772, "grade": "B", "tier": "RANKED", "need": {"cmpc": 1.3978544725966757, "dcm": -0.044747830637385855, "rate": 0.09232606989385089, "smv": 15.625080812956188, "dsmv": -0.48467167170478653, "eff": 0.6176341673497318, "y75": 3206.514060307894, "cm75": 1.4426023032340616, "dcm75": 0.0}, "rank": 6, "rankrev": 12, "move": 6}, {"ld": 364, "pcs": 529040, "earned": 812356.4, "yld": 2231.7483516483517, "rate": 0.06735037655722946, "cmpc": 1.5355292605474067, "smv": 22.7991191592318, "eff": 0.7055321997659321, "dhu": 0.13110652221139704, "hit": 0.22802197802197802, "buyer": "SOLAMODA", "share": 0.034943694003097506, "gapd": 268.2516483516483, "gapt": 97643.59999999999, "run": 11.741935483870968, "ops": 76.52197802197803, "whrs": 10.56868131868132, "capmin": 48524.183975365304, "styles": 18, "lines": 10, "pcsday": 1453.4065934065934, "s": {"bench": 89.26993406593407, "value": 34.943694003097505, "price": 79.89368512126863, "eff": 88.19152497074151, "qual": 76.27385603193663, "run": 100}, "score": 75.60457039345833, "grade": "B", "tier": "RANKED", "need": {"cmpc": 1.7200967790715258, "dcm": 0.18456751852411912, "rate": 0.0754457559109263, "smv": 20.35275864105997, "dsmv": 2.4463605181718293, "eff": 0.7903357464617724, "y75": 2451.0915471548496, "cm75": 1.5661688180616926, "dcm75": 0.03063955751428593}, "rank": 7, "rankrev": 6, "move": -1}, {"ld": 180, "pcs": 252030, "earned": 412264.0, "yld": 2290.3555555555554, "rate": 0.08127649023344084, "cmpc": 1.635773519025513, "smv": 20.12603539261199, "eff": 0.6284987240059936, "dhu": 0.10862133394893729, "hit": 0.4888888888888889, "buyer": "IMPLUSE", "share": 0.01773362906292483, "gapd": 209.64444444444462, "gapt": 37736.00000000003, "run": 8.571428571428571, "ops": 75.37222222222222, "whrs": 10.011111111111111, "capmin": 45273.58148148148, "styles": 10, "lines": 6, "pcsday": 1400.1666666666667, "s": {"bench": 91.61422222222222, "value": 17.733629062924827, "price": 96.41339292223114, "eff": 78.5623405007492, "qual": 92.06294598353011, "run": 85.71428571428571}, "score": 75.59003102287755, "grade": "B", "tier": "RANKED", "need": {"cmpc": 1.785501725985002, "dcm": 0.14972820695948896, "rate": 0.08871601838881975, "smv": 18.43831078911064, "dsmv": 1.6877246035013478, "eff": 0.6860274625062998, "y75": 2759.7583523343883, "cm75": 1.635773519025513, "dcm75": 0.0}, "rank": 8, "rankrev": 11, "move": 3}, {"ld": 252, "pcs": 240943, "earned": 677870.64, "yld": 2689.962857142857, "rate": 0.1179756824688035, "cmpc": 2.813406656346107, "smv": 23.847343770103304, "eff": 0.5482624455738752, "dhu": 0.17534357115397084, "hit": 0.6031746031746031, "buyer": "NOBLE", "share": 0.029158758665339336, "gapd": -189.96285714285705, "gapt": -47870.63999999998, "run": 6, "ops": 73.16269841269842, "whrs": 9.587301587301587, "capmin": 42085.971277399854, "styles": 24, "lines": 8, "pcsday": 956.1230158730159, "s": {"bench": 100, "value": 29.158758665339334, "price": 100, "eff": 68.53280569673439, "qual": 57.03089046372226, "run": 60.0}, "score": 74.81476163395025, "grade": "C", "tier": "RANKED", "need": {"cmpc": 2.61472630456166, "dcm": -0.19868035178444687, "rate": 0.10964434151528704, "smv": 25.659387593237998, "dsmv": -1.8120438231346938, "eff": 0.5095446244899194, "y75": 3723.840887860282, "cm75": 2.813406656346107, "dcm75": 0.0}, "rank": 9, "rankrev": 7, "move": -2}, {"ld": 297, "pcs": 620930, "earned": 657053.0, "yld": 2212.2996632996633, "rate": 0.07096266099097573, "cmpc": 1.0581756397661572, "smv": 14.91172434896043, "eff": 0.6817731745639684, "dhu": 0.12800678618853922, "hit": 0.265993265993266, "buyer": "KMART", "share": 0.02826328317942374, "gapd": 287.7003367003367, "gapt": 85447.0, "run": 14.85, "ops": 75.01346801346801, "whrs": 10.464646464646465, "capmin": 47099.36537088053, "styles": 4, "lines": 9, "pcsday": 2090.6734006734005, "s": {"bench": 88.49198653198653, "value": 28.263283179423738, "price": 84.17872003674464, "eff": 85.22164682049605, "qual": 78.12085825880477, "run": 100}, "score": 74.63132945178452, "grade": "C", "tier": "RANKED", "need": {"cmpc": 1.1957869647142192, "dcm": 0.13761132494806194, "rate": 0.08019105884274096, "smv": 13.19568110256902, "dsmv": 1.7160432463914095, "eff": 0.770434930079836, "y75": 2506.7222232779227, "cm75": 1.0581756397661572, "dcm75": 0.0}, "rank": 10, "rankrev": 8, "move": -2}, {"ld": 113, "pcs": 172955, "earned": 258144.2, "yld": 2284.4619469026547, "rate": 0.0720856242872606, "cmpc": 1.4925512416524531, "smv": 20.70525512416524, "eff": 0.6807152913751302, "dhu": 0.12104227569803715, "hit": 0.3274336283185841, "buyer": "NEW YORKER", "share": 0.01110413106054732, "gapd": 215.53805309734526, "gapt": 24355.800000000014, "run": 14.125, "ops": 74.03539823008849, "whrs": 10.663716814159292, "capmin": 47369.55125695042, "styles": 4, "lines": 6, "pcsday": 1530.575221238938, "s": {"bench": 91.37847787610619, "value": 11.10413106054732, "price": 85.51082359105648, "eff": 85.08941142189127, "qual": 82.61576331352933, "run": 100}, "score": 72.76152233778923, "grade": "C", "tier": "RANKED", "need": {"cmpc": 1.6333728426469314, "dcm": 0.14082160099447827, "rate": 0.07888687354258248, "smv": 18.92014697282668, "dsmv": 1.7851081513385623, "eff": 0.7449405015238548, "y75": 2560.997755923496, "cm75": 1.4925512416524531, "dcm75": 0.0}, "rank": 11, "rankrev": 14, "move": 3}, {"ld": 292, "pcs": 452302, "earned": 621864.6, "yld": 2129.6732876712326, "rate": 0.08115420200406462, "cmpc": 1.3748880172981768, "smv": 16.941673793173585, "eff": 0.6123875011494154, "dhu": 0.140849242627748, "hit": 0.2945205479452055, "buyer": "NEXT", "share": 0.026749646206712503, "gapd": 370.32671232876737, "gapt": 108135.40000000007, "run": 4.492307692307692, "ops": 71.50342465753425, "whrs": 10.414383561643836, "capmin": 44679.845421279795, "styles": 56, "lines": 8, "pcsday": 1548.9794520547946, "s": {"bench": 85.1869315068493, "value": 26.7496462067125, "price": 96.26832977943607, "eff": 76.54843764367692, "qual": 70.99789685365302, "run": 44.92307692307692}, "score": 70.9878838273552, "grade": "C", "tier": "RANKED", "need": {"cmpc": 1.6139658900469156, "dcm": 0.23907787274873882, "rate": 0.0952660232837939, "smv": 14.432092050304622, "dsmv": 2.5095817428689635, "eff": 0.7188749381120477, "y75": 2719.4679006216916, "cm75": 1.3748880172981768, "dcm75": 0.0}, "rank": 12, "rankrev": 9, "move": -3}, {"ld": 68, "pcs": 80420, "earned": 142959.0, "yld": 2102.3382352941176, "rate": 0.07581352415395684, "cmpc": 1.7776548122357623, "smv": 23.447726933598606, "eff": 0.6049010769182814, "dhu": 0.12514248319001367, "hit": 0.25, "buyer": "LAGER", "share": 0.006149413669897616, "gapd": 397.66176470588243, "gapt": 27041.000000000007, "run": 7.555555555555555, "ops": 76.73529411764706, "whrs": 10.029411764705882, "capmin": 46176.591695501724, "styles": 4, "lines": 5, "pcsday": 1182.6470588235295, "s": {"bench": 84.0935294117647, "value": 6.149413669897616, "price": 89.9330061138278, "eff": 75.61263461478518, "qual": 79.90891458351689, "run": 75.55555555555556}, "score": 67.55510720862173, "grade": "C", "tier": "RANKED", "need": {"cmpc": 2.113902014424273, "dcm": 0.33624720218851056, "rate": 0.09015381407377404, "smv": 19.718021145296017, "dsmv": 3.7297057883025886, "eff": 0.7193194067957096, "y75": 2625.607612390742, "cm75": 1.7776548122357623, "dcm75": 0.0}, "rank": 13, "rankrev": 16, "move": 3}, {"ld": 49, "pcs": 50550, "earned": 126375.0, "yld": 2579.081632653061, "rate": 0.1156654757660807, "cmpc": 2.5, "smv": 21.614055390702276, "eff": 0.5106489195694984, "dhu": 0.22998053006499078, "hit": 0.6326530612244898, "buyer": "TRIBAL", "share": 0.005436049164678763, "gapd": -79.0816326530612, "gapt": -3874.999999999999, "run": 2.7222222222222223, "ops": 69.65306122448979, "whrs": 10.588571428571429, "capmin": 44251.584839650146, "styles": 10, "lines": 2, "pcsday": 1031.6326530612246, "s": {"bench": 100, "value": 5.436049164678763, "price": 100, "eff": 63.8311149461873, "qual": 43.481941698169294, "run": 27.222222222222225}, "score": 66.3711823557919, "grade": "C", "tier": "RANKED", "need": {"cmpc": 2.4233432245301683, "dcm": -0.07665677546983174, "rate": 0.11211885880391602, "smv": 22.29776530612245, "dsmv": -0.6837099154201738, "eff": 0.4949910397409579, "y75": 3838.7854604109134, "cm75": 2.5, "dcm75": 0.0}, "rank": 14, "rankrev": 17, "move": 3}, {"ld": 152, "pcs": 299840, "earned": 311833.60000000003, "yld": 2051.5368421052635, "rate": 0.057959209588475974, "cmpc": 1.04, "smv": 17.943653948772678, "eff": 0.7559067674280222, "dhu": 0.16542644832824216, "hit": 0.006578947368421052, "buyer": "WALMART", "share": 0.013413592726399776, "gapd": 448.46315789473647, "gapt": 68166.39999999994, "run": 38, "ops": 80.50657894736842, "whrs": 10.039473684210526, "capmin": 48494.620844875346, "styles": 1, "lines": 4, "pcsday": 1972.6315789473683, "s": {"bench": 82.06147368421054, "value": 13.413592726399775, "price": 68.7535107811103, "eff": 94.48834592850277, "qual": 60.449825895783114, "run": 100}, "score": 66.2700972856189, "grade": "C", "tier": "RANKED", "need": {"cmpc": 1.267342582710779, "dcm": 0.2273425827107789, "rate": 0.07062901381897546, "smv": 14.724826863157897, "dsmv": 3.2188270856147803, "eff": 0.9211469566546017, "y75": 2124.6346297446744, "cm75": 1.2237398202967502, "dcm75": 0.18373982029675018}, "rank": 15, "rankrev": 13, "move": -2}, {"ld": 244, "pcs": 348570, "earned": 431527.0, "yld": 1768.5532786885246, "rate": 0.05739791252796859, "cmpc": 1.2379923688211838, "smv": 21.568595690965946, "eff": 0.656324340332686, "dhu": 0.08612622622177235, "hit": 0.09016393442622951, "buyer": "MED COUTORE", "share": 0.018562231358150997, "gapd": 731.4467213114754, "gapt": 178473.0, "run": 4.4363636363636365, "ops": 75.57377049180327, "whrs": 10.450819672131148, "capmin": 47388.47084117173, "styles": 14, "lines": 2, "pcsday": 1428.5655737704917, "s": {"bench": 70.74213114754099, "value": 18.562231358150996, "price": 68.0876779691205, "eff": 82.04054254158575, "qual": 100, "run": 44.36363636363637}, "score": 63.07688440913627, "grade": "D", "tier": "RANKED", "need": {"cmpc": 1.750007172160542, "dcm": 0.5120148033393581, "rate": 0.08113681563855989, "smv": 15.258084250386004, "dsmv": 6.310511440579942, "eff": 0.9277700992126529, "y75": 2039.9994781318237, "cm75": 1.5171478989236111, "dcm75": 0.27915553010242733}, "rank": 16, "rankrev": 10, "move": -6}, {"ld": 123, "pcs": 106538, "earned": 218519.68, "yld": 1776.5827642276422, "rate": 0.07802499049984009, "cmpc": 2.051096134712497, "smv": 26.287681953856833, "eff": 0.4924687228133941, "dhu": 0.182442937614347, "hit": 0.032520325203252036, "buyer": "CARRE FOUR", "share": 0.009399673384212624, "gapd": 723.4172357723578, "gapt": 88980.32, "run": 7.6875, "ops": 72.88617886178862, "whrs": 10.44308943089431, "capmin": 45669.413047789014, "styles": 13, "lines": 4, "pcsday": 866.1626016260162, "s": {"bench": 71.06331056910568, "value": 9.399673384212624, "price": 92.55633511250308, "eff": 61.558590351674255, "qual": 54.811658542454964, "run": 76.875}, "score": 60.268899277071476, "grade": "D", "tier": "RANKED", "need": {"cmpc": 2.886294092248775, "dcm": 0.8351979575362782, "rate": 0.10979644752683525, "smv": 18.680897068288033, "dsmv": 7.6067848855688, "eff": 0.6929999726574682, "y75": 2672.516639390258, "cm75": 2.051096134712497, "dcm75": 0.0}, "rank": 17, "rankrev": 15, "move": -2}], "trial": [{"ld": 18, "pcs": 11740, "earned": 34620.0, "yld": 1923.3333333333333, "rate": 0.07567084102172683, "cmpc": 2.9488926746166952, "smv": 38.970000000000006, "eff": 0.4867166666666667, "dhu": 0.21480555555555556, "hit": 0.2777777777777778, "buyer": "LUCKY", "share": 0.0014891871183476066, "gapd": 576.6666666666667, "gapt": 10380.000000000002, "run": 9, "ops": 74.33333333333333, "whrs": 11.555555555555555, "capmin": 51537.777777777774, "styles": 1, "lines": 1, "pcsday": 652.2222222222222, "s": {"bench": 76.93333333333334, "value": 1.4891871183476064, "price": 89.76374972921333, "eff": 60.83958333333334, "qual": 46.55373076425708, "run": 90.0}, "score": 59.6118979459379, "grade": "D", "tier": "TRIAL", "need": {"cmpc": 3.8330494037478706, "dcm": 0.8841567291311754, "rate": 0.09835897879773853, "smv": 29.98092, "dsmv": 8.989080000000005, "eff": 0.6326473136915078, "y75": 2924.930241626481, "cm75": 2.9488926746166952, "dcm75": 0.0}}, {"ld": 17, "pcs": 17070, "earned": 29536.8, "yld": 1737.4588235294118, "rate": 0.0774061466719744, "cmpc": 1.7303339191564147, "smv": 22.35396016403046, "eff": 0.5167, "dhu": 0.16113529411764707, "hit": 0.0, "buyer": "PULL & BEAR", "share": 0.001270532122391958, "gapd": 762.5411764705882, "gapt": 12963.199999999999, "run": 5.666666666666667, "ops": 74.41176470588235, "whrs": 9.823529411764707, "capmin": 43859.169550173014, "styles": 1, "lines": 2, "pcsday": 1004.1176470588235, "s": {"bench": 69.49835294117646, "value": 1.2705321223919577, "price": 91.82223804504675, "eff": 64.58749999999999, "qual": 62.05965027561786, "run": 56.666666666666664}, "score": 58.19548327673581, "grade": "D", "tier": "TRIAL", "need": {"cmpc": 2.4897480960749854, "dcm": 0.7594141769185707, "rate": 0.11137839012888708, "smv": 15.535634131127882, "dsmv": 6.818326032902579, "eff": 0.7434708566940225, "y75": 2546.2269833337646, "cm75": 1.7303339191564147, "dcm75": 0.0}}, {"ld": 9, "pcs": 9030, "earned": 27024.0, "yld": 3002.6666666666665, "rate": 0.1883074350219497, "cmpc": 2.992691029900332, "smv": 15.892580287929125, "eff": 0.39246666666666663, "dhu": 0.11058888888888889, "hit": 0.6666666666666666, "buyer": "FAKE GODS", "share": 0.0011624434629181315, "gapd": -502.6666666666665, "gapt": -4523.999999999998, "run": 4.5, "ops": 65.77777777777777, "whrs": 10.444444444444445, "capmin": 41220.74074074074, "styles": 2, "lines": 2, "pcsday": 1003.3333333333334, "s": {"bench": 100, "value": 1.1624434629181315, "price": 100, "eff": 49.05833333333332, "qual": 90.42499748819452, "run": 45.0}, "score": 68.88373844140308, "grade": "C", "tier": "TRIAL", "need": {"cmpc": 2.4916943521594686, "dcm": -0.5009966777408636, "rate": 0.15678349940770678, "smv": 19.088048431155407, "dsmv": -3.1954681432262824, "eff": 0.32676509769094136, "y75": 5821.628968945253, "cm75": 2.992691029900332, "dcm75": 0.0}}, {"ld": 9, "pcs": 11335, "earned": 20969.75, "yld": 2329.972222222222, "rate": 0.0964546402502607, "cmpc": 1.85, "smv": 19.18, "eff": 0.4802222222222222, "dhu": 0.12304444444444444, "hit": 0.5555555555555556, "buyer": "CIRCULAR JEAN", "share": 0.0009020185319170918, "gapd": 170.02777777777783, "gapt": 1530.2500000000005, "run": 9, "ops": 70.22222222222223, "whrs": 12.0, "capmin": 50560.00000000001, "styles": 1, "lines": 1, "pcsday": 1259.4444444444443, "s": {"bench": 93.19888888888889, "value": 0.9020185319170917, "price": 100, "eff": 60.02777777777777, "qual": 81.27144663175005, "run": 90.0}, "score": 69.77138170289176, "grade": "C", "tier": "TRIAL", "need": {"cmpc": 1.9850022055580063, "dcm": 0.13500220555800624, "rate": 0.10349333709895758, "smv": 17.875546888888888, "dsmv": 1.304453111111112, "eff": 0.5152660379832854, "y75": 3657.5599582898863, "cm75": 1.85, "dcm75": 0.0}}, {"ld": 6, "pcs": 5350, "earned": 17560.0, "yld": 2926.6666666666665, "rate": 0.1504300448891478, "cmpc": 3.2822429906542054, "smv": 21.819065420560747, "eff": 0.3972833333333333, "dhu": 0.14125, "hit": 0.5, "buyer": "JOULES", "share": 0.0007553473656321193, "gapd": -426.6666666666665, "gapt": -2559.999999999999, "run": 3, "ops": 76.5, "whrs": 10.833333333333334, "capmin": 49725.0, "styles": 2, "lines": 2, "pcsday": 891.6666666666666, "s": {"bench": 100, "value": 0.7553473656321192, "price": 100, "eff": 49.66041666666666, "qual": 70.79646017699116, "run": 30.0}, "score": 66.17977799082554, "grade": "C", "tier": "TRIAL", "need": {"cmpc": 2.8037383177570097, "dcm": -0.4785046728971958, "rate": 0.12849946886886202, "smv": 25.54285258566978, "dsmv": -3.7237871651090337, "eff": 0.3393650341685649, "y75": 5610.100486584655, "cm75": 3.2822429906542054, "dcm75": 0.0}}, {"ld": 11, "pcs": 24420, "earned": 9157.5, "yld": 832.5, "rate": 0.04556500607533414, "cmpc": 0.375, "smv": 8.23, "eff": 0.5744955248311526, "dhu": 0.11819485540449348, "hit": 0.0, "buyer": "BUSS PRO", "share": 0.00039391193056811686, "gapd": 1667.5, "gapt": 18342.5, "run": 11, "ops": 75.0, "whrs": 8.727272727272727, "capmin": 39272.72727272727, "styles": 1, "lines": 1, "pcsday": 2220.0, "s": {"bench": 33.300000000000004, "value": 0.39391193056811685, "price": 54.0510155104794, "eff": 71.81194060389407, "qual": 84.60605130212652, "run": 100}, "score": 45.11138170900627, "grade": "D", "tier": "TRIAL", "need": {"cmpc": 1.1261261261261262, "dcm": 0.7511261261261262, "rate": 0.1368318500760785, "smv": 2.74059, "dsmv": 5.48941, "eff": 1.7252117862797378, "y75": 1342.096542582569, "cm75": 0.6985339506172841, "dcm75": 0.32353395061728407}}, {"ld": 1, "pcs": 350, "earned": 731.5, "yld": 731.5, "rate": 0.09227373068432672, "cmpc": 2.09, "smv": 22.65, "eff": 0.1517, "dhu": 0.1304, "hit": 0.0, "buyer": "RAGNO", "share": 3.146563769703276e-05, "gapd": 1768.5, "gapt": 1768.5, "run": 1, "ops": 69.0, "whrs": 13.0, "capmin": 53820.0, "styles": 1, "lines": 1, "pcsday": 350.0, "s": {"bench": 29.26, "value": 0.031465637697032756, "price": 100, "eff": 18.9625, "qual": 76.6871165644172, "run": 10.0}, "score": 39.79737978398113, "grade": "D", "tier": "TRIAL", "need": {"cmpc": 7.142857142857143, "dcm": 5.052857142857143, "rate": 0.31535793125197104, "smv": 6.627389999999999, "dsmv": 16.02261, "eff": 0.5184552289815447, "y75": 3724.6291390728484, "cm75": 2.09, "dcm75": 0.0}}, {"ld": 4, "pcs": 4780, "earned": 0.0, "yld": 0.0, "rate": 0.0, "cmpc": 0.0, "smv": 19.01491631799163, "eff": 0.4209, "dhu": 0.122425, "hit": 0.0, "buyer": "SSL", "share": 0.0, "gapd": 2500.0, "gapt": 10000.0, "run": 1, "ops": 74.0, "whrs": 10.5, "capmin": 46620.0, "styles": 1, "lines": 4, "pcsday": 1195.0, "s": {"bench": 0.0, "value": 0.0, "price": 0.0, "eff": 52.6125, "qual": 81.68266285480907, "run": 10.0}, "score": 16.560141285480906, "grade": "D", "tier": "TRIAL", "need": {"cmpc": null, "dcm": null, "rate": null, "smv": 0.0, "dsmv": 19.01491631799163, "eff": null, "y75": 0.0, "cm75": null, "dcm75": null}}], "monthly": [{"m": "2026-01", "ld": 1102, "earned": 3017840.5200000005, "rate": 0.08296488250316768, "yld": 2738.512268602541, "eff": 0.770258129188521, "dhu": 0.12056295828587979, "hit": 0.6152450090744102, "pcs": 1728312}, {"m": "2026-02", "ld": 760, "earned": 1981606.2000000002, "rate": 0.08821824023850262, "yld": 2607.3765789473687, "eff": 0.7644413972227676, "dhu": 0.11617484893329687, "hit": 0.5907894736842105, "pcs": 1088300}, {"m": "2026-03", "ld": 722, "earned": 1655087.3999999997, "rate": 0.08559654162059856, "yld": 2292.364819944598, "eff": 0.7277013186490532, "dhu": 0.1205422301549685, "hit": 0.4473684210526316, "pcs": 981230}, {"m": "2026-04", "ld": 1026, "earned": 2818392.0999999996, "rate": 0.08633218978148972, "yld": 2746.9708576998046, "eff": 0.7203934436066864, "dhu": 0.11101592485902431, "hit": 0.6228070175438597, "pcs": 1782761}, {"m": "2026-05", "ld": 912, "earned": 2774086.5, "rate": 0.08486584424593246, "yld": 3041.7615131578946, "eff": 0.6950455368774051, "dhu": 0.1203709074845527, "hit": 0.7335526315789473, "pcs": 1687268}, {"m": "2026-06", "ld": 836, "earned": 2313269.9, "rate": 0.08435140934810634, "yld": 2767.0692583732057, "eff": 0.6768086152781962, "dhu": 0.1376356334771137, "hit": 0.6447368421052632, "pcs": 1332951}, {"m": "2026-07", "ld": 1026, "earned": 2465635.2000000007, "rate": 0.08000386541386136, "yld": 2403.1532163742695, "eff": 0.6489787692307765, "dhu": 0.14142848573090896, "hit": 0.4522417153996101, "pcs": 1403415}, {"m": "2026-08", "ld": 950, "earned": 2162484.876954982, "rate": 0.08083573364324995, "yld": 2276.2998704789284, "eff": 0.6556971641443935, "dhu": 0.1467639258305602, "hit": 0.3894736842105263, "pcs": 1249112.4945408304}, {"m": "2026-09", "ld": 988, "earned": 2190431.4499999993, "rate": 0.08161520437531991, "yld": 2217.0358805668006, "eff": 0.6499311798381593, "dhu": 0.15859133108021517, "hit": 0.31275303643724695, "pcs": 1370273}, {"m": "2026-10", "ld": 744, "earned": 1868748.09, "rate": 0.08234372698986192, "yld": 2511.758185483871, "eff": 0.6413817101012405, "dhu": 0.1435340686903117, "hit": 0.5241935483870968, "pcs": 1226692}], "unit": [{"u": "unit-1", "ld": 3824, "earned": 10123322.970000003, "yld": 2647.3124921548124, "eff": 0.6850621627044501, "dhu": 0.148600103093084, "hit": 0.5862970711297071}, {"u": "unit-2", "ld": 3808, "earned": 9498752.940000005, "yld": 2494.4204149159677, "eff": 0.6915925883905417, "dhu": 0.11767779171405342, "hit": 0.47610294117647056}, {"u": "unit-3", "ld": 1434, "earned": 3625506.3269549813, "yld": 2528.247089926765, "eff": 0.7314084462031174, "dhu": 0.12436811232264934, "hit": 0.5404463040446305}], "lines": [{"u": "unit-1", "l": 4, "ld": 239, "earned": 743287.6, "yld": 3109.9899581589957, "eff": 0.6691449578693069, "dhu": 0.13279646716022567, "hit": 0.7531380753138075, "buyers": 5}, {"u": "unit-1", "l": 7, "ld": 239, "earned": 718066.7, "yld": 3004.4631799163176, "eff": 0.688842835148519, "dhu": 0.14127777828015395, "hit": 0.7364016736401674, "buyers": 6}, {"u": "unit-2", "l": 22, "ld": 238, "earned": 710448.5, "yld": 2985.077731092437, "eff": 0.748396021624079, "dhu": 0.1048863176649288, "hit": 0.7647058823529411, "buyers": 4}, {"u": "unit-1", "l": 15, "ld": 239, "earned": 711933.8, "yld": 2978.802510460251, "eff": 0.7819731018776195, "dhu": 0.20013260394467502, "hit": 0.8117154811715481, "buyers": 3}, {"u": "unit-1", "l": 1, "ld": 239, "earned": 700335.7000000001, "yld": 2930.2748953974897, "eff": 0.6960467483223952, "dhu": 0.14496847081475683, "hit": 0.7071129707112971, "buyers": 5}, {"u": "unit-1", "l": 14, "ld": 239, "earned": 691488.6000000001, "yld": 2893.2577405857746, "eff": 0.7558975574284912, "dhu": 0.21707684539516878, "hit": 0.8828451882845189, "buyers": 2}, {"u": "unit-2", "l": 17, "ld": 238, "earned": 686447.5, "yld": 2884.233193277311, "eff": 0.6723597654075797, "dhu": 0.09583908230228584, "hit": 0.5168067226890757, "buyers": 6}, {"u": "unit-2", "l": 19, "ld": 238, "earned": 678718.5, "yld": 2851.7584033613443, "eff": 0.7247528755134989, "dhu": 0.10468668150984531, "hit": 0.7352941176470589, "buyers": 5}, {"u": "unit-2", "l": 18, "ld": 238, "earned": 676914.6000000001, "yld": 2844.178991596639, "eff": 0.7546115134677932, "dhu": 0.11481210677058898, "hit": 0.6554621848739496, "buyers": 4}, {"u": "unit-1", "l": 6, "ld": 239, "earned": 674043.0, "yld": 2820.26359832636, "eff": 0.6929346416814633, "dhu": 0.1418370575546116, "hit": 0.5648535564853556, "buyers": 6}, {"u": "unit-1", "l": 16, "ld": 239, "earned": 657549.7000000002, "yld": 2751.253974895398, "eff": 0.8085631446127446, "dhu": 0.136872120617327, "hit": 0.7447698744769874, "buyers": 3}, {"u": "unit-1", "l": 8, "ld": 239, "earned": 655983.5, "yld": 2744.7008368200836, "eff": 0.7173768445758888, "dhu": 0.15303470494192464, "hit": 0.7112970711297071, "buyers": 4}, {"u": "unit-3", "l": 37, "ld": 239, "earned": 647436.0836990596, "yld": 2708.9375886989937, "eff": 0.775879828903623, "dhu": 0.12529160637775105, "hit": 0.6108786610878661, "buyers": 3}, {"u": "unit-2", "l": 21, "ld": 238, "earned": 644672.34, "yld": 2708.7073109243697, "eff": 0.6639143717160805, "dhu": 0.13860119365621418, "hit": 0.6134453781512605, "buyers": 7}, {"u": "unit-2", "l": 26, "ld": 238, "earned": 631537.0000000001, "yld": 2653.5168067226896, "eff": 0.7111109525523643, "dhu": 0.12700977739420163, "hit": 0.5546218487394958, "buyers": 6}, {"u": "unit-2", "l": 30, "ld": 238, "earned": 621456.4, "yld": 2611.1613445378152, "eff": 0.8006585065889792, "dhu": 0.1377150686001381, "hit": 0.47058823529411764, "buyers": 5}, {"u": "unit-3", "l": 36, "ld": 239, "earned": 609534.174238943, "yld": 2550.352193468381, "eff": 0.7479464094619567, "dhu": 0.1259099540676604, "hit": 0.5899581589958159, "buyers": 2}, {"u": "unit-1", "l": 3, "ld": 239, "earned": 609028.4, "yld": 2548.2359832635984, "eff": 0.6906368668441543, "dhu": 0.12956075417024512, "hit": 0.5690376569037657, "buyers": 6}, {"u": "unit-3", "l": 38, "ld": 239, "earned": 605124.6792647904, "yld": 2531.9024237020517, "eff": 0.7050481399004469, "dhu": 0.11629243286327948, "hit": 0.401673640167364, "buyers": 3}, {"u": "unit-1", "l": 11, "ld": 239, "earned": 604272.9, "yld": 2528.3384937238493, "eff": 0.6255634069662348, "dhu": 0.1665619879744384, "hit": 0.5146443514644351, "buyers": 4}, {"u": "unit-3", "l": 33, "ld": 239, "earned": 602463.9268156424, "yld": 2520.769568266286, "eff": 0.6778697937115686, "dhu": 0.13755086892792773, "hit": 0.5815899581589958, "buyers": 3}, {"u": "unit-2", "l": 25, "ld": 238, "earned": 595667.0, "yld": 2502.8025210084033, "eff": 0.5792688079073378, "dhu": 0.13543292817493777, "hit": 0.5168067226890757, "buyers": 7}, {"u": "unit-1", "l": 13, "ld": 239, "earned": 597250.4500000001, "yld": 2498.955857740586, "eff": 0.7107403888230889, "dhu": 0.14321004570748735, "hit": 0.5732217573221757, "buyers": 3}, {"u": "unit-1", "l": 5, "ld": 239, "earned": 590626.7, "yld": 2471.241422594142, "eff": 0.6208641669966817, "dhu": 0.14194832448583974, "hit": 0.46443514644351463, "buyers": 5}, {"u": "unit-3", "l": 34, "ld": 239, "earned": 589509.3692523363, "yld": 2466.5663985453402, "eff": 0.7704403581186108, "dhu": 0.10749823326993255, "hit": 0.5690376569037657, "buyers": 3}, {"u": "unit-2", "l": 29, "ld": 238, "earned": 585458.5, "yld": 2459.909663865546, "eff": 0.7742992840718429, "dhu": 0.09918684278735991, "hit": 0.4579831932773109, "buyers": 5}, {"u": "unit-2", "l": 20, "ld": 238, "earned": 579914.0, "yld": 2436.6134453781515, "eff": 0.6770019613519241, "dhu": 0.09980751610633418, "hit": 0.5336134453781513, "buyers": 4}, {"u": "unit-2", "l": 32, "ld": 238, "earned": 570986.1, "yld": 2399.1012605042015, "eff": 0.66519238360078, "dhu": 0.1173846551761714, "hit": 0.4411764705882353, "buyers": 5}, {"u": "unit-1", "l": 2, "ld": 239, "earned": 572868.1000000001, "yld": 2396.937656903766, "eff": 0.6339570454916159, "dhu": 0.13668191305498967, "hit": 0.4435146443514644, "buyers": 5}, {"u": "unit-3", "l": 35, "ld": 239, "earned": 571438.0936842104, "yld": 2390.954366879542, "eff": 0.7112661471224986, "dhu": 0.13281855521330885, "hit": 0.4895397489539749, "buyers": 3}, {"u": "unit-1", "l": 12, "ld": 239, "earned": 545542.7, "yld": 2282.605439330544, "eff": 0.6292195922883421, "dhu": 0.12902942881736953, "hit": 0.301255230125523, "buyers": 5}, {"u": "unit-2", "l": 24, "ld": 238, "earned": 542556.0, "yld": 2279.6470588235293, "eff": 0.6507023185270174, "dhu": 0.1061908240948863, "hit": 0.3235294117647059, "buyers": 7}, {"u": "unit-1", "l": 9, "ld": 239, "earned": 536681.95, "yld": 2245.531171548117, "eff": 0.6170422374218815, "dhu": 0.12145843582266176, "hit": 0.3179916317991632, "buyers": 4}, {"u": "unit-2", "l": 31, "ld": 238, "earned": 533625.0999999999, "yld": 2242.1222689075626, "eff": 0.7074177798516258, "dhu": 0.13595788396256434, "hit": 0.31932773109243695, "buyers": 6}, {"u": "unit-2", "l": 27, "ld": 238, "earned": 523831.2, "yld": 2200.9714285714285, "eff": 0.6893908535213382, "dhu": 0.14325222809448115, "hit": 0.29831932773109243, "buyers": 5}, {"u": "unit-1", "l": 10, "ld": 239, "earned": 514363.17000000004, "yld": 2152.1471548117156, "eff": 0.6221910669227736, "dhu": 0.14115471074746902, "hit": 0.28451882845188287, "buyers": 5}, {"u": "unit-2", "l": 28, "ld": 238, "earned": 505272.2, "yld": 2122.99243697479, "eff": 0.6153881493005088, "dhu": 0.12974778466318132, "hit": 0.3487394957983193, "buyers": 5}, {"u": "unit-2", "l": 23, "ld": 238, "earned": 411248.00000000006, "yld": 1727.932773109244, "eff": 0.6310158692459171, "dhu": 0.09233377646673534, "hit": 0.06722689075630252, "buyers": 5}], "matrix": {"months": ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10"], "rows": [{"buyer": "ZARA", "v": [3028.3415704388, 2736.382324840764, 2592.8448113207555, 3054.823502304148, 3104.3699619771864, 3329.5373015873015, 2769.689655172414, 2639.1609756097564, 2825.864864864865, 2962.3287128712873]}, {"buyer": "GAP", "v": [3272.4395604395604, 3042.134615384616, 2711.098765432099, 2997.563157894737, 3712.6938775510203, 3136.6923076923076, 2894.375, 2648.1052631578946, 2118.7272727272725, 3065.4686567164176]}, {"buyer": "OJG", "v": [2451.504853333333, 2462.940419161677, 2059.3766355140187, 2710.4970108695657, 2783.2957746478874, 2578.899696048632, 2361.5199248120302, 2035.7161004262207, 1962.8937777777776, 2282.5725213675214]}, {"buyer": "TARGET", "v": [2368.235064935065, 2328.8016666666667, 1683.155172413793, 2437.6666666666665, 2719.5642857142857, 2176.9220779220777, 2121.198113207547, 2000.6845238095239, 1890.8053571428572, 1967.8105263157895]}, {"buyer": "EXPRESS", "v": [3004.176470588235, 2867.909090909091, 3290.5555555555557, 3570.2, 4558.289473684211, 3701.714285714286, 3321.8382352941176, 2324.387755102041, 2773.65, 3287.350000000001]}, {"buyer": "AERO", "v": [null, null, null, null, null, null, null, 3101.2105263157896, 2631.0625, 2334.6771929824563]}, {"buyer": "SOLAMODA", "v": [null, null, null, 1116.5, 2041.75, 1162.5, 2036.360902255639, 2365.7895104895106, 2024.5172413793102, 2794.8684210526317]}, {"buyer": "IMPLUSE", "v": [null, null, 1481.3333333333333, 2354.625, 3168.75, 1860.25, 1113.0, 2384.156862745098, 2554.074074074074, 2730.0]}, {"buyer": "NOBLE", "v": [null, 2246.75, 2695.902777777778, 2807.0833333333335, 3475.0, 3953.125, 3057.0833333333335, 3239.0, 1934.5851063829787, 2439.0754285714283]}, {"buyer": "KMART", "v": [null, null, null, 2240.6666666666665, 2928.125, 2251.7708333333335, 2374.684210526316, 1850.918181818182, 1982.861111111111, 2251.554054054054]}, {"buyer": "NEW YORKER", "v": [3009.0, null, null, 2076.4444444444443, 3078.1666666666665, null, 2007.0575757575755, 1978.8235294117646, 1801.5625, 2305.34]}, {"buyer": "NEXT", "v": [2086.3837837837837, 2063.733333333333, 1484.0086956521739, 2176.9054054054054, 1985.654545454545, 2250.9864864864867, 2217.318181818182, 2005.2857142857142, 1961.475, 2631.9285714285716]}, {"buyer": "LAGER", "v": [2115.4166666666665, 2344.125, null, 2047.1818181818182, null, null, 1861.8, 1305.0, 885.0, 2833.0555555555557]}, {"buyer": "TRIBAL", "v": [null, null, null, 2653.846153846154, 1958.3333333333333, 2596.4285714285716, null, 2000.0, 2455.0, 3125.0]}, {"buyer": "WALMART", "v": [null, null, null, null, null, null, null, 1585.3500000000001, 2190.8999999999996, 2078.05]}, {"buyer": "MED COUTORE", "v": [2077.896551724138, 1822.4736842105262, 1852.8243243243244, 1964.9204545454545, 2319.375, 1053.1818181818182, 1297.2037037037037, 1441.0217391304348, null, null]}, {"buyer": "CARRE FOUR", "v": [null, null, null, null, null, null, null, 1545.75, 1761.7702898550724, 1920.3897222222222]}]}};
+const f0=n=>n==null?'':Math.round(n).toLocaleString();
+const f$=n=>n==null?'':'$'+Math.round(n).toLocaleString();
+const f2=n=>n==null?'':n.toFixed(2);
+const f3=n=>n==null?'':'$'+n.toFixed(3);
+const f4=n=>n==null?'':n.toFixed(4);
+const fp=n=>n==null?'':(n*100).toFixed(1)+'%';
+const F=D.factory, BM=D.bm, ALL=D.rank.concat(D.trial);
+const MT=D.meta, STD=MT.standards, W=MT.weights, GB=MT.grade_bands;
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const mlab=m=>{const p=String(m).split('-');return p.length>1?MON[+p[1]-1]+(p[0].slice(2)?" '"+p[0].slice(2):''):m};
+const M0=D.monthly[0], MW=D.monthly.reduce((a,b)=>b.eff<a.eff?b:a,D.monthly[0]), MH=D.monthly[D.monthly.length-1];
+const CAP=Math.round(F.ops)*F.whrs*60;
+const money=n=>'$'+Math.round(n).toLocaleString();
+const PAL=['#12355b','#2b6ca3','#4a90c4','#7fb3d5','#a9cce3','#d4e6f1','#0f7b53','#4ea882','#b26a00','#d9a441','#c8102e','#e0697b','#6b4c9a','#9b8bc4','#5c6874','#93a0ac'];
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+ document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.t));window.scrollTo(0,0)});
+
+// ---------- OVERVIEW ----------
+(function(){
+ const M=D.monthly,G='#0f7b53',R='#c8102e',N='#12355b',A='#b7791f';
+ const L={[G]:'#e6f4ee',[R]:'#fde8eb',[N]:'#e7eef6',[A]:'#fbf1df'};
+ function spark(vals,col,fmt,ref,bars){const W=260,H=60,HB=44,p=4,mn=Math.min(...vals,ref??Infinity),mx=Math.max(...vals,ref??-Infinity),lo=bars?0:mn-(mx-mn)*.15,hi=mx+(mx-mn)*.15||mx*1.1;
+  const X=i=>p+i*(W-2*p)/(vals.length-1),Y=v=>HB-p-(v-lo)/(hi-lo)*(HB-2*p),MN=i=>mlab(M[i].m).slice(0,3);let s=`<svg class="ksp" viewBox="0 0 ${W} ${H}" width="100%" height="${H}">`;
+  if(ref!=null)s+=`<line x1="0" x2="${W}" y1="${Y(ref)}" y2="${Y(ref)}" stroke="#c8102e" stroke-dasharray="4 3" stroke-width="1"/>`;
+  if(bars){const bw=(W-2*p)/vals.length;vals.forEach((v,i)=>s+=`<rect x="${p+i*bw+bw*.15}" y="${Y(v)}" width="${bw*.7}" height="${HB-p-Y(v)}" rx="2" fill="${col}" opacity=".75"><title>${mlab(M[i].m)}: ${fmt(v)}</title></rect><text x="${p+i*bw+bw/2}" y="${H-2}" text-anchor="middle" font-size="9.5" fill="#5b6874">${MN(i)}</text>`)}
+  else{s+=`<path d="${vals.map((v,i)=>(i?'L':'M')+X(i)+' '+Y(v)).join('')}" fill="none" stroke="${col}" stroke-width="2.2"/>`;
+   vals.forEach((v,i)=>s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${i==vals.length-1?3.6:2.4}" fill="${i==vals.length-1?col:'#fff'}" stroke="${col}" stroke-width="1.6"><title>${mlab(M[i].m)}: ${fmt(v)}</title></circle><text x="${Math.min(Math.max(X(i),9),W-9)}" y="${H-2}" text-anchor="middle" font-size="9.5" fill="#5b6874">${MN(i)}</text>`)}
+  return s+'</svg>'}
+ function meter(v,std,col,fmt,lo){const mx=Math.max(v,std)*1.18,pv=v/mx*100,ps=std/mx*100;
+  return `<div class="km"><i style="width:${pv}%;background:${col}"></i><b style="left:${ps}%"></b></div><div class="kml"><span>0</span><span>${lo?'max ':'std '}${fmt(std)}</span></div>`}
+ const pc=v=>(v*100).toFixed(1)+'%',ST=D.meta.standards,mo=M.map(m=>m.earned/m.pcs);
+ const C=[
+  {l:'Earned $ YTD',i:'$',v:f$(F.earned),d:'CM value booked · '+M.length+' months',c:N,chip:'avg '+f$(F.earned/M.length)+' / month',sp:spark(M.map(m=>m.earned),N,f$,null,true)},
+  {l:'Earned $ / line-day',i:'⚑',v:f$(F.yld),d:'benchmark '+money(BM),c:F.yld>=BM?G:R,chip:(F.yld>=BM?'▲ +':'▼ −')+f$(Math.abs(F.yld-BM))+' vs benchmark',mt:meter(F.yld,BM,F.yld>=BM?G:R,money),sp:spark(M.map(m=>m.yld),F.yld>=BM?G:R,f$,BM)},
+  {l:'Benchmark hit rate',i:'◎',v:fp(F.hit),d:f0(F.ld-F.below)+' of '+f0(F.ld)+' line-days ≥ '+money(BM),c:F.hit>=0.5?A:R,chip:f0(F.below)+' line-days below',mt:`<div class="km"><i style="width:${F.hit*100}%;background:${F.hit>=.5?A:R}"></i></div><div class="kml"><span>0%</span><span>100%</span></div>`,sp:spark(M.map(m=>m.hit),F.hit>=.5?A:R,pc)},
+  {l:'CM $ / SMV minute',i:'¢',v:F.rate.toFixed(4),d:'factory blended price',c:F.rate>=ST.price_cm_per_smv_min?G:R,chip:(F.rate>=ST.price_cm_per_smv_min?'✓ at/above':'▼ below')+' std '+ST.price_cm_per_smv_min,mt:meter(F.rate,ST.price_cm_per_smv_min,F.rate>=ST.price_cm_per_smv_min?G:R,v=>v.toFixed(4)),sp:spark(M.map(m=>m.rate),F.rate>=ST.price_cm_per_smv_min?G:R,v=>v.toFixed(4),ST.price_cm_per_smv_min)},
+  {l:'Efficiency',i:'⚙',v:fp(F.eff),d:mlab(M0.m)+' '+fp(M0.eff)+' → '+mlab(MW.m)+' '+fp(MW.eff),c:F.eff>=ST.efficiency?G:R,chip:(F.eff>=ST.efficiency?'✓ ':'▼ ')+((F.eff-ST.efficiency)*100).toFixed(1)+' pts vs std '+pc(ST.efficiency),mt:meter(F.eff,ST.efficiency,F.eff>=ST.efficiency?G:R,pc),sp:spark(M.map(m=>m.eff),F.eff>=ST.efficiency?G:R,pc,ST.efficiency)},
+  {l:'DHU %',i:'✎',v:fp(F.dhu),d:mlab(M0.m)+' '+fp(M0.dhu)+' → '+mlab(MH.m)+' '+fp(MH.dhu),c:F.dhu<=ST.dhu?G:R,chip:(F.dhu<=ST.dhu?'✓ ':'▲ +')+((F.dhu-ST.dhu)*100).toFixed(1)+' pts over std '+pc(ST.dhu),mt:meter(F.dhu,ST.dhu,F.dhu<=ST.dhu?G:R,pc,true),sp:spark(M.map(m=>m.dhu),F.dhu<=ST.dhu?G:R,pc,ST.dhu)},
+  {l:'Avg CM $ / piece',i:'◈',v:'$'+F.cmpc.toFixed(3),d:'at '+f2(F.smv)+' avg SMV',c:N,chip:'range $'+Math.min(...mo).toFixed(2)+' – $'+Math.max(...mo).toFixed(2),sp:spark(mo,N,v=>'$'+v.toFixed(3))},
+  {l:'Pieces',i:'▤',v:f0(F.pcs),d:F.styles+' styles · '+F.lines+' lines',c:N,chip:'avg '+f0(F.pcs/M.length)+' / month',sp:spark(M.map(m=>m.pcs),N,f0,null,true)}];
+ const el=document.getElementById('k1');el.className='kx';
+ el.innerHTML=C.map(k=>`<div class="kc" style="--ac:${k.c};--acl:${L[k.c]}"><div class="kh"><div class="kl">${k.l}</div><div class="ki">${k.i}</div></div><div class="kv">${k.v}</div><div class="kd">${k.d}</div><span class="kchip">${k.chip}</span>${k.mt||''}${k.sp}</div>`).join('');
+})();
+document.getElementById('p1').textContent=f$(F.yld);
+document.getElementById('p2').textContent=fp(F.hit);
+document.getElementById('p3').textContent=f0(F.below);
+const RGAP=D.rank.filter(r=>r.gapd>0).reduce((a,b)=>a+b.gapt,0), NBELOW=D.rank.filter(r=>r.gapd>0).length;
+document.getElementById('p4').textContent=f$(RGAP);
+document.getElementById('p5').textContent=NBELOW;
+document.getElementById('p6').textContent=fp(M0.eff);
+document.getElementById('p7').textContent=fp(MW.eff);
+document.getElementById('p8').textContent=fp(M0.hit);
+document.getElementById('p9').textContent=fp(MH.hit);
+
+// donut (v4.44 interactive)
+(function(){
+ const rows=D.rank.slice().sort((a,b)=>b.earned-a.earned);
+ const oth=D.trial.reduce((a,b)=>a+b.earned,0);
+ const data=rows.map((r,i)=>({n:r.buyer,v:r.earned,c:PAL[i%PAL.length]})).concat(oth>0?[{n:'Trial buyers',v:oth,c:'#c3ccd6'}]:[]);
+ const tot=data.reduce((a,b)=>a+b.v,0),W=860,H=370,cx=180,cy=180,R=130,r0=72,ex=18;
+ let hits='',a0=-Math.PI/2,s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}"><g class="dg">`;
+ data.forEach((d,i)=>{const a1=a0+d.v/tot*Math.PI*2,big=(a1-a0)>Math.PI?1:0,am=(a0+a1)/2;
+  const p=[cx+R*Math.cos(a0),cy+R*Math.sin(a0),cx+R*Math.cos(a1),cy+R*Math.sin(a1),cx+r0*Math.cos(a1),cy+r0*Math.sin(a1),cx+r0*Math.cos(a0),cy+r0*Math.sin(a0)];
+  const dd=`M${p[0]} ${p[1]} A${R} ${R} 0 ${big} 1 ${p[2]} ${p[3]} L${p[4]} ${p[5]} A${r0} ${r0} 0 ${big} 0 ${p[6]} ${p[7]} Z`;hits+=`<path class="hit" data-i="${i}" d="${dd}" fill="transparent" stroke="transparent" stroke-width="6"></path>`;
+  s+=`<path class="sl" data-i="${i}" style="--dx:${(ex*Math.cos(am)).toFixed(1)}px;--dy:${(ex*Math.sin(am)).toFixed(1)}px;pointer-events:none" d="${dd}" fill="${d.c}" stroke="#fff" stroke-width="1.5"></path>`;a0=a1});
+ s+=`<text id="dnN" x="${cx}" y="${cy-14}" text-anchor="middle" font-size="12" font-weight="700" fill="#5b6874">TOTAL EARNED</text><text id="dnV" x="${cx}" y="${cy+8}" text-anchor="middle" font-size="19" font-weight="800" fill="#12355b">${f$(tot)}</text><text id="dnP" x="${cx}" y="${cy+27}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b6874">${data.length} accounts</text>${hits}</g>`;
+ const per=Math.ceil(data.length/2);
+ data.forEach((d,i)=>{const col=Math.floor(i/per),y=26+(i%per)*33,x=390+col*240;
+  s+=`<g class="lg" data-i="${i}"><rect class="bg" x="${x-8}" y="${y-17}" width="228" height="27" rx="6"/><rect x="${x}" y="${y-10}" width="12" height="12" rx="3" fill="${d.c}" stroke="#fff"/><text x="${x+20}" y="${y+1}" font-size="13" fill="#0f1419">${d.n}</text><text x="${x+212}" y="${y+1}" font-size="13" text-anchor="end" font-weight="700" fill="#0f1419">${(d.v/tot*100).toFixed(1)}%</text></g>`});
+ const el=document.getElementById('pie');el.innerHTML=s+'</svg>';
+ const svg=el.querySelector('svg'),N=el.querySelector('#dnN'),V=el.querySelector('#dnV'),P=el.querySelector('#dnP');
+ function on(i){svg.classList.add('act');el.querySelectorAll('.sl,.lg').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));const d=data[i];
+  N.textContent=d.n;N.setAttribute('fill',d.c==='#c3ccd6'?'#5b6874':d.c);V.textContent=f$(d.v);P.textContent=(d.v/tot*100).toFixed(1)+'% of total · #'+(i+1)}
+ function off(){svg.classList.remove('act');el.querySelectorAll('.on').forEach(x=>x.classList.remove('on'));N.textContent='TOTAL EARNED';N.setAttribute('fill','#5b6874');V.textContent=f$(tot);P.textContent=data.length+' accounts'}
+ el.querySelectorAll('.hit,.lg').forEach(x=>{x.addEventListener('mouseenter',()=>on(+x.dataset.i));x.addEventListener('mouseleave',off)});
+})();
+
+function vbar(el,rows,val,fmt,bmline,h,lbl){
+ const W=1100,H=h||360,ml=58,mr=20,mt=20,mb=78,n=rows.length,bw=(W-ml-mr)/n;
+ const mx=Math.max(...rows.map(val),bmline||0)*1.15;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}">`;
+ for(let i=0;i<=4;i++){const v=mx*i/4,y=H-mb-(v/mx)*(H-mt-mb);
+  s+=`<line x1="${ml}" x2="${W-mr}" y1="${y}" y2="${y}" stroke="#e2e7ec"/><text x="${ml-7}" y="${y+4}" text-anchor="end" font-size="11" fill="#5b6874">${fmt(v)}</text>`}
+ rows.forEach((r,i)=>{const v=val(r),bh=(v/mx)*(H-mt-mb),x=ml+i*bw+bw*0.16,y=H-mb-bh;
+  const col=bmline?(v>=bmline?'#0f7b53':'#c8102e'):'#2b6ca3';
+  s+=`<rect x="${x}" y="${y}" width="${bw*0.68}" height="${Math.max(bh,1)}" fill="${col}" rx="3"><title>${r.buyer||r.l||r.m}: ${fmt(v)}</title></rect>`;
+  {const yb=bmline?H-mb-(bmline/mx)*(H-mt-mb):-99,cl=Math.abs((y-6)-yb)<14&&bh>26;s+=`<text x="${x+bw*0.34}" y="${cl?y+17:y-6}" text-anchor="middle" font-size="${cl?11.5:10.5}" font-weight="700" fill="${cl?'#fff':'#0f1419'}">${fmt(v)}</text>`;}
+  s+=`<text x="${x+bw*0.34}" y="${H-mb+14}" text-anchor="end" font-size="11" fill="#0f1419" transform="rotate(-40 ${x+bw*0.34} ${H-mb+14})">${r.buyer||('L'+r.l)||r.m}</text>`});
+ if(bmline){const y=H-mb-(bmline/mx)*(H-mt-mb);
+  s+=`<line x1="${ml}" x2="${W-mr}" y1="${y}" y2="${y}" stroke="#c8102e" stroke-width="1.8" stroke-dasharray="6 4"/><text x="${W-mr}" y="${y-7}" text-anchor="end" font-size="11.5" font-weight="700" fill="#c8102e">${lbl||('Benchmark '+fmt(bmline))}</text>`}
+ document.getElementById(el).innerHTML=s+'</svg>';
+}
+vbar('ovbar',D.rank,r=>r.yld,f$,BM,380,'Benchmark '+money(BM));
+vbar('hitbar',D.rank,r=>r.hit,v=>fp(v),F.hit,330,'Factory average '+fp(F.hit));
+
+// ---------- RANKING ----------
+const RC=[['rank','#','n'],['buyer','Buyer','s'],['grade','Grade','n'],['score','Score','n'],['ld','Line-days','n'],['pcs','Total qty','n'],['earned','Earned $','n'],['yld','$/line-day','n'],['hit','Hit rate','n'],['rate','CM$/min','n'],['cmpc','CM $/pc','n'],['smv','SMV','n'],['eff','Efficiency','n'],['dhu','DHU %','n'],['run','Run days','n'],['move','Move','n']];
+let sk='rank',asc=true;
+function drawRank(){
+ const rows=D.rank.slice().sort((a,b)=>{let x=a[sk],y=b[sk];return typeof x==='string'?(asc?x.localeCompare(y):y.localeCompare(x)):(asc?x-y:y-x)});
+ let h='<thead><tr>'+RC.map(c=>`<th class="s ${c[2]==='s'?'l':''}" data-k="${c[0]}">${c[1]}${sk===c[0]?(asc?' ▲':' ▼'):''}</th>`).join('')+'</tr></thead><tbody>';
+ rows.forEach(r=>{const mv=r.move>0?`<span class="pill p1">▲ ${r.move}</span>`:r.move<0?`<span class="pill p2">▼ ${-r.move}</span>`:`<span class="pill p3">—</span>`;
+  h+=`<tr><td class="b">${r.rank}</td><td class="l b">${r.buyer}</td><td><span class="g g${r.grade}">${r.grade}</span></td>
+  <td><div style="display:flex;align-items:center;gap:8px;justify-content:flex-end"><span class="b">${r.score.toFixed(1)}</span><div class="bar" style="width:64px"><i style="width:${r.score}%"></i></div></div></td>
+  <td>${f0(r.ld)}</td><td>${f0(r.pcs)}</td><td class="b">${f$(r.earned)}</td><td class="${r.yld>=BM?'up':'dn'} b">${f$(r.yld)}</td><td>${fp(r.hit)}</td>
+  <td class="${r.rate>=F.rate?'up':'dn'}">${f4(r.rate)}</td><td>${f3(r.cmpc)}</td><td>${f2(r.smv)}</td><td>${fp(r.eff)}</td><td>${fp(r.dhu)}</td><td>${f2(r.run)}</td><td>${mv}</td></tr>`});
+ h+=`</tbody><tbody style="background:#fbfbfc"><tr><td colspan="16" class="l mut b" style="padding-top:14px">TRIAL — under 40 line-days, scored but not ranked</td></tr>`;
+ D.trial.forEach(r=>{h+=`<tr><td class="mut">—</td><td class="l">${r.buyer}</td><td><span class="g g${r.grade}">${r.grade}</span></td><td>${r.score.toFixed(1)}</td><td>${r.ld}</td><td>${f0(r.pcs)}</td><td>${f$(r.earned)}</td><td class="${r.yld>=BM?'up':'dn'}">${f$(r.yld)}</td><td>${fp(r.hit)}</td><td>${f4(r.rate)}</td><td>${f3(r.cmpc)}</td><td>${f2(r.smv)}</td><td>${fp(r.eff)}</td><td>${fp(r.dhu)}</td><td>${f2(r.run)}</td><td></td></tr>`});
+ h+='</tbody>';
+ document.getElementById('rktab').innerHTML=h;
+ document.querySelectorAll('#rktab th.s').forEach(t=>t.onclick=()=>{const k=t.dataset.k;if(sk===k)asc=!asc;else{sk=k;asc=(k==='buyer'||k==='rank'||k==='grade')}drawRank()});
+}
+drawRank();
+vbar('scorebar',D.rank,r=>r.score,v=>v.toFixed(1),null,330);
+(function(){
+ const keys=[['bench',.30,'#12355b'],['value',.20,'#2b6ca3'],['price',.20,'#4a90c4'],['eff',.15,'#7fb3d5'],['qual',.10,'#a9cce3'],['run',.05,'#d4e6f1']];
+ const W=1100,rh=27,H=D.rank.length*rh+24;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}">`;
+ D.rank.forEach((r,i)=>{const y=i*rh+10;let x=160;
+  s+=`<text x="150" y="${y+12}" text-anchor="end" font-size="12.5" font-weight="600">${r.buyer}</text>`;
+  keys.forEach(k=>{const w=r.s[k[0]]*k[1]*8.4;
+   s+=`<rect x="${x}" y="${y}" width="${w}" height="16" fill="${k[2]}"><title>${r.buyer} — ${k[0]}: ${(r.s[k[0]]*k[1]).toFixed(1)} of ${(k[1]*100)} pts (raw ${r.s[k[0]].toFixed(0)}/100)</title></rect>`;x+=w});
+  s+=`<text x="${x+8}" y="${y+12}" font-size="12.5" font-weight="700" fill="#12355b">${r.score.toFixed(1)}</text>`});
+ document.getElementById('stack').innerHTML=s+'</svg>';
+})();
+document.getElementById('grades').innerHTML='<thead><tr><th class="l">Grade</th><th class="l">Score</th><th class="l">Meaning</th><th class="l">Buyers</th></tr></thead><tbody>'+
+ [['A',GB.A+' – 100','Clears the benchmark and pays a fair rate. Protect and grow.','gA'],
+  ['B',GB.B+' – '+(GB.A-1),'Sound account with one weak line — usually run stability or efficiency.','gB'],
+  ['C',GB.C+' – '+(GB.B-1),'Below benchmark on average. Needs a costing conversation or a floor fix this season.','gC'],
+  ['D','under '+GB.C,'Consumes capacity at a loss against the benchmark. Reprice, re-engineer, or replace.','gD']]
+ .map(g=>`<tr><td class="l"><span class="g ${g[3]}">${g[0]}</span></td><td class="l b">${g[1]}</td><td class="l">${g[2]}</td><td class="l">${ALL.filter(r=>r.grade===g[0]).map(r=>r.buyer).join(', ')||'—'}</td></tr>`).join('')+'</tbody>';
+
+// ---------- BUYER KPI ----------
+(function(){
+ const cols=[['buyer','Buyer','l'],['tier','Tier'],['ld','Line-days'],['lines','Lines'],['styles','Styles'],['pcs','Pieces'],['pcsday','Pcs/line-day'],['earned','Earned $'],['share','Share'],['yld','$/line-day'],['hit','Hit rate'],['rate','CM$/min'],['cmpc','CM $/pc'],['smv','SMV'],['eff','Efficiency'],['dhu','DHU %'],['run','Run days'],['ops','Operators'],['whrs','W.hrs']];
+ let h='<thead><tr>'+cols.map(c=>`<th class="${c[2]||''}">${c[1]}</th>`).join('')+'</tr></thead><tbody>';
+ ALL.forEach(r=>{h+=`<tr><td class="l b">${r.buyer}</td><td class="${r.tier==='TRIAL'?'mut':''}">${r.tier}</td><td>${f0(r.ld)}</td><td>${r.lines}</td><td>${r.styles}</td><td>${f0(r.pcs)}</td><td>${f0(r.pcsday)}</td><td class="b">${f$(r.earned)}</td><td>${fp(r.share)}</td><td class="${r.yld>=BM?'up':'dn'}">${f$(r.yld)}</td><td>${fp(r.hit)}</td><td>${f4(r.rate)}</td><td>${f3(r.cmpc)}</td><td>${f2(r.smv)}</td><td>${fp(r.eff)}</td><td>${fp(r.dhu)}</td><td>${f2(r.run)}</td><td>${f0(r.ops)}</td><td>${f2(r.whrs)}</td></tr>`});
+ h+=`</tbody><tfoot><tr><td class="l">FACTORY</td><td></td><td>${f0(F.ld)}</td><td>${F.lines}</td><td>${F.styles}</td><td>${f0(F.pcs)}</td><td>${f0(F.pcs/F.ld)}</td><td>${f$(F.earned)}</td><td>100%</td><td>${f$(F.yld)}</td><td>${fp(F.hit)}</td><td>${f4(F.rate)}</td><td>${f3(F.cmpc)}</td><td>${f2(F.smv)}</td><td>${fp(F.eff)}</td><td>${fp(F.dhu)}</td><td></td><td></td><td></td></tr></tfoot>`;
+ document.getElementById('kptab').innerHTML=h;
+})();
+function scatter(el,rows,fx,fy,lx,ly,fmx,fmy,vx,vy){
+ const W=560,H=400,ml=62,mr=24,mt=18,mb=52;
+ const xs=rows.map(fx),ys=rows.map(fy);
+ const x0=Math.min(...xs)*0.9,x1=Math.max(...xs)*1.06,y0=Math.min(...ys)*0.9,y1=Math.max(...ys)*1.06;
+ const X=v=>ml+(v-x0)/(x1-x0)*(W-ml-mr),Y=v=>H-mb-(v-y0)/(y1-y0)*(H-mt-mb);
+ const mp=Math.max(...rows.map(r=>r.pcs));
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}">`;
+ for(let i=0;i<=4;i++){const v=y0+(y1-y0)*i/4;s+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e2e7ec"/><text x="${ml-7}" y="${Y(v)+4}" text-anchor="end" font-size="10.5" fill="#5b6874">${fmy(v)}</text>`}
+ for(let i=0;i<=4;i++){const v=x0+(x1-x0)*i/4;s+=`<text x="${X(v)}" y="${H-mb+16}" text-anchor="middle" font-size="10.5" fill="#5b6874">${fmx(v)}</text>`}
+ if(vx!=null)s+=`<line x1="${X(vx)}" x2="${X(vx)}" y1="${mt}" y2="${H-mb}" stroke="#c8102e" stroke-dasharray="5 4"/>`;
+ if(vy!=null)s+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(vy)}" y2="${Y(vy)}" stroke="#c8102e" stroke-dasharray="5 4"/>`;
+ s+=`<line x1="${ml}" x2="${ml}" y1="${mt}" y2="${H-mb}" stroke="#0f1419"/><line x1="${ml}" x2="${W-mr}" y1="${H-mb}" y2="${H-mb}" stroke="#0f1419"/>`;
+ s+=`<text x="${W/2}" y="${H-8}" text-anchor="middle" font-size="12" font-weight="600">${lx}</text><text x="14" y="${H/2}" text-anchor="middle" font-size="12" font-weight="600" transform="rotate(-90 14 ${H/2})">${ly}</text>`;
+ rows.forEach(r=>{const rad=6+Math.sqrt(r.pcs/mp)*16;
+  s+=`<circle cx="${X(fx(r))}" cy="${Y(fy(r))}" r="${rad}" fill="rgba(43,108,163,.4)" stroke="#12355b" stroke-width="1.2"><title>${r.buyer}</title></circle>`;
+  s+=`<text x="${X(fx(r))}" y="${Y(fy(r))-rad-4}" text-anchor="middle" font-size="10.5" font-weight="700">${r.buyer}</text>`});
+ document.getElementById(el).innerHTML=s+'</svg>';
+}
+scatter('scatter',D.rank,r=>r.rate,r=>r.eff,'CM $ per SMV minute →','Efficiency →',v=>v.toFixed(3),fp,F.rate,F.eff);
+scatter('scatter2',D.rank,r=>r.smv,r=>r.cmpc,'SMV (minutes) →','CM $ per piece →',v=>v.toFixed(1),v=>'$'+v.toFixed(2),null,null);
+
+// ---------- BENCHMARK ----------
+const below=D.rank.filter(r=>r.gapd>0),above=D.rank.filter(r=>r.gapd<=0);
+document.getElementById('k2').innerHTML=[
+ ['Benchmark',money(BM),'earned per line per day'],
+ ['Factory average',f$(F.yld),(F.yld-BM>=0?'+':'')+f$(F.yld-BM)+' vs benchmark'],
+ ['Line-days at or above',f0(F.ld-F.below),fp(F.hit)+' of all line-days'],
+ ['Line-days below',f0(F.below),fp(1-F.hit)+' of all line-days'],
+ ['Ranked buyers below',below.length+' of '+D.rank.length,'on their period average'],
+ ['Total shortfall',f$(RGAP),'capacity value, ranked buyers']
+].map(k=>`<div class="kpi"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div></div>`).join('');
+(function(){
+ const rows=D.rank.slice().sort((a,b)=>a.gapt-b.gapt);
+ const W=1100,rh=30,mt=10,mb=34,H=mt+rows.length*rh+mb,nameW=150,pad=110,L=nameW+pad,R=W-pad;
+ const mx=Math.max(...rows.map(r=>Math.abs(r.gapt))),x0=(L+R)/2,half=(R-L)/2;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" style="font-family:inherit">`;
+ rows.forEach((r,i)=>{const y=mt+i*rh;if(i%2==0)s+=`<rect x="0" y="${y}" width="${W}" height="${rh}" fill="#f5f7f9"/>`});
+ s+=`<line x1="${nameW+4}" x2="${nameW+4}" y1="${mt}" y2="${H-mb}" stroke="#d5dce3"/>`;
+ s+=`<line x1="${x0}" x2="${x0}" y1="${mt}" y2="${H-mb}" stroke="#0f1419" stroke-width="1.4"/>`;
+ rows.forEach((r,i)=>{const y=mt+i*rh,bh=rh*0.56,by=y+(rh-bh)/2,w=Math.max(Math.abs(r.gapt)/mx*half,1.5),pos=r.gapt>0,ty=y+rh/2+4;
+  s+=`<text x="12" y="${ty}" font-size="12.5" font-weight="700" fill="#0f1419">${r.buyer}</text>`;
+  s+=`<rect x="${pos?x0:x0-w}" y="${by}" width="${w}" height="${bh}" fill="${pos?'#c8102e':'#0f7b53'}" rx="2"><title>${r.buyer}: ${pos?'shortfall ':'surplus '}${f$(Math.abs(r.gapt))}</title></rect>`;
+  s+=`<text x="${pos?x0+w+8:x0-w-8}" y="${ty}" text-anchor="${pos?'start':'end'}" font-size="11.5" font-weight="700" fill="${pos?'#c8102e':'#0f7b53'}">${pos?'−':'+'}${f$(Math.abs(r.gapt))}</text>`});
+ s+=`<text x="${x0+16}" y="${H-10}" font-size="11.5" fill="#c8102e" font-weight="700">shortfall vs benchmark →</text><text x="${x0-16}" y="${H-10}" text-anchor="end" font-size="11.5" fill="#0f7b53" font-weight="700">← surplus above benchmark</text>`;
+ document.getElementById('gapbar').innerHTML=s+'</svg>';
+})();
+(function(){
+ let h='<thead><tr><th class="l">Buyer</th><th>Line-days</th><th>Earned $</th><th>$/line-day</th><th>vs '+money(BM)+'</th><th>Hit rate</th><th>Days below</th><th>Year surplus / shortfall</th></tr></thead><tbody>';
+ D.rank.forEach(r=>{h+=`<tr><td class="l b">${r.buyer}</td><td>${f0(r.ld)}</td><td>${f$(r.earned)}</td><td class="b ${r.yld>=BM?'up':'dn'}">${f$(r.yld)}</td><td class="${r.yld>=BM?'up':'dn'}">${r.yld>=BM?'+':'−'}${f$(Math.abs(r.yld-BM))}</td><td>${fp(r.hit)}</td><td>${f0(r.ld*(1-r.hit))}</td><td class="b ${r.gapt<=0?'up':'dn'}">${r.gapt<=0?'+'+f$(-r.gapt):'−'+f$(r.gapt)}</td></tr>`});
+ const sg=D.rank.reduce((a,b)=>a+b.gapt,0);
+ h+=`</tbody><tfoot><tr><td class="l">RANKED TOTAL</td><td>${f0(D.rank.reduce((a,b)=>a+b.ld,0))}</td><td>${f$(D.rank.reduce((a,b)=>a+b.earned,0))}</td><td>${f$(D.rank.reduce((a,b)=>a+b.earned,0)/D.rank.reduce((a,b)=>a+b.ld,0))}</td><td></td><td></td><td></td><td class="${sg<=0?'up':'dn'}">${sg<=0?'+'+f$(-sg):'−'+f$(sg)}</td></tr></tfoot>`;
+ document.getElementById('bmtab').innerHTML=h;
+})();
+(function(){
+ let h='<thead><tr><th class="l">If the line runs at</th><th>Available minutes</th><th>Earning minutes</th><th>CM $/min needed</th><th>At '+Math.round(F.smv)+' SMV that is</th><th>Pieces/day needed</th></tr></thead><tbody>';
+ [0.55,0.60,0.65,0.70,0.75,0.80,0.85].forEach(e=>{const cap=CAP,earn=cap*e,rate=BM/earn,SM=Math.round(F.smv),cm=rate*SM,pcs=earn/SM;
+  h+=`<tr><td class="l b">${fp(e)} efficiency</td><td>${f0(cap)}</td><td>${f0(earn)}</td><td class="b">${rate.toFixed(4)}</td><td>${'$'+cm.toFixed(3)} per piece</td><td>${f0(pcs)}</td></tr>`});
+ document.getElementById('reqtab').innerHTML=h+'</tbody>';
+})();
+// v4.35 live worked example (real data)
+(function(){
+ const pick=n=>D.rank.find(r=>r.buyer===n);
+ const sh=pick('TARGET')||D.rank.slice().sort((a,b)=>b.gapt-a.gapt)[0];
+ const su=D.rank.slice().sort((a,b)=>a.gapt-b.gapt)[0];
+ const row=(n,t,f,v,c)=>`<tr><td class="l b" style="width:34px">${n}</td><td class="l">${t}</td><td class="l mut" style="font-family:monospace;font-size:12.5px">${f}</td><td class="b ${c||''}">${v}</td></tr>`;
+ function steps(r){const pos=r.gapt>0,g=BM-r.yld,below=Math.round(r.ld*(1-r.hit));
+  let t=`<table><thead><tr><th class="l">Step</th><th class="l">What</th><th class="l">Calculation (${r.buyer} real figures)</th><th>Result</th></tr></thead><tbody>`;
+  t+=row(1,'Line-days worked','count of line × day rows for '+r.buyer,f0(r.ld));
+  t+=row(2,'CM earned in the period','Σ (pieces × CM $/pc) = '+f0(r.pcs)+' pcs × '+f3(r.cmpc),f$(r.earned));
+  t+=row(3,'Earned per line-day','Step 2 ÷ Step 1 = '+f$(r.earned)+' ÷ '+f0(r.ld),f$(r.yld),r.yld>=BM?'up':'dn');
+  t+=row(4,'Gap vs benchmark per line-day',money(BM)+' − '+f$(r.yld),(g>0?'−':'+')+f$(Math.abs(g))+' /day',g>0?'dn':'up');
+  t+=row(5,pos?'Year shortfall':'Year surplus','Step 4 × Step 1 = '+f$(Math.abs(g))+' × '+f0(r.ld),(pos?'−':'+')+f$(Math.abs(r.gapt)),pos?'dn':'up');
+  t+=row(6,'Hit rate / days below','days earning ≥ '+money(BM)+' ÷ line-days',fp(r.hit)+' · '+f0(below)+' days below');
+  return t+'</tbody></table>'}
+ const n=sh.need,pd=BM/sh.cmpc;
+ let h=`<h3>Live example — how one buyer's number is built (real data, ${D.meta.date_from||''} – ${D.meta.date_to||''})</h3>
+ <p style="margin:0 0 10px">Same six steps for every buyer. Shortfall case: <b>${sh.buyer}</b>. Surplus case: <b>${su.buyer}</b>.</p>
+ <div><div><div style="font-weight:700;color:#c8102e;margin-bottom:6px">${sh.buyer} — below benchmark</div><div class="scroll">${steps(sh)}</div></div>
+ <div style="margin-top:14px"><div style="font-weight:700;color:#0f7b53;margin-bottom:6px">${su.buyer} — above benchmark</div><div class="scroll">${steps(su)}</div></div></div>`;
+ if(sh.gapt>0){h+=`<h3 style="margin-top:16px">How ${sh.buyer} reaches ${money(BM)} a line-day — pick one lever (others held as today)</h3>
+ <div class="scroll"><table><thead><tr><th class="l">Lever</th><th>Today</th><th>Needed</th><th>Change</th><th class="l">What it means on the floor / in costing</th></tr></thead><tbody>
+ <tr><td class="l b">A. CM $ per piece</td><td>${'$'+sh.cmpc.toFixed(3)}</td><td class="b">${'$'+n.cmpc.toFixed(3)}</td><td class="dn">+${'$'+n.dcm.toFixed(3)}/pc</td><td class="l">Ask for a higher CM at costing, same SMV & efficiency</td></tr>
+ <tr><td class="l b">B. CM $ per SMV-min</td><td>${f4(sh.rate)}</td><td class="b">${f4(n.rate)}</td><td class="dn">+${(n.rate-sh.rate).toFixed(4)}</td><td class="l">Price per minute of work — use when SMV differs by style</td></tr>
+ <tr><td class="l b">C. Efficiency</td><td>${fp(sh.eff)}</td><td class="b">${fp(n.eff)}</td><td class="dn">+${((n.eff-sh.eff)*100).toFixed(1)} pts</td><td class="l">Same price, more output: longer runs (now ${f2(sh.run)} days/style), fewer changeovers</td></tr>
+ <tr><td class="l b">D. Pieces per line-day</td><td>${f0(sh.pcsday)}</td><td class="b">${f0(pd)}</td><td class="dn">+${f0(pd-sh.pcsday)} pcs</td><td class="l">${money(BM)} ÷ ${'$'+sh.cmpc.toFixed(3)} CM/pc</td></tr>
+ <tr><td class="l b">E. SMV (same CM/pc)</td><td>${f2(sh.smv)}</td><td class="b">${f2(n.smv)}</td><td class="dn">−${f2(n.dsmv)} min</td><td class="l">Method / work-study cut on the same garment price</td></tr>
+ </tbody></table></div>
+ <div class="note">Every number comes from the ${sh.buyer} line-day records in this report. A mix of smaller moves (e.g. half of A + half of C) also closes the gap.</div>`}
+ document.getElementById('bmex').innerHTML=h;
+})();
+
+
+
+function linePanel(M,key,col,fmt,o){o=o||{};
+ const W=1100,H=o.h||230,ml=70,mr=40,mt=34,mb=o.axis?40:16,bw=(W-ml-mr)/M.length;
+ const vals=M.map(m=>m[key]);let lo=Math.min(...vals,o.ref!=null?o.ref:Infinity),hi=Math.max(...vals,o.ref!=null?o.ref:-Infinity);const pd=(hi-lo)*0.22||hi*0.1;lo-=pd;hi+=pd;
+ const X=i=>ml+i*bw+bw/2,Y=v=>mt+(hi-v)/(hi-lo)*(H-mt-mb);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" style="display:block">`;
+ s+=`<text x="${ml}" y="18" font-size="13.5" font-weight="700" fill="${col}">${o.title}</text>`;
+ if(o.sub)s+=`<text x="${W-mr}" y="18" text-anchor="end" font-size="11.5" fill="#5b6874">${o.sub}</text>`;
+ for(let i=0;i<=3;i++){const v=lo+(hi-lo)*i/3;s+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#eef1f4"/><text x="${ml-8}" y="${Y(v)+4}" text-anchor="end" font-size="10.5" fill="#8a96a3">${fmt(v)}</text>`}
+ if(o.ref!=null)s+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(o.ref)}" y2="${Y(o.ref)}" stroke="#c8102e" stroke-width="1.4" stroke-dasharray="6 4"/><text x="${W-mr}" y="${Y(o.ref)-6}" text-anchor="end" font-size="11" font-weight="700" fill="#c8102e">${o.refLbl}</text>`;
+ s+=`<path d="${M.map((m,i)=>(i?'L':'M')+X(i)+' '+Y(m[key])).join('')}" fill="none" stroke="${col}" stroke-width="2.8"${o.dash?' stroke-dasharray="7 4"':''}/>`;
+ M.forEach((m,i)=>{const v=m[key],pv=i?M[i-1][key]:v,nv=i<M.length-1?M[i+1][key]:v,up=v>=(pv+nv)/2-1e-9,y=Y(v);
+  const bad=o.good==null?false:(o.good==='hi'?v<o.ref:v>o.ref);
+  s+=`<circle cx="${X(i)}" cy="${y}" r="5" fill="#fff" stroke="${col}" stroke-width="2.4"><title>${m.m}: ${fmt(v)}</title></circle>`;
+  s+=`<text x="${X(i)}" y="${up?y-12:y+21}" text-anchor="middle" font-size="12" font-weight="700" fill="${bad?'#c8102e':'#0f1419'}" paint-order="stroke" stroke="#fff" stroke-width="4">${fmt(v)}</text>`});
+ if(o.axis)M.forEach((m,i)=>s+=`<text x="${X(i)}" y="${H-12}" text-anchor="middle" font-size="12" font-weight="600">${mlab(m.m)}</text>`);
+ return s+'</svg>';
+}
+// ---------- TRENDS ----------
+(function(){
+ const M=D.monthly,pc=v=>(v*100).toFixed(1)+'%';
+ const div='<div style="height:1px;background:#e2e7ec;margin:6px 0 10px"></div>';
+ document.getElementById('trend').innerHTML=
+  linePanel(M,'eff','#12355b',pc,{title:'Efficiency',sub:'produced minutes ÷ available minutes',ref:0.80,refLbl:'Standard 80%',good:'hi'})+div+
+  linePanel(M,'hit','#0f7b53',pc,{title:'Benchmark hit rate',sub:'% of line-days earning '+money(BM)+' or more'})+div+
+  linePanel(M,'dhu','#c8102e',pc,{title:'DHU %',sub:'defects per hundred units — lower is better',ref:0.10,refLbl:'Standard 10%',good:'lo',axis:true,h:250});
+ vbar('mbar',M.map(m=>({buyer:mlab(m.m),v:m.yld,pcs:0})),r=>r.v,f$,BM,320,'Benchmark '+money(BM));
+ document.getElementById('rline').innerHTML=linePanel(M,'rate','#2b6ca3',v=>v.toFixed(4),{title:'CM $ per SMV minute',sub:'Price stayed inside a narrow band — the movement is on the floor, not in the costings',ref:D.meta.standards&&D.meta.standards.price_cm_per_smv_min||0.0843,refLbl:'Standard '+(D.meta.standards&&D.meta.standards.price_cm_per_smv_min||0.0843),axis:true,h:300});
+ let h='<thead><tr><th class="l">Month</th><th>Line-days</th><th>Pieces</th><th>Earned $</th><th>$/line-day</th><th>vs benchmark</th><th>Hit rate</th><th>CM$/min</th><th>Efficiency</th><th>DHU %</th></tr></thead><tbody>';
+ M.forEach(m=>{h+=`<tr><td class="l b">${m.m}${m.m==='2026-10'?' <span class="mut">(24 d)</span>':''}</td><td>${f0(m.ld)}</td><td>${f0(m.pcs)}</td><td>${f$(m.earned)}</td><td class="b ${m.yld>=BM?'up':'dn'}">${f$(m.yld)}</td><td class="${m.yld>=BM?'up':'dn'}">${m.yld>=BM?'+':'−'}${f$(Math.abs(m.yld-BM))}</td><td>${fp(m.hit)}</td><td>${f4(m.rate)}</td><td class="b">${fp(m.eff)}</td><td>${fp(m.dhu)}</td></tr>`});
+ document.getElementById('mtab').innerHTML=h+'</tbody>';
+})();
+(function(){
+ const M=D.matrix,vals=M.rows.flatMap(r=>r.v).filter(v=>v!=null),mn=Math.min(...vals),mx=Math.max(...vals);
+ let h='<thead><tr><th class="l">Buyer</th>'+M.months.map(m=>`<th>${mlab(m)}</th>`).join('')+'</tr></thead><tbody>';
+ M.rows.forEach(r=>{h+=`<tr><td class="l b">${r.buyer}</td>`+r.v.map(v=>{if(v==null)return '<td class="mut">·</td>';
+  const t=(v-mn)/(mx-mn),bg=`rgba(31,92,139,${(0.07+t*0.65).toFixed(2)})`;
+  return `<td style="background:${bg};color:${t>0.55?'#fff':'#0f1419'};${v<BM?'box-shadow:inset 0 0 0 2px #c8102e':''}">${f0(v)}</td>`}).join('')+'</tr>'});
+ document.getElementById('matrix').innerHTML=h+'</tbody>';
+})();
+
+// ---------- LINES ----------
+(function(){
+ let h='<thead><tr><th class="l">Unit</th><th>Line-days</th><th>Earned $</th><th>$/line-day</th><th>vs benchmark</th><th>Hit rate</th><th>Efficiency</th><th>DHU %</th></tr></thead><tbody>';
+ D.unit.forEach(u=>{h+=`<tr><td class="l b">${u.u}</td><td>${f0(u.ld)}</td><td>${f$(u.earned)}</td><td class="b ${u.yld>=BM?'up':'dn'}">${f$(u.yld)}</td><td class="${u.yld>=BM?'up':'dn'}">${u.yld>=BM?'+':'−'}${f$(Math.abs(u.yld-BM))}</td><td>${fp(u.hit)}</td><td>${fp(u.eff)}</td><td>${fp(u.dhu)}</td></tr>`});
+ document.getElementById('utab').innerHTML=h+'</tbody>';
+ (function(){
+ const rows=D.lines.slice().sort((a,b)=>b.yld-a.yld),W=1100,rh=26,mt=30,mb=30,nameW=70,valW=90,H=mt+rows.length*rh+mb;
+ const mx=Math.max(...rows.map(r=>r.yld),BM)*1.05,X=v=>nameW+v/mx*(W-nameW-valW);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" style="display:block">`;
+ for(let v=0;v<=mx;v+=500){s+=`<line x1="${X(v)}" x2="${X(v)}" y1="${mt}" y2="${H-mb}" stroke="#eef1f4"/><text x="${X(v)}" y="${H-mb+16}" text-anchor="middle" font-size="10.5" fill="#8a96a3">${f$(v)}</text>`}
+ rows.forEach((r,i)=>{if(i%2==0)s+=`<rect x="0" y="${mt+i*rh}" width="${W}" height="${rh}" fill="#f7f9fb"/>`});
+ s+=`<line x1="${X(BM)}" x2="${X(BM)}" y1="${mt-8}" y2="${H-mb}" stroke="#c8102e" stroke-width="1.6" stroke-dasharray="6 4"/><text x="${X(BM)}" y="${mt-12}" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c8102e">Benchmark ${money(BM)}</text>`;
+ rows.forEach((r,i)=>{const y=mt+i*rh,ok=r.yld>=BM,w=X(r.yld)-nameW;
+  s+=`<text x="${nameW-10}" y="${y+rh/2+4}" text-anchor="end" font-size="12.5" font-weight="700">L${r.l}</text>`;
+  s+=`<rect x="${nameW}" y="${y+5}" width="${w}" height="${rh-10}" rx="2" fill="${ok?'#0f7b53':'#c8102e'}"><title>Line ${r.l}: ${f$(r.yld)} per line-day</title></rect>`;
+  s+=`<text x="${X(r.yld)+8}" y="${y+rh/2+4}" font-size="12" font-weight="700" fill="${ok?'#0f7b53':'#c8102e'}" paint-order="stroke" stroke="#fff" stroke-width="5">${f$(r.yld)}</text>`});
+ const ab=rows.filter(r=>r.yld>=BM).length;
+ s+=`<text x="${W-4}" y="${mt-12}" text-anchor="end" font-size="11.5" fill="#5b6874">${ab} lines at or above · ${rows.length-ab} below</text>`;
+ document.getElementById('linebar').innerHTML=s+'</svg>';
+})();
+ let t='<thead><tr><th class="l">Line</th><th class="l">Unit</th><th>Line-days</th><th>Buyers run</th><th>Earned $</th><th>$/line-day</th><th>Hit rate</th><th>Efficiency</th><th>DHU %</th></tr></thead><tbody>';
+ D.lines.forEach(l=>{t+=`<tr><td class="l b">Line ${l.l}</td><td class="l mut">${l.u}</td><td>${l.ld}</td><td>${l.buyers}</td><td>${f$(l.earned)}</td><td class="b ${l.yld>=BM?'up':'dn'}">${f$(l.yld)}</td><td>${fp(l.hit)}</td><td>${fp(l.eff)}</td><td>${fp(l.dhu)}</td></tr>`});
+ document.getElementById('ltab').innerHTML=t+'</tbody>';
+})();
+
+// ---------- IMPROVEMENT ----------
+(function(){
+ const rows=D.rank.slice().sort((a,b)=>b.gapt-a.gapt);
+ let out='';
+ rows.forEach(r=>{
+  const short=r.gapd>0, n=r.need;
+  const effOK=n.eff<=0.78, effHard=n.eff>0.85;
+  let why='';
+  if(!short){
+   why=`<div class="why ok"><b>Above the benchmark.</b> This account earns ${f$(r.yld-BM)} a day more than the standard on ${f0(r.ld)} line-days — ${f$(-r.gapt)} of surplus capacity value for the period. The job here is protection, not repair: hold the CM at ${f3(r.cmpc)} on ${f2(r.smv)} SMV, and defend the line allocation. It has room to absorb a ${fp(1-BM/r.yld)} efficiency loss before it drops below ${money(BM)} a day.</div>`;
+  } else {
+   const drivers=[];
+   if(r.rate<F.rate) drivers.push(`the rate is ${f4(r.rate)} per SMV minute against a factory blend of ${F.rate.toFixed(4)} — ${fp(1-r.rate/F.rate)} below`);
+   if(r.eff<0.70) drivers.push(`the floor runs it at ${fp(r.eff)}, under the 70% the standard assumes`);
+   if(r.run<5) drivers.push(`the style changes every ${f2(r.run)} line-days, so the line is repeatedly in start-up`);
+   if(r.dhu>0.14) drivers.push(`DHU at ${fp(r.dhu)} is eating output through rework`);
+   const route = effHard ? `Efficiency alone cannot close this — it would need ${fp(n.eff)}, which no line in this factory holds. Price has to carry most of it.`
+     : effOK ? `Efficiency alone can close it: ${fp(r.eff)} → ${fp(n.eff)} at the same price and the same SMV.`
+     : `Efficiency alone would need ${fp(n.eff)} — possible but tight. A split is safer.`;
+   const split = n.dcm75>0.005 ? `Realistic split: lift efficiency to ${fp(MT.target_eff)} <b>and</b> ask ${'+$'+n.dcm75.toFixed(3)}/pc — that is ${fp(n.dcm75/r.cmpc)} on price instead of ${fp(n.dcm/r.cmpc)}.`
+     : `Realistic split: lift efficiency to ${fp(MT.target_eff)} and the account clears ${money(BM)} a day with <b>no price increase at all</b> (it would reach ${f$(n.y75)}).`;
+   why=`<div class="why"><b>Why it is short:</b> ${drivers.join('; ')||'the combination of price and floor performance leaves it under the standard'}. Missing ${f$(r.gapd)} a day &times; ${f0(r.ld)} line-days = <b>${f$(r.gapt)}</b> of capacity value for the period.<br><b>Reading the routes:</b> ${route} ${split}</div>`;
+  }
+  out+=`<div class="imp"><div class="hd"><span class="g g${r.grade}">${r.grade}</span><b>${r.rank}. ${r.buyer}</b>
+   <span class="pill ${short?'p2':'p1'}">${short?'−'+f$(r.gapd)+' /line-day':'+'+f$(-r.gapd)+' /line-day'}</span>
+   <span class="mut" style="font-size:12.5px">${f0(r.ld)} line-days &middot; ${f0(r.pcs)} pcs &middot; ${r.styles} styles &middot; hit rate ${fp(r.hit)} &middot; score ${r.score.toFixed(1)}</span></div>
+   <div class="lev">
+    <div><div class="t">Route A — price</div><div class="n">${short?f3(n.cmpc):f3(r.cmpc)}</div><div class="s2">CM per piece ${short?`(now ${f3(r.cmpc)}, ${'+$'+n.dcm.toFixed(3)} = ${fp(n.dcm/r.cmpc)})`:`— already sufficient, ${'$'+Math.abs(n.dcm).toFixed(3)} of headroom`}<br>= ${n.rate.toFixed(4)} per SMV minute</div></div>
+    <div><div class="t">Route B — method</div><div class="n">${f2(n.smv)} min</div><div class="s2">SMV ${short?`down from ${f2(r.smv)} (−${f2(n.dsmv)} min, ${fp(n.dsmv/r.smv)}) at unchanged CM`:`— current ${f2(r.smv)}, no reduction required`}</div></div>
+    <div><div class="t">Route C — floor</div><div class="n">${fp(n.eff)}</div><div class="s2">efficiency, from ${fp(r.eff)} today${short?` (${n.eff>0.85?'not achievable':'+'+((n.eff-r.eff)*100).toFixed(1)+' points'})`:''}</div></div>
+   </div>${why}</div>`;
+ });
+ document.getElementById('impcards').innerHTML=out;
+})();
+
+// ---------- METHOD ----------
+document.getElementById('steps').innerHTML=[
+ ['Start from the daily line-day file, not the summary tabs','The source is one row per sewing line per day — '+f0(F.ld)+' rows covering '+F.lines+' lines across '+F.units+' units, '+MT.period+', read from the "'+MT.sheet+'" tab of '+MT.source_file+'. The summary tabs in the same workbook average the period and hide the month-by-month movement, so they are not used.'],
+ ['Fix the CM rate',(MT.costing_styles? 'Where a style appeared in the costing sheets supplied ('+MT.costing_styles+' styles), the CM rate on every line-day of that style was replaced with the actual costed rate. Where a style had no costing on file, the CM was set at the benchmark rate of $'+MT.costing_bench_rate+' per SMV minute times that style SMV, so no row is left blank or stale. CM sources: '+Object.entries(MT.cm_sources).map(x=>x[0]+' '+x[1]).join(', ')+'.' : 'No costing workbook was supplied for this run, so the CM rate is used exactly as it appears in the daily report. Supply the costing book next time and the affected buyers will be repriced automatically.')],
+ ['Rebuild the earned value','Earned $ was recomputed on every single row as pieces produced &times; CM rate. This also corrected '+f0(MT.arith_rows)+' rows in the source where the two did not tie.'],
+ ['Roll up to the buyer','For each buyer: line-days counted, pieces and earned $ summed, SMV weighted by pieces, efficiency and DHU taken as the simple mean of the daily values (which reproduces the factory\'s own yearly figures exactly), and run days measured as the average number of consecutive days a style holds one line before changeover.'],
+ ['Measure everything against '+money(BM),'Earned $ per line-day is compared to the benchmark. Two views are kept: the average (did the account clear '+money(BM)+' on average) and the hit rate (what share of its individual line-days actually cleared it). The shortfall is ('+f0(BM)+' − average) &times; line-days.'],
+ ['Score six standards out of 100','Each buyer is scored against a fixed factory standard on six measures, capped at 100 each, then weighted and added. No buyer is scored against another buyer, so the numbers stay comparable next month even if the buyer mix changes.'],
+ ['Separate the small accounts','Any buyer with fewer than '+MT.trial_threshold+' line-days is scored but listed as TRIAL rather than ranked. A handful of days is not evidence, and small samples produce extreme numbers in both directions.'],
+ ['Work out the three routes','For each buyer below the benchmark, the earning identity is solved backwards three times — once for price, once for SMV, once for efficiency — to give the exact number each lever would have to reach on its own.']
+].map((s,i)=>`<div class="step"><div class="stepn">${i+1}</div><div><h4>${s[0]}</h4><p>${s[1]}</p></div></div>`).join('');
+
+document.getElementById('stdtab').innerHTML='<thead><tr><th class="l">#</th><th class="l">Measure</th><th class="l">What it answers</th><th class="l">Standard = 100</th><th>Weight</th></tr></thead><tbody>'+
+[['1','Benchmark achievement','Does one line-day of this buyer earn what a line-day must earn?',money(BM)+' earned per line per day',fp(W.benchmark)],
+ ['2','Value delivered','How much of the factory\'s total earned value does this account carry?',fp(STD.value_share_of_earned)+' share of factory earned $',fp(W.value)],
+ ['3','Price','What does the buyer pay per minute of sewing work?','$'+STD.price_cm_per_smv_min+' per SMV minute — the factory blended rate',fp(W.price)],
+ ['4','Efficiency','How well does the floor actually run this buyer\'s work?',fp(STD.efficiency)+' efficiency',fp(W.efficiency)],
+ ['5','Quality','How much output is lost to defects and rework?',fp(STD.dhu)+' DHU (score = standard ÷ actual DHU)',fp(W.quality)],
+ ['6','Run stability','How long does a style hold a line before changeover?',STD.run_days+' consecutive line-days per style',fp(W.run)]]
+.map(r=>`<tr><td class="l b">${r[0]}</td><td class="l b">${r[1]}</td><td class="l">${r[2]}</td><td class="l">${r[3]}</td><td class="b">${r[4]}</td></tr>`).join('')+
+'</tbody><tfoot><tr><td colspan="4" class="l">Total</td><td>100%</td></tr></tfoot>';
+
+const HIC=D.rank.reduce((a,b)=>b.cmpc>a.cmpc?b:a,D.rank[0]), LOC=D.rank.reduce((a,b)=>b.cmpc<a.cmpc?b:a,D.rank[0]);
+document.getElementById('whytab').innerHTML=[
+ ['Benchmark achievement — '+fp(W.benchmark),'This is the question the factory actually asks: was that line-day worth giving away? It gets the biggest weight because it already contains price, efficiency and manning inside it, and because it is the one number a merchandiser and a production manager will both accept.'],
+ ['Value delivered — '+fp(W.value),'Scale has to count. An account earning $6m cannot rank below one earning $100k on a rate advantage alone — the first one pays the wages. The standard is set at a '+fp(STD.value_share_of_earned)+' share so that a genuinely large account maxes out and the rest are scored in proportion.'],
+ ['Price — '+fp(W.price),'CM $ per SMV minute is the only fair way to compare price across buyers, because a '+f3(HIC.cmpc)+' CM on a '+f2(HIC.smv)+'-minute garment and a '+f3(LOC.cmpc)+' CM on a '+f2(LOC.smv)+'-minute garment are completely different deals. Comparing CM per piece across buyers is meaningless; comparing per minute is not.'],
+ ['Efficiency — '+fp(W.efficiency),'Two buyers can pay the same rate and deliver different money, because one runs cleanly and the other does not. Efficiency separates a pricing problem from a floor problem, and it is the lever the factory controls without asking anyone.'],
+ ['Quality — '+fp(W.quality),'DHU is rework, and rework is capacity already paid for and spent twice. It is weighted lower than efficiency only because it is partly counted inside efficiency already.'],
+ ['Run stability — '+fp(W.run),'Every changeover costs learning-curve output. It gets the smallest weight because it is often a consequence of the order book rather than the buyer, but it explains why some accounts with a fair rate still underperform.'],
+ ['Why SMV is not scored on its own','A high SMV is not bad and a low SMV is not good — a 33-minute cargo pant should cost more than a 15-minute short. What matters is CM per minute, which is already measure 3. SMV also cancels out of the earning identity: at a fixed CM per minute, changing SMV alone does not change what a line earns in a day. SMV only becomes a lever when it falls while CM per piece stays fixed — which is exactly Route B in the improvement plan.']
+].map(r=>`<div style="margin-bottom:14px"><b style="color:#12355b">${r[0]}</b><div style="color:#5b6874;font-size:13.5px;margin-top:2px">${r[1]}</div></div>`).join('');
+
+document.getElementById('deftab').innerHTML='<thead><tr><th class="l">Term</th><th class="l">Definition</th></tr></thead><tbody>'+
+[['Line-day','One sewing line running for one day. The unit of capacity everything is measured in.'],
+ ['Earned $','Pieces produced &times; CM rate. The CM value booked. Not FOB, not margin.'],
+ ['CM $ per SMV minute','Earned $ ÷ (pieces &times; SMV). What the buyer pays for one minute of sewing work.'],
+ ['Earned $ per line-day','Capacity yield. What one line earns in one day on that buyer. Compared to the '+money(BM)+' benchmark.'],
+ ['Benchmark hit rate',"The share of that buyer's individual line-days that earned "+money(BM)+" or more."],
+ ['Shortfall','(benchmark − earned per line-day) &times; line-days. Capacity value missed over the period, not a cash loss.'],
+ ['Efficiency','Simple mean of the daily efficiency values. Earning minutes ÷ available minutes.'],
+ ['DHU %','Defects per hundred units. Simple mean of the daily values.'],
+ ['SMV','Standard minute value — the work content of one garment. Weighted by pieces produced.'],
+ ['Run days','Average consecutive line-days a style holds one line before a changeover.'],
+ ['Earning identity','Earned $/line-day = CM$/min &times; efficiency &times; operators &times; working hours &times; 60. Every improvement route in this report is this equation solved for one variable.'],
+ ['TRIAL','Fewer than 40 line-days in the period. Scored but not ranked.']]
+.map(r=>`<tr><td class="l b">${r[0]}</td><td class="l">${r[1]}</td></tr>`).join('')+'</tbody>';
+
+document.getElementById('dqtab').innerHTML='<thead><tr><th class="l">Item</th><th class="l">Detail</th></tr></thead><tbody>'+
+[['Rows rebuilt',f0(MT.arith_rows)+' line-days in the source had Earned $ ≠ pieces &times; CM (net '+money(Math.abs(MT.arith_value))+' '+(MT.arith_value>0?'overstated':'understated')+'). All were recomputed from pieces &times; CM.'],
+ ['CM completeness',MT.costing_styles?('Styles without a costing on file carry a benchmark rate of $'+MT.costing_bench_rate+' per SMV minute rather than a stale floor entry. Replace these as the costings arrive and the affected figures will move slightly.'):'No costing workbook supplied — CM is exactly as reported in the daily file.'],
+ ['Last month may be partial',MT.last_month+' carries '+MT.last_month_days+' days in this extract. Check before comparing it to a full month.'],
+ ['Zero-CM rows','Any line-day carrying no CM at all still counts as capacity used, earns zero, and its buyer is usually flagged TRIAL.'],
+ ['What this report cannot say','It measures CM value per unit of capacity. It does not know fabric price, wash cost, overheads or FOB, so it cannot rank buyers by profit — only by what they pay for sewing capacity and how well that capacity runs.']]
+.map(r=>`<tr><td class="l b">${r[0]}</td><td class="l">${r[1]}</td></tr>`).join('')+'</tbody>';
+
+</script><script>
+(function(){
+ const STD=D.meta.standards,Wt=D.meta.weights,GB=D.meta.grade_bands,TT=D.meta.trial_threshold;
+ const ALLB=D.rank.concat(D.trial);let cur=(D.rank.find(r=>r.buyer==='TARGET')||D.rank[0]).buyer;
+ const c100=v=>Math.min(100,v);
+ const P=[
+  ['bench','benchmark','Benchmark','$/line-day',r=>r.yld,STD.benchmark_per_line_day,v=>money(v),(a,s)=>`MIN(100, ${money(a)} ÷ ${money(s)} × 100)`,(a,s)=>a/s*100],
+  ['value','value','Value share','share of factory earned',r=>r.share,STD.value_share_of_earned,v=>(v*100).toFixed(2)+'%',(a,s)=>`MIN(100, ${(a*100).toFixed(2)}% ÷ ${(s*100).toFixed(0)}% × 100)`,(a,s)=>a/s*100],
+  ['price','price','Price','CM $ per SMV-min',r=>r.rate,STD.price_cm_per_smv_min,v=>v.toFixed(4),(a,s)=>`MIN(100, ${a.toFixed(4)} ÷ ${s.toFixed(4)} × 100)`,(a,s)=>a/s*100],
+  ['eff','efficiency','Efficiency','produced ÷ available min',r=>r.eff,STD.efficiency,v=>(v*100).toFixed(1)+'%',(a,s)=>`MIN(100, ${(a*100).toFixed(1)}% ÷ ${(s*100).toFixed(0)}% × 100)`,(a,s)=>a/s*100],
+  ['qual','quality','Quality','DHU % (lower is better)',r=>r.dhu,STD.dhu,v=>(v*100).toFixed(1)+'%',(a,s)=>`MIN(100, ${(s*100).toFixed(0)}% ÷ ${(a*100).toFixed(1)}% × 100)`,(a,s)=>s/a*100],
+  ['run','run','Run stability','avg run days per style',r=>r.run,STD.run_days,v=>v.toFixed(2)+' d',(a,s)=>`MIN(100, ${a.toFixed(2)} ÷ ${s} × 100)`,(a,s)=>a/s*100]];
+ function tabs(){document.getElementById('rfxTabs').innerHTML=ALLB.map(r=>{const on=r.buyer===cur,tr=r.tier==='TRIAL'||D.trial.includes(r);
+  return `<button data-b="${r.buyer}" style="cursor:pointer;border:1px solid ${on?'#12355b':'#d5dce3'};background:${on?'#12355b':'#fff'};color:${on?'#fff':(tr?'#8a96a3':'#0f1419')};border-radius:16px;padding:5px 12px;font-size:12.5px;font-weight:600">${r.rank?('#'+r.rank+' '):''}${r.buyer}${tr?' · trial':''}</button>`}).join('');
+  document.querySelectorAll('#rfxTabs button').forEach(b=>b.onclick=()=>{cur=b.dataset.b;draw()})}
+ function draw(){tabs();const r=ALLB.find(x=>x.buyer===cur),tr=D.trial.includes(r);let tot=0;
+  let h=`<div class="scroll"><table><thead><tr><th class="l">KPI</th><th class="l">Actual (${r.buyer})</th><th>Standard</th><th class="l">Score formula</th><th>Score /100</th><th>Weight</th><th>Points</th></tr></thead><tbody>`;
+  P.forEach(p=>{const a=p[4](r),s=p[5],sc=c100(p[8](a,s)),w=Wt[p[1]],pt=sc*w;tot+=pt;
+   h+=`<tr><td class="l b">${p[2]}<div class="mut" style="font-weight:400;font-size:11.5px">${p[3]}</div></td><td class="l b">${p[6](a)}</td><td>${p[6](s)}</td><td class="l mut" style="font-family:monospace;font-size:12px">${p[7](a,s)}</td><td class="b ${sc>=100?'up':(sc<70?'dn':'')}">${sc.toFixed(1)}</td><td>${(w*100).toFixed(0)}%</td><td class="b">${sc.toFixed(1)} × ${w.toFixed(2)} = ${pt.toFixed(2)}</td></tr>`});
+  const g=tot>=GB.A?'A':tot>=GB.B?'B':tot>=GB.C?'C':'D',ok=Math.abs(tot-r.score)<0.05&&g===r.grade;
+  h+=`</tbody><tfoot><tr><td class="l" colspan="6">TOTAL SCORE = Σ points</td><td class="b">${tot.toFixed(1)}</td></tr></tfoot></table></div>`;
+  const nx=D.rank.find(x=>x.rank===r.rank-1),pv=D.rank.find(x=>x.rank===r.rank+1);
+  h+=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px">
+   <div class="kpi"><div class="l">Total score</div><div class="v">${tot.toFixed(1)}</div><div class="d">sum of the 6 points</div></div>
+   <div class="kpi"><div class="l">Grade</div><div class="v"><span class="g g${g}">${g}</span></div><div class="d">A ≥ ${GB.A} · B ≥ ${GB.B} · C ≥ ${GB.C} · D below</div></div>
+   <div class="kpi"><div class="l">Rank</div><div class="v">${tr?'—':('#'+r.rank+' of '+D.rank.length)}</div><div class="d">${tr?('trial: '+r.ld+' line-days < '+TT):(nx?('next up: '+nx.buyer+' '+nx.score.toFixed(1)):'top of the table')+(pv?(' · below: '+pv.buyer+' '+pv.score.toFixed(1)):'')}</div></div>
+   <div class="kpi" style="border-color:${ok?'#0f7b53':'#c8102e'}"><div class="l">Formula check</div><div class="v ${ok?'up':'dn'}">${ok?'✓ Match':'✗ Check'}</div><div class="d">page calc ${tot.toFixed(2)} vs ranking ${r.score.toFixed(2)}</div></div></div>`;
+  const weak=P.map(p=>({n:p[2],lost:(100-c100(p[8](p[4](r),p[5])))*Wt[p[1]]})).sort((a,b)=>b.lost-a.lost).filter(x=>x.lost>0.05);
+  if(weak.length)h+=`<div class="note" style="margin-top:10px">Points lost vs a perfect 100: ${weak.map(x=>`<b>${x.n}</b> −${x.lost.toFixed(1)}`).join(' · ')}. The biggest loss is where ${r.buyer} gains most by improving.</div>`;
+  document.getElementById('rfxBody').innerHTML=h}
+ draw();
+})();
+</script><script>
+(function(){
+ let lastT=null,lastC=-1,lastR=null,lastX=null;
+ function clear(){if(lastT)lastT.querySelectorAll('.hc').forEach(e=>e.classList.remove('hc'));if(lastR)lastR.classList.remove('hr');if(lastX)lastX.classList.remove('hx');lastT=null;lastC=-1;lastR=null;lastX=null}
+ function colIdx(cell){let i=0;for(const c of cell.parentElement.children){if(c===cell)return i;i+=c.colSpan||1}return -1}
+ document.addEventListener('mouseover',e=>{
+  const td=e.target.closest('td,th');
+  if(!td||!td.closest('table')){clear();return}
+  const tb=td.closest('table'),tr=td.parentElement,ci=colIdx(td);
+  if(td===lastX&&tb===lastT)return;
+  clear();lastT=tb;
+  if(td.tagName==='TD'&&!(td.colSpan>2)){tr.classList.add('hr');lastR=tr;td.classList.add('hx');lastX=td}
+  if(!(td.colSpan>1))tb.querySelectorAll('tr').forEach(r=>{let i=0;for(const c of r.children){if(i===ci&&!(c.colSpan>1)){c.classList.add('hc');break}i+=c.colSpan||1;if(i>ci)break}});
+  lastC=ci});
+ document.addEventListener('mouseleave',clear);
+ // chart marks: class + big tooltip from <title>
+ const tip=document.createElement('div');tip.id='mbTip';document.body.appendChild(tip);
+ function tagMarks(){document.querySelectorAll('svg rect,svg circle,svg path').forEach(m=>{const t=m.querySelector(':scope>title');if(t&&!m.classList.contains('hv')){m.classList.add('hv');m.dataset.tip=t.textContent;t.remove()}})}
+ tagMarks();new MutationObserver(tagMarks).observe(document.body,{childList:true,subtree:true});
+ document.addEventListener('mousemove',e=>{
+  const m=e.target.closest&&e.target.closest('.hv');
+  if(m&&m.dataset.tip){tip.textContent=m.dataset.tip;tip.style.display='block';
+   const x=e.clientX+18,y=e.clientY+18,w=tip.offsetWidth,hh=tip.offsetHeight;
+   tip.style.left=(x+w>innerWidth?e.clientX-w-14:x)+'px';tip.style.top=(y+hh>innerHeight?e.clientY-hh-14:y)+'px'}
+  else tip.style.display='none';
+  dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px'});
+ // presenter pointer (spotlight that follows the mouse)
+ const dot=document.createElement('div');dot.id='mbDot';document.body.appendChild(dot);
+ const btn=document.createElement('button');btn.id='mbPtrBtn';document.body.appendChild(btn);
+ let on=false;try{on=localStorage.getItem('mbPtr')==='1'}catch(_){}
+ function set(v){on=v;document.body.classList.toggle('mbPtr',on);btn.textContent=on?'● Pointer ON':'○ Presenter pointer';try{localStorage.setItem('mbPtr',on?'1':'0')}catch(_){}}
+ btn.onclick=()=>set(!on);set(on);
+ document.addEventListener('mousedown',()=>{dot.style.transform='scale(.7)'});document.addEventListener('mouseup',()=>{dot.style.transform=''});
+})();
+</script><script>
+(function(){
+ const pie=document.getElementById('pie');if(!pie)return;
+ const rows=D.rank.slice().sort((a,b)=>b.earned-a.earned);
+ const tr=D.trial,sum=k=>tr.reduce((a,b)=>a+(b[k]||0),0);
+ const data=rows.map((r,i)=>({n:r.buyer,v:r.earned,c:PAL[i%PAL.length],r})).concat(tr.length?[{n:'Trial buyers',v:sum('earned'),c:'#c3ccd6',r:{trial:1,ld:sum('ld'),pcs:sum('pcs'),earned:sum('earned'),names:tr.map(t=>t.buyer).join(', ')}}]:[]);
+ const tot=data.reduce((a,b)=>a+b.v,0),pc=v=>(v*100).toFixed(1)+'%';
+ // centre hint
+ const P=pie.querySelector('#dnP');if(P){const t=P.textContent;P.textContent=t+' · click to expand'}
+ const ov=document.createElement('div');ov.id='fsD';ov.setAttribute('role','dialog');document.body.appendChild(ov);
+ function build(){
+  const W=900,H=820,cx=450,cy=450,R=245,r0=138,ex=10,hx=30;let a0=-Math.PI/2,sl='',hit='',lb=[];
+  data.forEach((d,i)=>{const a1=a0+d.v/tot*Math.PI*2,big=(a1-a0)>Math.PI?1:0,am=(a0+a1)/2,cs=Math.cos(am),sn=Math.sin(am);
+   const p=[cx+R*Math.cos(a0),cy+R*Math.sin(a0),cx+R*Math.cos(a1),cy+R*Math.sin(a1),cx+r0*Math.cos(a1),cy+r0*Math.sin(a1),cx+r0*Math.cos(a0),cy+r0*Math.sin(a0)];
+   const dd=`M${p[0]} ${p[1]} A${R} ${R} 0 ${big} 1 ${p[2]} ${p[3]} L${p[4]} ${p[5]} A${r0} ${r0} 0 ${big} 0 ${p[6]} ${p[7]} Z`;
+   sl+=`<path class="fsl" data-i="${i}" d="${dd}" fill="${d.c}" stroke="#fff" stroke-width="2" style="--dx:${(ex*cs).toFixed(1)}px;--dy:${(ex*sn).toFixed(1)}px;--hx:${(hx*cs).toFixed(1)}px;--hy:${(hx*sn).toFixed(1)}px;transition-delay:${i*40}ms"/>`;
+   hit+=`<path class="fh" data-i="${i}" d="${dd}" fill="transparent"/>`;
+   lb.push({i,am,cs,sn,x0:cx+(R+ex+4)*cs,y0:cy+(R+ex+4)*sn,y:cy+(R+48)*sn,right:cs>=0});a0=a1});
+  // label de-collision per side
+  [true,false].forEach(side=>{const L=lb.filter(l=>l.right===side).sort((a,b)=>a.y-b.y),n=L.length;if(!n)return;
+   for(let k=n-2;k>=0;k--)if(L[k+1].y-L[k].y<20)L[k].y=L[k+1].y-20;
+   if(L[0].y<16){const sh=16-L[0].y;L.forEach(l=>l.y+=sh);for(let k=1;k<n;k++)if(L[k].y-L[k-1].y<20)L[k].y=L[k-1].y+20}});
+  let lab='';lb.forEach(l=>{const d=data[l.i],xe=l.right?cx+R+70:cx-R-70,xt=l.right?xe+6:xe-6;
+   lab+=`<g class="flb" data-i="${l.i}"><rect x="${l.right?xt-4:xt-170}" y="${l.y-10}" width="174" height="20" fill="transparent"/><polyline points="${l.x0},${l.y0} ${cx+(R+34)*l.cs},${l.y} ${xe},${l.y}" fill="none" stroke="${d.c==='#c3ccd6'?'#93a0ac':d.c}" stroke-width="1.4"/><circle cx="${l.x0}" cy="${l.y0}" r="2.6" fill="${d.c}"/><text x="${xt}" y="${l.y+4}" text-anchor="${l.right?'start':'end'}" font-size="13" font-weight="700" fill="#0f1419" paint-order="stroke" stroke="#fff" stroke-width="4">${d.n} <tspan fill="${d.c==='#c3ccd6'?'#5b6874':d.c}">${pc(d.v/tot)}</tspan></text></g>`});
+  const svg=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${sl}<text x="${cx}" y="${cy-18}" text-anchor="middle" font-size="15" font-weight="700" fill="#5b6874">TOTAL EARNED</text><text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="34" font-weight="800" fill="#12355b">${f$(tot)}</text><text x="${cx}" y="${cy+42}" text-anchor="middle" font-size="14" fill="#5b6874">${data.length} accounts · ${D.meta.period||''}</text>${lab}${hit}</svg>`;
+  ov.innerHTML=`<div class="pn"><div class="hd"><div><h2 style="display:inline">Where the earned value comes from</h2><small>hover a buyer for full data · Esc to close</small></div><button class="x" title="Close">✕</button></div><div class="ch">${svg}</div><div class="sd" id="fsSd"></div></div>`;
+  ov.querySelector('.x').onclick=close;ov.onclick=e=>{if(e.target===ov)close()};
+  ov.querySelectorAll('.fh,.flb').forEach(x=>{x.addEventListener('mouseenter',()=>sel(+x.dataset.i));x.addEventListener('mouseleave',()=>sel(-1))});
+  sel(-1)}
+ function it(l,v){return `<div class="it"><div class="l">${l}</div><div class="v">${v}</div></div>`}
+ function sel(i){ov.classList.toggle('act',i>=0);ov.querySelectorAll('.fsl,.flb').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
+  const sd=ov.querySelector('#fsSd');let h;
+  if(i<0){const F=D.factory;h=`<div class="fade"><div class="nm">Factory total</div><div class="big">${f$(tot)}</div><div class="sub">${D.meta.period||''}</div><div class="gr">${it('Accounts',data.length)}${it('Line-days',f0(F.ld))}${it('Pieces',f0(F.pcs))}${it('$/line-day',f$(F.yld))}${it('CM $/min',f4(F.rate))}${it('Efficiency',pc(F.eff))}${it('DHU %',pc(F.dhu))}${it('Top account',data[0].n+' '+pc(data[0].v/tot))}</div><div class="hint">Hover any slice or label to pull that buyer out and see its full numbers.</div></div>`}
+  else{const d=data[i],r=d.r;
+   if(r.trial)h=`<div class="fade"><div class="nm"><span class="sw" style="background:${d.c}"></span>Trial buyers</div><div class="big">${f$(d.v)}</div><div class="sub">${pc(d.v/tot)} of total · under ${D.meta.trial_threshold} line-days each</div><div class="gr">${it('Line-days',f0(r.ld))}${it('Pieces',f0(r.pcs))}${it('$/line-day',f$(r.earned/r.ld))}${it('Buyers',tr.length)}</div><div class="hint">${r.names}</div></div>`;
+   else h=`<div class="fade"><div class="nm"><span class="sw" style="background:${d.c}"></span>${d.n}<span class="g g${r.grade}" style="margin-left:auto">${r.grade}</span></div><div class="big">${f$(r.earned)}</div><div class="sub">${pc(d.v/tot)} of total earned · rank #${r.rank} of ${D.rank.length} · score ${r.score.toFixed(1)}</div><div class="gr">${it('Line-days',f0(r.ld))}${it('Pieces',f0(r.pcs))}${it('$/line-day',`<span class="${r.yld>=D.meta.standards.benchmark_per_line_day?'up':'dn'}">${f$(r.yld)}</span>`)}${it('Hit rate',pc(r.hit))}${it('CM $/min',f4(r.rate))}${it('CM $/pc',f3(r.cmpc))}${it('SMV',f2(r.smv))}${it('Efficiency',pc(r.eff))}${it('DHU %',pc(r.dhu))}${it('Run days',f2(r.run))}${it('Styles',r.styles??'—')}${it('Lines',r.lines??'—')}</div><div class="hint">${r.gapt>0?'Shortfall vs benchmark: −'+f$(r.gapt):'Surplus vs benchmark: +'+f$(-r.gapt)}</div></div>`}
+  sd.innerHTML=h}
+ function open(){build();document.body.style.overflow='hidden';requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add('in')))}
+ function close(){ov.classList.remove('in','act');document.body.style.overflow='';setTimeout(()=>{if(!ov.classList.contains('in'))ov.innerHTML=''},500)}
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ov.classList.contains('in'))close()});
+ const svg=pie.querySelector('svg'),dg=pie.querySelector('.dg');
+ svg.addEventListener('click',e=>{if(e.target.closest('.lg'))return;dg.classList.add('press');setTimeout(()=>{dg.classList.remove('press');open()},150)});
+})();
+</script><style id="mb-report-mobile">
+/* ===== Report mobile app layer (phones ≤ 760px) — desktop, print and PDF unchanged ===== */
+.rmbar{display:none}
+@media screen and (max-width:760px){
+  html{-webkit-text-size-adjust:100%}
+  body{overflow-x:hidden}
+  .rmbar{display:flex;position:sticky;top:0;z-index:80;align-items:center;gap:10px;padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top));
+    background:rgba(13,41,71,.95);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.18)}
+  .rmbar a.rb{color:#fff;text-decoration:none;font:400 30px/1 Arial;width:28px;height:34px;display:grid;place-items:center;margin-left:-4px}
+  .rmbar .rl{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#2D7BD8,#E8692F);display:grid;place-items:center;font:800 11px Arial;flex:none}
+  .rmbar .rt{flex:1;min-width:0}.rmbar .rt b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rmbar .rt small{display:block;font-size:11px;color:#A9C3E4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* big desktop header → compact hero */
+  header{padding:16px 0 18px!important}
+  header:not(:has(.wrap)){padding-left:14px!important;padding-right:14px!important}
+  header h1{font-size:21px!important;line-height:1.2!important;margin:0 0 6px!important}
+  header .sub,header p{font-size:12px!important}
+  header .tags{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  header .tag{flex:none;font-size:11px!important}
+  .wrap,main{padding-left:12px!important;padding-right:12px!important}
+  /* tab bar → swipeable pills, stays under the app bar */
+  nav{top:var(--rmbar-h,52px)!important;z-index:70!important}
+  nav .wrap{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:6px;padding:8px 12px!important;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav button{flex:none;scroll-snap-align:start;border:1px solid #DCE3EC!important;border-radius:999px!important;padding:8px 14px!important;font-size:12.5px!important;background:#fff!important}
+  nav button.on{background:#0d2947!important;color:#fff!important;border-color:#0d2947!important}
+  /* cards, KPI tiles, grids */
+  .card{padding:14px!important;border-radius:16px!important;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .kpi{padding:12px!important;border-radius:14px!important;min-width:0}
+  .kpi .v,.kpi .n{font-size:20px!important}
+  .grid2,.grid3,.lev,.steps{grid-template-columns:minmax(0,1fr)!important}
+  h2{font-size:18px!important;line-height:1.25!important}
+  /* wide tables + wide charts swipe sideways instead of being cut off */
+  .card,.grid1,.grid2,.grid3,.grid1>*,.grid2>*,.grid3>*,main,section{min-width:0!important;max-width:100%}
+  #fsD{max-width:100vw!important;width:100vw!important;left:0!important}
+  .rmsc{max-width:calc(100% + 28px);overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -14px;padding:0 14px 4px;position:relative}
+  .rmsc>table{min-width:560px}
+  .rmsc>svg{min-width:var(--rmw,560px);height:auto!important;display:block}
+  .rmsc.hint:after{content:"swipe ⟷";display:block;text-align:right;font-size:10px;color:#9AA3AE;padding-top:3px}
+  svg[viewBox]{height:auto!important;max-width:none}
+  .ksp{min-width:0!important}
+  th,td{padding:7px 8px!important}
+  #mbPtrBtn,#mbDot{display:none!important}
+  .wrap[style*="max-height"]{max-height:none!important}
+}
+</style>
+<script id="mb-report-mobile-js">
+(function(){
+ var MQ=window.matchMedia('(max-width:760px)'); if(!MQ.matches) return;
+ function q(s){return document.querySelector(s)}
+ // app bar
+ var h1=q('header h1'), title=(h1?h1.textContent:document.title).split(' — ')[0];
+ var bar=document.createElement('div'); bar.className='rmbar';
+ var hm=(location.search.match(/[?&]home=([^&]+)/)||[])[1];
+ bar.innerHTML=(hm?'<a class="rb" href="'+decodeURIComponent(hm)+'" title="Back">&#8249;</a>':'')+'<div class="rl">SS</div><div class="rt"><b>'+title.replace(/</g,'&lt;')+'</b><small id="rmsub">Sterling Styles · read-only</small></div>';
+ document.body.insertBefore(bar,document.body.firstChild);
+ function setH(){document.documentElement.style.setProperty('--rmbar-h',bar.offsetHeight+'px')} setH(); window.addEventListener('resize',setH);
+ // swipeable wide tables and charts
+ function wrap(el,cls,minw){ var p=el.parentNode; if(!p||p.classList.contains('rmsc')) return;
+   var w=document.createElement('div'); w.className='rmsc '+(cls||''); p.insertBefore(w,el); w.appendChild(el); if(minw) w.style.setProperty('--rmw',minw+'px'); }
+ function fix(){
+   document.querySelectorAll('table').forEach(function(t){ if(t.closest('.rmsc')) return;
+     var c=t.rows.length?t.rows[0].cells.length:0; if(t.scrollWidth>t.parentNode.clientWidth+4||c>=5) wrap(t,'hint'); });
+   document.querySelectorAll('svg[viewBox]').forEach(function(s){ if(s.closest('.rmsc')||s.classList.contains('ksp')||s.closest('.kpi')) return;
+     var vb=(s.getAttribute('viewBox')||'').split(/[\s,]+/).map(Number), W=vb[2]||0, H=vb[3]||0; if(W<480) return;
+     var need=Math.min(Math.round(W*0.62),760), avail=(s.parentNode.clientWidth||360);
+     if(need>avail+20) wrap(s,'hint',need); else { s.style.height='auto'; } });
+   var on=q('nav button.on'); if(on&&on.scrollIntoView&&!on.dataset.rm){ document.querySelectorAll('nav button').forEach(function(b){delete b.dataset.rm}); on.dataset.rm=1; try{on.scrollIntoView({inline:'center',block:'nearest'})}catch(e){} window.scrollTo(0,window.scrollY); }
+   var sb=document.getElementById('rmsub'); if(sb&&on) sb.textContent=on.textContent.trim();
+ }
+ var t; new MutationObserver(function(){clearTimeout(t);t=setTimeout(fix,80)}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+ window.addEventListener('load',fix); setTimeout(fix,300);
+})();
+</script>
+</body></html>
